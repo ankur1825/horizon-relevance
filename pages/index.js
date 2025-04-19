@@ -5,17 +5,23 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white text-gray-900 p-6">
       <Head>
-        <title>Horizon Relevance</title>
+       <link rel="icon" href="/favicon.ico" />
+       <title>Horizon Relevance</title>
+       <meta name="description" content="Cloud, AI, and DevSecOps Solutions by Horizon Relevance" />
+       <meta property="og:title" content="Horizon Relevance" />
+       <meta property="og:description" content="Empowering the Future with Cloud, AI & DevSecOps" />
+       <meta property="og:image" content="/og-image.png" />
+       <meta property="og:url" content="https://your-vercel-url.vercel.app" />
+       <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className="flex justify-between items-center py-4">
+       <div className="flex items-center space-x-2">
+        <img src="/HR_LOGO.png" alt="Horizon Relevance Logo" className="h-10 w-auto" />
         <h1 className="text-xl font-bold">HORIZON RELEVANCE</h1>
-        <nav className="space-x-4">
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/services">Services</Link>
-          <Link href="/blog">Blog</Link>
-          <Link href="/contact">Contact</Link>
-        </nav>
+       </div>
+       <nav className="space-x-4">
+         {/* navigation links */}
+       </nav>
       </header>
       <main className="mt-10">
         <h2 className="text-4xl font-extrabold mb-4">Empowering the Future with Cloud, AI & DevSecOps</h2>
