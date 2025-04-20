@@ -1,5 +1,5 @@
 {
-  "name": "horizon-relevance-site",
+  "name": "horizon-relevance-dynamic",
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
