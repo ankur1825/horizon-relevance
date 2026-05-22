@@ -297,10 +297,16 @@ export default function Company() {
                     transition={{ duration: 0.9, delay: 0.1, ease: easeOutExpo }}
                   >
                     <span
-                      className="block font-black uppercase tracking-[0.32em] text-white"
-                      style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", lineHeight: 1 }}
+                      className="block font-black uppercase text-white"
+                      style={{ fontSize: "clamp(1.2rem, 2vw, 1.75rem)", letterSpacing: "0.22em", lineHeight: 1.15 }}
                     >
                       HORIZON
+                    </span>
+                    <span
+                      className="block font-black uppercase text-white/50"
+                      style={{ fontSize: "clamp(1.2rem, 2vw, 1.75rem)", letterSpacing: "0.22em", lineHeight: 1.15 }}
+                    >
+                      RELEVANCE
                     </span>
                   </motion.div>
 
