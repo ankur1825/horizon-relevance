@@ -256,7 +256,7 @@ export default function Offerings() {
       }}
     >
       {/* Top edge fade */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-50 h-32 bg-gradient-to-b from-[#08101e] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-50 h-32 bg-gradient-to-b from-[#040408] to-transparent" />
 
       {/* Section ambient glow */}
       <div
