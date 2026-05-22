@@ -163,7 +163,7 @@ function BentoCard({ offering }: { offering: Offering }) {
 
 export default function Offerings() {
   return (
-    <section className="relative overflow-hidden bg-[#08080e] px-6 py-28 sm:py-36">
+    <section id="platform" className="relative overflow-hidden bg-[#08080e] px-6 py-28 sm:py-36">
       {/* Section ambient glow */}
       <div
         className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20 blur-[130px]"
