@@ -13,28 +13,28 @@ const PILLARS = [
     icon: Eye,
     label: "Vision",
     body: "Transform how the world builds in the cloud. We see a future where infrastructure is invisible, intelligent, and effortlessly scalable — freeing engineering teams to focus entirely on what they create.",
-    accent: "rgba(255,165,30,0.55)",
-    glow: "rgba(255,165,30,0.12)",
-    iconClass: "text-amber-400",
-    iconBg: "from-amber-500/[0.2] to-orange-600/[0.08]",
+    accent: "rgba(215,50,125,0.55)",
+    glow: "rgba(215,50,125,0.12)",
+    iconClass: "text-rose-400",
+    iconBg: "from-rose-500/[0.2] to-pink-600/[0.08]",
   },
   {
     icon: Target,
     label: "Mission",
     body: "Be the intelligence layer behind cloud-native engineering. We embed into teams adopting cloud, AI, and DevSecOps — delivering measurable outcomes from day one, not six months later.",
-    accent: "rgba(255,195,50,0.52)",
-    glow: "rgba(255,195,50,0.11)",
-    iconClass: "text-yellow-400",
-    iconBg: "from-yellow-500/[0.2] to-amber-600/[0.08]",
+    accent: "rgba(180,40,215,0.52)",
+    glow: "rgba(180,40,215,0.11)",
+    iconClass: "text-fuchsia-400",
+    iconBg: "from-fuchsia-500/[0.2] to-purple-600/[0.08]",
   },
   {
     icon: Layers,
     label: "Philosophy",
     body: "We don't consult from outside — we build from within. Engineering excellence, security-first thinking, and relentless automation aren't our services. They're our operating principles.",
-    accent: "rgba(220,110,20,0.52)",
-    glow: "rgba(220,110,20,0.11)",
-    iconClass: "text-orange-400",
-    iconBg: "from-orange-500/[0.2] to-red-600/[0.08]",
+    accent: "rgba(145,40,225,0.52)",
+    glow: "rgba(145,40,225,0.11)",
+    iconClass: "text-violet-400",
+    iconBg: "from-violet-500/[0.2] to-indigo-600/[0.08]",
   },
 ] as const;
 
@@ -74,7 +74,7 @@ function PillarCard({
       <div
         className="relative h-full overflow-hidden rounded-[calc(1.5rem-1px)] p-8"
         style={{
-          background: `radial-gradient(ellipse 80% 55% at 10% 0%, ${glow} 0%, transparent 55%), rgba(20,10,2,0.97)`,
+          background: `radial-gradient(ellipse 80% 55% at 10% 0%, ${glow} 0%, transparent 55%), rgba(20,4,22,0.97)`,
           backdropFilter: "blur(10px)",
         }}
       >
@@ -113,7 +113,7 @@ export default function Company() {
       className="relative overflow-hidden py-28 sm:py-36"
       style={{
         background:
-          "radial-gradient(ellipse 150% 80% at 85% 0%, #2a1205 0%, #120a02 50%, #080500 100%)",
+          "radial-gradient(ellipse 150% 80% at 85% 0%, #280820 0%, #120214 50%, #08010a 100%)",
       }}
     >
       {/* Grain */}
@@ -130,36 +130,36 @@ export default function Company() {
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
 
-      {/* Amber bloom — dominant, right-top */}
+      {/* Rose bloom — dominant, right-top */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
           right: "-8%", top: "-5%", width: "70vw", height: "90vh",
-          background: "radial-gradient(ellipse 52% 55% at 55% 38%, rgba(255,155,20,0.26) 0%, rgba(200,110,10,0.1) 46%, transparent 68%)",
+          background: "radial-gradient(ellipse 52% 55% at 55% 38%, rgba(215,45,125,0.26) 0%, rgba(175,25,105,0.1) 46%, transparent 68%)",
           filter: "blur(115px)",
         }}
         animate={{ x: [0, -28, 0], y: [0, 16, 0], opacity: [0.72, 1, 0.72] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Gold shimmer — left-center */}
+      {/* Violet — left-center */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "-6%", top: "20%", width: "52vw", height: "70vh",
-          background: "radial-gradient(ellipse 54% 48% at 48% 44%, rgba(220,165,20,0.18) 0%, rgba(180,130,10,0.07) 50%, transparent 70%)",
+          background: "radial-gradient(ellipse 54% 48% at 48% 44%, rgba(145,35,215,0.18) 0%, rgba(110,20,180,0.07) 50%, transparent 70%)",
           filter: "blur(100px)",
         }}
         animate={{ x: [0, 24, 0], opacity: [0.55, 0.88, 0.55] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       />
 
-      {/* Warm red accent — bottom */}
+      {/* Fuchsia accent — bottom */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "22%", bottom: "8%", width: "38vw", height: "42vh",
-          background: "radial-gradient(circle, rgba(200,65,15,0.14) 0%, transparent 60%)",
+          background: "radial-gradient(circle, rgba(220,50,190,0.14) 0%, transparent 60%)",
           filter: "blur(90px)",
         }}
         animate={{ scale: [1, 1.2, 1], opacity: [0.42, 0.72, 0.42] }}
@@ -184,8 +184,8 @@ export default function Company() {
           <div className="mb-5 flex justify-center">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
               <span
-                className="h-1.5 w-1.5 rounded-full bg-amber-400"
-                style={{ boxShadow: "0 0 6px rgba(255,165,30,0.9)" }}
+                className="h-1.5 w-1.5 rounded-full bg-rose-400"
+                style={{ boxShadow: "0 0 6px rgba(255,65,150,0.9)" }}
               />
               Our Story
             </div>
@@ -193,7 +193,7 @@ export default function Company() {
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Built{" "}
             <motion.span
-              className="inline-block bg-gradient-to-r from-amber-400 via-yellow-300 to-orange-400 bg-clip-text text-transparent"
+              className="inline-block bg-gradient-to-r from-rose-400 via-fuchsia-300 to-pink-400 bg-clip-text text-transparent"
               style={{ backgroundSize: "200% 100%" }}
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
@@ -214,7 +214,7 @@ export default function Company() {
           {/* Accent line */}
           <div
             className="mb-8 h-px w-16"
-            style={{ background: "linear-gradient(90deg, rgba(255,165,30,0.7), transparent)" }}
+            style={{ background: "linear-gradient(90deg, rgba(215,50,125,0.7), transparent)" }}
           />
           <p
             className="font-semibold leading-tight tracking-tight text-white/80"
@@ -223,7 +223,7 @@ export default function Company() {
             We are committed to transforming businesses through{" "}
             <span
               style={{
-                backgroundImage: "linear-gradient(92deg, rgba(255,175,35,0.95) 0%, rgba(255,215,80,0.9) 50%, rgba(255,175,35,0.95) 100%)",
+                backgroundImage: "linear-gradient(92deg, rgba(255,100,170,0.95) 0%, rgba(230,100,255,0.9) 50%, rgba(255,100,170,0.95) 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -237,8 +237,8 @@ export default function Company() {
           <div className="mt-8">
             <motion.a
               href="#contact"
-              className="inline-flex items-center gap-2 text-sm font-medium text-amber-400/80"
-              whileHover={{ gap: "10px", color: "rgba(255,165,30,1)" }}
+              className="inline-flex items-center gap-2 text-sm font-medium text-rose-400/80"
+              whileHover={{ gap: "10px", color: "rgba(255,65,150,1)" }}
               transition={{ duration: 0.2, ease }}
             >
               Work with us
@@ -267,7 +267,7 @@ export default function Company() {
             <motion.div
               key={stat.label}
               className="group flex flex-col items-center justify-center gap-1.5 px-6 py-8"
-              style={{ background: "rgba(20,10,2,0.88)" }}
+              style={{ background: "rgba(20,4,22,0.88)" }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -277,7 +277,7 @@ export default function Company() {
                 className="font-mono font-bold leading-none tracking-tight"
                 style={{
                   fontSize: "clamp(1.6rem,2.6vw,2.2rem)",
-                  backgroundImage: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,175,35,0.85) 100%)",
+                  backgroundImage: "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(215,50,125,0.85) 100%)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
