@@ -3,6 +3,7 @@ import Offerings from "@/components/Offerings";
 import Products from "@/components/Products";
 import Industries from "@/components/Industries";
 import Company from "@/components/Company";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Products />
       <Industries />
       <Company />
+      <Contact />
     </main>
   );
 }
