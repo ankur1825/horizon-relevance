@@ -8,8 +8,8 @@ import type { FormEvent } from "react";
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
 
-const ROSE = "rgba(215,50,125,0.55)";
-const ROSE_GLOW = "rgba(215,50,125,0.13)";
+const EMERALD = "rgba(0,185,95,0.55)";
+const EMERALD_GLOW = "rgba(0,185,95,0.13)";
 
 function IconLinkedIn({ className }: { className?: string }) {
   return (
@@ -61,7 +61,7 @@ function ContactForm() {
   }
 
   const inputBase =
-    "w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white/82 placeholder:text-white/22 outline-none transition-all duration-200 focus:border-rose-500/40 focus:bg-white/[0.05] focus:ring-0";
+    "w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-[14px] text-white/82 placeholder:text-white/22 outline-none transition-all duration-200 focus:border-emerald-500/40 focus:bg-white/[0.05] focus:ring-0";
 
   return (
     <motion.div
@@ -71,20 +71,17 @@ function ContactForm() {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.85, delay: 0.12, ease: easeOutExpo }}
     >
-      {/* Border glow */}
       <div
         className="absolute inset-0 rounded-3xl"
         style={{
-          background: `linear-gradient(135deg, ${ROSE} 0%, rgba(255,255,255,0.05) 45%, transparent 100%)`,
+          background: `linear-gradient(135deg, ${EMERALD} 0%, rgba(255,255,255,0.05) 45%, transparent 100%)`,
           opacity: 0.45,
         }}
       />
-
-      {/* Glass body */}
       <div
         className="relative overflow-hidden rounded-[calc(1.5rem-1px)] px-8 py-10"
         style={{
-          background: `radial-gradient(ellipse 70% 50% at 8% 0%, ${ROSE_GLOW} 0%, transparent 55%), rgba(20,4,22,0.97)`,
+          background: `radial-gradient(ellipse 70% 50% at 8% 0%, ${EMERALD_GLOW} 0%, transparent 55%), rgba(2,18,8,0.97)`,
           backdropFilter: "blur(12px)",
         }}
       >
@@ -99,9 +96,9 @@ function ContactForm() {
             >
               <div
                 className="flex h-16 w-16 items-center justify-center rounded-full"
-                style={{ background: "rgba(215,50,125,0.15)", border: "1px solid rgba(215,50,125,0.35)" }}
+                style={{ background: "rgba(0,185,95,0.15)", border: "1px solid rgba(0,185,95,0.35)" }}
               >
-                <CheckCircle2 className="h-7 w-7 text-rose-400" strokeWidth={1.5} />
+                <CheckCircle2 className="h-7 w-7 text-emerald-400" strokeWidth={1.5} />
               </div>
               <div>
                 <p className="text-lg font-semibold text-white/90">Message received.</p>
@@ -111,7 +108,7 @@ function ContactForm() {
               </div>
               <button
                 onClick={() => { setSent(false); setFields({ name: "", email: "", company: "", message: "" }); }}
-                className="mt-2 text-[12px] font-medium text-rose-400/60 underline underline-offset-4 hover:text-rose-400"
+                className="mt-2 text-[12px] font-medium text-emerald-400/60 underline underline-offset-4 hover:text-emerald-400"
               >
                 Send another
               </button>
@@ -153,7 +150,6 @@ function ContactForm() {
                   />
                 </div>
               </div>
-
               <div>
                 <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
                   Company
@@ -166,7 +162,6 @@ function ContactForm() {
                   className={inputBase}
                 />
               </div>
-
               <div>
                 <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
                   Message *
@@ -180,17 +175,16 @@ function ContactForm() {
                   className={`${inputBase} resize-none`}
                 />
               </div>
-
               <motion.button
                 type="submit"
                 disabled={sending}
                 className="mt-1 flex items-center justify-center gap-2.5 rounded-2xl py-3.5 text-sm font-semibold text-white transition-opacity disabled:opacity-60"
                 style={{
                   background:
-                    "linear-gradient(135deg, rgba(215,50,125,0.9) 0%, rgba(160,30,180,0.85) 100%)",
-                  boxShadow: "0 0 24px rgba(215,50,125,0.25), inset 0 1px 0 rgba(255,255,255,0.1)",
+                    "linear-gradient(135deg, rgba(0,175,85,0.92) 0%, rgba(0,145,115,0.88) 100%)",
+                  boxShadow: "0 0 24px rgba(0,185,95,0.22), inset 0 1px 0 rgba(255,255,255,0.1)",
                 }}
-                whileHover={{ scale: 1.02, boxShadow: "0 0 36px rgba(215,50,125,0.38), inset 0 1px 0 rgba(255,255,255,0.12)" }}
+                whileHover={{ scale: 1.02, boxShadow: "0 0 36px rgba(0,185,95,0.35), inset 0 1px 0 rgba(255,255,255,0.12)" }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.18, ease }}
               >
@@ -227,7 +221,7 @@ export default function Contact() {
       className="relative overflow-hidden pb-0 pt-28 sm:pt-36"
       style={{
         background:
-          "radial-gradient(ellipse 150% 85% at 15% 0%, #280820 0%, #120214 50%, #08010a 100%)",
+          "radial-gradient(ellipse 150% 85% at 12% 0%, #082818 0%, #031a09 50%, #01080400 100%)",
       }}
     >
       {/* Grain */}
@@ -244,48 +238,47 @@ export default function Contact() {
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
 
-      {/* Rose bloom — left-top */}
+      {/* Emerald bloom — left-top dominant */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "-8%", top: "-5%", width: "68vw", height: "90vh",
-          background: "radial-gradient(ellipse 52% 55% at 44% 38%, rgba(215,45,125,0.28) 0%, rgba(175,25,105,0.1) 46%, transparent 68%)",
+          background: "radial-gradient(ellipse 52% 55% at 42% 38%, rgba(0,195,90,0.26) 0%, rgba(0,155,75,0.1) 46%, transparent 68%)",
           filter: "blur(115px)",
         }}
-        animate={{ x: [0, 30, 0], y: [0, -18, 0], opacity: [0.7, 1, 0.7] }}
+        animate={{ x: [0, 28, 0], y: [0, -16, 0], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Violet — right */}
+      {/* Teal — right */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
-          right: "-10%", top: "10%", width: "58vw", height: "78vh",
-          background: "radial-gradient(ellipse 56% 50% at 52% 44%, rgba(130,35,210,0.22) 0%, rgba(95,20,175,0.08) 50%, transparent 70%)",
+          right: "-10%", top: "12%", width: "56vw", height: "76vh",
+          background: "radial-gradient(ellipse 56% 50% at 52% 44%, rgba(0,175,145,0.2) 0%, rgba(0,140,120,0.08) 50%, transparent 70%)",
           filter: "blur(100px)",
         }}
-        animate={{ x: [0, -24, 0], opacity: [0.55, 0.9, 0.55] }}
+        animate={{ x: [0, -22, 0], opacity: [0.55, 0.9, 0.55] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       />
 
-      {/* Hot pink spot — center-bottom */}
+      {/* Lime accent — center-bottom */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
-          left: "30%", bottom: "15%", width: "36vw", height: "44vh",
-          background: "radial-gradient(circle, rgba(255,65,150,0.15) 0%, transparent 62%)",
+          left: "28%", bottom: "15%", width: "36vw", height: "44vh",
+          background: "radial-gradient(circle, rgba(120,220,50,0.13) 0%, transparent 62%)",
           filter: "blur(90px)",
         }}
         animate={{ scale: [1, 1.22, 1], opacity: [0.4, 0.72, 0.4] }}
         transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 7 }}
       />
 
-      {/* Top edge — from Company */}
+      {/* Top edge — from Company amber */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#0e0414] to-transparent" />
 
       <div className="relative z-[3] mx-auto max-w-6xl px-6">
 
-        {/* Two-column grid */}
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
 
           {/* Left — info */}
@@ -295,21 +288,19 @@ export default function Contact() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.85, ease: easeOutExpo }}
           >
-            {/* Eyebrow */}
             <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
               <span
-                className="h-1.5 w-1.5 rounded-full bg-rose-400"
-                style={{ boxShadow: "0 0 6px rgba(255,65,150,0.9)" }}
+                className="h-1.5 w-1.5 rounded-full bg-emerald-400"
+                style={{ boxShadow: "0 0 6px rgba(52,211,153,0.9)" }}
               />
               Get in Touch
             </div>
 
-            {/* Headline */}
             <h2 className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
               Let&apos;s Build{" "}
               <br className="hidden sm:block" />
               <motion.span
-                className="inline-block bg-gradient-to-r from-rose-400 via-pink-300 to-fuchsia-400 bg-clip-text text-transparent"
+                className="inline-block bg-gradient-to-r from-emerald-400 via-teal-300 to-green-400 bg-clip-text text-transparent"
                 style={{ backgroundSize: "200% 100%" }}
                 animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
@@ -323,13 +314,11 @@ export default function Contact() {
               — we'd love to hear about it.
             </p>
 
-            {/* Divider */}
             <div
               className="mb-8 h-px w-12"
-              style={{ background: "linear-gradient(90deg, rgba(215,50,125,0.7), transparent)" }}
+              style={{ background: "linear-gradient(90deg, rgba(0,185,95,0.7), transparent)" }}
             />
 
-            {/* Contact details */}
             <div className="mb-8 flex flex-col gap-4">
               <a
                 href="mailto:info@horizonrelevance.com"
@@ -337,9 +326,9 @@ export default function Contact() {
               >
                 <div
                   className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl transition-colors duration-200"
-                  style={{ background: "rgba(215,50,125,0.1)", border: "1px solid rgba(215,50,125,0.2)" }}
+                  style={{ background: "rgba(0,185,95,0.1)", border: "1px solid rgba(0,185,95,0.2)" }}
                 >
-                  <Mail className="h-4 w-4 text-rose-400" strokeWidth={1.5} />
+                  <Mail className="h-4 w-4 text-emerald-400" strokeWidth={1.5} />
                 </div>
                 info@horizonrelevance.com
               </a>
@@ -347,22 +336,21 @@ export default function Contact() {
               <div className="flex items-center gap-3 text-[14px] text-white/50">
                 <div
                   className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl"
-                  style={{ background: "rgba(215,50,125,0.08)", border: "1px solid rgba(215,50,125,0.15)" }}
+                  style={{ background: "rgba(0,185,95,0.08)", border: "1px solid rgba(0,185,95,0.15)" }}
                 >
-                  <MapPin className="h-4 w-4 text-rose-400/70" strokeWidth={1.5} />
+                  <MapPin className="h-4 w-4 text-emerald-400/70" strokeWidth={1.5} />
                 </div>
                 Woodbridge, NJ — United States
               </div>
             </div>
 
-            {/* Social links */}
             <div className="flex items-center gap-3">
               {SOCIALS.map(({ label, href, Icon }) => (
                 <motion.a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] text-white/38 transition-colors duration-200 hover:border-rose-500/30 hover:bg-rose-500/10 hover:text-rose-300"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] text-white/38 transition-colors duration-200 hover:border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-300"
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.18, ease }}

@@ -135,8 +135,8 @@ const MARQUEE_ITEMS = [...INDUSTRIES, ...INDUSTRIES];
 function Marquee() {
   return (
     <div className="relative overflow-hidden py-5">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#051a0a] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#051a0a] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#060816] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#060816] to-transparent" />
       <motion.div
         className="flex w-max gap-10"
         animate={{ x: ["0%", "-50%"] }}
@@ -284,7 +284,7 @@ export default function Industries() {
       className="relative overflow-hidden py-28 sm:py-36"
       style={{
         background:
-          "radial-gradient(ellipse 140% 80% at 12% 5%, #0d2a10 0%, #051a0a 45%, #030e07 100%)",
+          "radial-gradient(ellipse 140% 80% at 12% 5%, #0c1238 0%, #060816 45%, #030610 100%)",
       }}
     >
       {/* Grain */}
@@ -306,7 +306,7 @@ export default function Industries() {
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "-5%", top: "5%", width: "62vw", height: "82vh",
-          background: "radial-gradient(ellipse at 42% 40%, rgba(0,195,95,0.28) 0%, rgba(0,150,80,0.1) 46%, transparent 68%)",
+          background: "radial-gradient(ellipse at 42% 40%, rgba(60,85,245,0.26) 0%, rgba(40,65,210,0.1) 46%, transparent 68%)",
           filter: "blur(110px)",
         }}
         animate={{ x: [0, 26, 0], y: [0, -14, 0], opacity: [0.72, 1, 0.72] }}
@@ -316,7 +316,7 @@ export default function Industries() {
         className="pointer-events-none absolute z-[0]"
         style={{
           right: "-8%", top: "25%", width: "50vw", height: "68vh",
-          background: "radial-gradient(ellipse at 55% 45%, rgba(0,185,160,0.2) 0%, rgba(0,150,130,0.08) 50%, transparent 68%)",
+          background: "radial-gradient(ellipse at 55% 45%, rgba(30,65,220,0.2) 0%, rgba(20,50,190,0.08) 50%, transparent 68%)",
           filter: "blur(95px)",
         }}
         animate={{ x: [0, -22, 0], opacity: [0.58, 0.9, 0.58] }}
@@ -326,16 +326,16 @@ export default function Industries() {
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "28%", bottom: "10%", width: "36vw", height: "40vh",
-          background: "radial-gradient(circle, rgba(175,215,45,0.14) 0%, transparent 62%)",
+          background: "radial-gradient(circle, rgba(90,45,215,0.15) 0%, transparent 62%)",
           filter: "blur(85px)",
         }}
         animate={{ scale: [1, 1.18, 1], opacity: [0.44, 0.76, 0.44] }}
         transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 7 }}
       />
 
-      {/* Top edge — from Solutions' dark indigo */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#051a0a] to-transparent" />
-      {/* Bottom edge — to Company section */}
+      {/* Top edge — from Solutions sunset orange */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#060816] to-transparent" />
+      {/* Bottom edge — into Company amber */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-36 bg-gradient-to-t from-[#080412] to-transparent" />
 
       <div className="relative z-[3] mx-auto max-w-6xl px-6">
@@ -350,8 +350,8 @@ export default function Industries() {
           <div className="mb-5 flex justify-center">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
               <span
-                className="h-1.5 w-1.5 rounded-full bg-emerald-400"
-                style={{ boxShadow: "0 0 6px rgba(52,211,153,0.9)" }}
+                className="h-1.5 w-1.5 rounded-full bg-blue-400"
+                style={{ boxShadow: "0 0 6px rgba(96,165,250,0.9)" }}
               />
               Who We Serve
             </div>
@@ -360,7 +360,7 @@ export default function Industries() {
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Built for Every{" "}
             <motion.span
-              className="inline-block bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent"
+              className="inline-block bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent"
               style={{ backgroundSize: "200% 100%" }}
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
