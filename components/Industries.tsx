@@ -1,276 +1,186 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { Activity, TrendingUp, Shield, Building2, ShoppingBag, Rocket } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-
-const easeOutExpo = [0.16, 1, 0.3, 1] as const;
-const ease = [0.25, 0.46, 0.45, 0.94] as const;
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 type Industry = {
   icon: LucideIcon;
   name: string;
-  tagline: string;
-  outcomes: string[];
   metric: string;
   metricLabel: string;
-  glowColor: string;
-  borderGlow: string;
   iconClass: string;
   iconBg: string;
+  borderGlow: string;
 };
 
 const INDUSTRIES: Industry[] = [
   {
     icon: Activity,
     name: "Healthcare",
-    tagline: "HIPAA-compliant, always-on infrastructure",
-    outcomes: [
-      "65% faster incident response with AI",
-      "3× faster developer deployments",
-      "HIPAA-compliant Lambda workflows",
-      "40% infrastructure waste reduction",
-    ],
     metric: "65%",
     metricLabel: "faster incident response",
-    glowColor: "rgba(0,210,110,0.12)",
-    borderGlow: "rgba(0,210,110,0.52)",
     iconClass: "text-emerald-400",
-    iconBg: "from-emerald-500/[0.2] to-green-600/[0.08]",
+    iconBg: "from-emerald-500/[0.22] to-green-600/[0.08]",
+    borderGlow: "rgba(0,210,110,0.55)",
   },
   {
     icon: TrendingUp,
     name: "FinTech",
-    tagline: "Cloud cost intelligence at scale",
-    outcomes: [
-      "Saved 37% on AWS within 2 weeks",
-      "AI-powered real-time cost recommendations",
-      "Multi-cloud spend visibility in one view",
-      "Budget guardrails preventing overruns",
-    ],
     metric: "37%",
     metricLabel: "avg. AWS cost reduction",
-    glowColor: "rgba(190,215,40,0.1)",
-    borderGlow: "rgba(190,215,40,0.5)",
     iconClass: "text-lime-400",
-    iconBg: "from-lime-500/[0.2] to-yellow-600/[0.08]",
+    iconBg: "from-lime-500/[0.22] to-yellow-600/[0.08]",
+    borderGlow: "rgba(190,215,40,0.52)",
   },
   {
     icon: Shield,
     name: "Finance",
-    tagline: "AI-powered resilience for regulated systems",
-    outcomes: [
-      "99.99% uptime with AI-powered remediation",
-      "Generative AI RCA for rapid recovery",
-      "Anomaly detection before user impact",
-      "Compliance-ready full audit trails",
-    ],
     metric: "99.99%",
     metricLabel: "SLA uptime achieved",
-    glowColor: "rgba(0,195,175,0.1)",
-    borderGlow: "rgba(0,195,175,0.5)",
     iconClass: "text-teal-400",
-    iconBg: "from-teal-500/[0.2] to-cyan-600/[0.08]",
+    iconBg: "from-teal-500/[0.22] to-cyan-600/[0.08]",
+    borderGlow: "rgba(0,195,175,0.52)",
   },
   {
     icon: Building2,
     name: "Enterprise",
-    tagline: "Multi-cloud at enterprise scale, zero friction",
-    outcomes: [
-      "Cloud onboarding: 3 days → 1 hour",
-      "75% fewer manual security reviews",
-      "GitOps-ready multi-cloud pipelines",
-      "LDAP-based access & full audit trail",
-    ],
-    metric: "3 days",
-    metricLabel: "→ 1 hour onboarding",
-    glowColor: "rgba(0,195,220,0.1)",
-    borderGlow: "rgba(0,195,220,0.5)",
+    metric: "72×",
+    metricLabel: "faster cloud onboarding",
     iconClass: "text-cyan-400",
-    iconBg: "from-cyan-500/[0.2] to-blue-600/[0.08]",
+    iconBg: "from-cyan-500/[0.22] to-blue-600/[0.08]",
+    borderGlow: "rgba(0,195,220,0.52)",
   },
   {
     icon: ShoppingBag,
     name: "Retail",
-    tagline: "Event-driven scale for peak demand",
-    outcomes: [
-      "2M+ Lambda invocations, zero downtime",
-      "Auto-scaling for flash sales & events",
-      "Python-first serverless architecture",
-      "CloudWatch monitoring at full scale",
-    ],
     metric: "2M+",
-    metricLabel: "invocations, zero errors",
-    glowColor: "rgba(0,180,145,0.1)",
-    borderGlow: "rgba(0,180,145,0.5)",
+    metricLabel: "Lambda invocations",
     iconClass: "text-green-400",
-    iconBg: "from-green-500/[0.2] to-teal-600/[0.08]",
+    iconBg: "from-green-500/[0.22] to-teal-600/[0.08]",
+    borderGlow: "rgba(0,180,145,0.52)",
   },
   {
     icon: Rocket,
     name: "Startups",
-    tagline: "Ship fast, stay secure, scale fearlessly",
-    outcomes: [
-      "Zero-config serverless from day one",
-      "No-code CI/CD pipelines out of the box",
-      "Security & compliance built in",
-      "Pay-as-you-scale infrastructure",
-    ],
     metric: "Day 1",
-    metricLabel: "to production-ready infra",
-    glowColor: "rgba(145,220,55,0.09)",
-    borderGlow: "rgba(145,220,55,0.48)",
+    metricLabel: "to production-ready",
     iconClass: "text-lime-300",
-    iconBg: "from-lime-400/[0.2] to-green-600/[0.08]",
+    iconBg: "from-lime-400/[0.22] to-green-600/[0.08]",
+    borderGlow: "rgba(145,220,55,0.48)",
   },
 ];
 
-// ─── Marquee ──────────────────────────────────────────────────────────────────
-// Doubled items + x: "0%" → "-50%" = seamless infinite loop
+// 3×2 grid — desktop positions relative to center (px). Scaled responsively.
+const BASE_POS = [
+  { col: -1, row: -1 }, // Healthcare
+  { col:  0, row: -1 }, // FinTech
+  { col:  1, row: -1 }, // Finance
+  { col: -1, row:  1 }, // Enterprise
+  { col:  0, row:  1 }, // Retail
+  { col:  1, row:  1 }, // Startups
+];
 
-const MARQUEE_ITEMS = [...INDUSTRIES, ...INDUSTRIES];
+// Tight initial cluster offsets so icons look grouped before scatter
+const CLUSTER = [
+  { x: -14, y: -12 },
+  { x:  12, y:  -9 },
+  { x:  -5, y:  15 },
+  { x:  17, y:  11 },
+  { x: -11, y:   5 },
+  { x:   5, y: -17 },
+];
 
-function Marquee() {
-  return (
-    <div className="relative overflow-hidden py-5">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#060816] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#060816] to-transparent" />
-      <motion.div
-        className="flex w-max gap-10"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-      >
-        {MARQUEE_ITEMS.map((item, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <item.icon
-              className={`h-3.5 w-3.5 flex-shrink-0 ${item.iconClass} opacity-55`}
-              strokeWidth={1.5}
-            />
-            <span className="text-sm font-medium tracking-wide text-white/20">{item.name}</span>
-            <span className="text-white/[0.08]">·</span>
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
+// Fraction of total scroll used for the scatter animation
+const SCATTER_RANGE = 0.62;
 
-// ─── IndustryCard ─────────────────────────────────────────────────────────────
+// ─── ScatterIcon ──────────────────────────────────────────────────────────────
 
-function IndustryCard({ industry, delay }: { industry: Industry; delay: number }) {
-  const {
-    icon: Icon,
-    name,
-    tagline,
-    outcomes,
-    metric,
-    metricLabel,
-    glowColor,
-    borderGlow,
-    iconClass,
-    iconBg,
-  } = industry;
+function ScatterIcon({
+  industry,
+  index,
+  total,
+  progress,
+  fx,
+  fy,
+}: {
+  industry: Industry;
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+  fx: number;
+  fy: number;
+}) {
+  const { icon: Icon, name, metric, metricLabel, iconClass, iconBg, borderGlow } = industry;
+
+  const popStart = (index / total) * SCATTER_RANGE;
+  const popEnd = popStart + SCATTER_RANGE / total;
+  const textIn = popEnd;
+  const textDone = Math.min(textIn + 0.07, 1);
+
+  const x = useTransform(progress, [popStart, popEnd], [CLUSTER[index].x, fx]);
+  const y = useTransform(progress, [popStart, popEnd], [CLUSTER[index].y, fy]);
+  const iconScale = useTransform(progress, [popStart, popEnd], [0.48, 1]);
+  const textOpacity = useTransform(progress, [textIn, textDone], [0, 1]);
 
   return (
     <motion.div
-      className="group relative rounded-3xl p-px"
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.8, delay, ease: easeOutExpo }}
-      whileHover={{
-        y: -6,
-        transition: { duration: 0.28, ease },
+      className="absolute flex flex-col items-center gap-3"
+      style={{
+        x,
+        y,
+        left: "50%",
+        top: "50%",
+        marginLeft: -36,
+        marginTop: -44,
+        zIndex: 20 + index,
       }}
     >
-      {/* Border — faint at rest, full on hover */}
-      <div
-        className="absolute inset-0 rounded-3xl opacity-35 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background: `linear-gradient(135deg, ${borderGlow} 0%, rgba(255,255,255,0.05) 50%, transparent 100%)`,
-        }}
-      />
-
-      {/* Card body */}
-      <div
-        className="relative h-full overflow-hidden rounded-[calc(1.5rem-1px)] p-7"
-        style={{
-          background: `radial-gradient(ellipse 75% 60% at 15% 0%, ${glowColor} 0%, transparent 55%), rgba(5,20,8,0.96)`,
-          backdropFilter: "blur(10px)",
-          boxShadow: `0 0 0 0px ${borderGlow}`,
-          transition: "box-shadow 0.3s ease",
-        }}
+      {/* Icon pill */}
+      <motion.div
+        className="relative flex h-[72px] w-[72px] items-center justify-center rounded-2xl"
+        style={{ scale: iconScale }}
       >
-        {/* Ambient inner hover glow */}
+        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${iconBg}`} />
         <div
-          className="pointer-events-none absolute inset-0 rounded-[calc(1.5rem-1px)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          className="absolute inset-0 rounded-2xl"
           style={{
-            background: `radial-gradient(ellipse 65% 55% at 20% 10%, ${glowColor.replace(/[\d.]+\)$/, "0.22)")} 0%, transparent 65%)`,
-            boxShadow: `inset 0 0 0 1px ${borderGlow.replace(/[\d.]+\)$/, "0.15)")}`,
+            background: `linear-gradient(145deg, ${borderGlow} 0%, transparent 55%)`,
+            opacity: 0.55,
           }}
         />
-
-        {/* Icon */}
         <div
-          className={`mb-6 inline-flex items-center justify-center rounded-xl bg-gradient-to-br p-3 ${iconBg}`}
+          className="absolute inset-[1px] flex items-center justify-center rounded-[calc(1rem-1px)]"
+          style={{ background: "rgba(6,8,22,0.88)" }}
         >
-          <Icon className={`h-5 w-5 ${iconClass}`} strokeWidth={1.5} />
+          <Icon className={`h-7 w-7 ${iconClass}`} strokeWidth={1.5} />
         </div>
+      </motion.div>
 
-        {/* Name */}
-        <h3 className="mb-1.5 text-xl font-bold tracking-tight text-white/92">{name}</h3>
-
-        {/* Tagline */}
-        <p className="mb-6 text-[13px] leading-relaxed text-white/36">{tagline}</p>
-
-        {/* Outcomes */}
-        <ul className="mb-7 space-y-2.5">
-          {outcomes.map((outcome) => (
-            <li key={outcome} className="flex items-start gap-2.5">
-              <span
-                className="mt-[6px] h-1.5 w-1.5 flex-shrink-0 rounded-full"
-                style={{ background: borderGlow }}
-              />
-              <span className="text-[13px] leading-snug text-white/48">{outcome}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Metric block */}
-        <div
-          className="rounded-2xl border px-5 py-3.5"
+      {/* Label — appears after icon lands */}
+      <motion.div
+        className="flex flex-col items-center gap-1 text-center"
+        style={{ opacity: textOpacity }}
+      >
+        <span className="text-[13px] font-semibold tracking-tight text-white/82">{name}</span>
+        <span
+          className="font-mono text-[16px] font-bold leading-none"
           style={{
-            borderColor: borderGlow.replace(/[\d.]+\)$/, "0.18)"),
-            background: glowColor.replace(/[\d.]+\)$/, "0.07)"),
+            backgroundImage: `linear-gradient(135deg, rgba(255,255,255,0.94) 0%, ${borderGlow} 100%)`,
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            color: "transparent",
           }}
         >
-          <span
-            className="block font-mono text-2xl font-bold leading-none"
-            style={{
-              backgroundImage: `linear-gradient(135deg, rgba(255,255,255,0.92) 0%, ${borderGlow} 100%)`,
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              color: "transparent",
-            }}
-          >
-            {metric}
-          </span>
-          <span className="mt-1.5 block text-[11px] font-medium uppercase tracking-wider text-white/26">
-            {metricLabel}
-          </span>
-        </div>
-
-        {/* Bottom accent line on hover */}
-        <div
-          className="absolute bottom-0 left-8 right-8 h-px opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${borderGlow}, transparent)`,
-          }}
-        />
-      </div>
+          {metric}
+        </span>
+        <span className="text-[10px] uppercase tracking-wider text-white/30">{metricLabel}</span>
+      </motion.div>
     </motion.div>
   );
 }
@@ -278,10 +188,34 @@ function IndustryCard({ industry, delay }: { industry: Industry; delay: number }
 // ─── Industries ───────────────────────────────────────────────────────────────
 
 export default function Industries() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Responsive grid positions
+  const [gridPos, setGridPos] = useState(
+    BASE_POS.map((p) => ({ x: p.col * 300, y: p.row * 130 })),
+  );
+
+  useEffect(() => {
+    const update = () => {
+      const xSpread = Math.min(300, window.innerWidth * 0.26);
+      const ySpread = Math.min(130, window.innerHeight * 0.14);
+      setGridPos(BASE_POS.map((p) => ({ x: p.col * xSpread, y: p.row * ySpread })));
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const hintOpacity = useTransform(scrollYProgress, [0, 0.09], [0.75, 0]);
+
   return (
     <section
       id="industries"
-      className="relative overflow-hidden py-28 sm:py-36"
+      className="relative"
       style={{
         background:
           "radial-gradient(ellipse 140% 80% at 12% 5%, #0c1238 0%, #060816 45%, #030610 100%)",
@@ -297,11 +231,11 @@ export default function Industries() {
           opacity: 0.08,
           mixBlendMode: "screen",
         }}
-        animate={{ backgroundPosition: ["0% 0%", "-5% -9%", "8% 4%", "0% 0%"] }}
+        animate={{ backgroundPosition: ["0% 0%", "-6% -8%", "7% 5%", "0% 0%"] }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
 
-      {/* Scene blobs */}
+      {/* Sapphire bloom — left */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
@@ -333,66 +267,81 @@ export default function Industries() {
         transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 7 }}
       />
 
-      {/* Top edge — from Solutions sunset orange */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#060816] to-transparent" />
-      {/* Bottom edge — into Company amber */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-36 bg-gradient-to-t from-[#080412] to-transparent" />
+      {/* Top edge — from Solutions */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[50] h-36 bg-gradient-to-b from-[#060816] to-transparent" />
+      {/* Bottom edge — into Company */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[50] h-36 bg-gradient-to-t from-[#080412] to-transparent" />
 
-      <div className="relative z-[3] mx-auto max-w-6xl px-6">
-        {/* Header */}
-        <motion.div
-          className="mb-4 text-center"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.75, ease: easeOutExpo }}
-        >
-          <div className="mb-5 flex justify-center">
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
-              <span
-                className="h-1.5 w-1.5 rounded-full bg-blue-400"
-                style={{ boxShadow: "0 0 6px rgba(96,165,250,0.9)" }}
-              />
-              Who We Serve
-            </div>
-          </div>
+      {/* Scroll container */}
+      <div ref={containerRef} style={{ height: "280vh" }}>
+        <div className="sticky top-0 h-screen overflow-hidden">
 
-          <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Built for Every{" "}
-            <motion.span
-              className="inline-block bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent"
-              style={{ backgroundSize: "200% 100%" }}
-              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            >
-              Industry
-            </motion.span>
-          </h2>
-
-          <motion.p
-            className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/34"
-            initial={{ opacity: 0, y: 14 }}
+          {/* Header */}
+          <motion.div
+            className="absolute inset-x-0 top-0 z-[30] px-6 pt-16 pb-6 text-center"
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.12, ease: easeOutExpo }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           >
-            From regulated healthcare systems to high-velocity startups — our platform adapts to
-            your constraints and accelerates your team.
-          </motion.p>
-        </motion.div>
+            <div className="mb-4 flex justify-center">
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
+                <span
+                  className="h-1.5 w-1.5 rounded-full bg-blue-400"
+                  style={{ boxShadow: "0 0 6px rgba(96,165,250,0.9)" }}
+                />
+                Who We Serve
+              </div>
+            </div>
+            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              Built for Every{" "}
+              <motion.span
+                className="inline-block bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent"
+                style={{ backgroundSize: "200% 100%" }}
+                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              >
+                Industry
+              </motion.span>
+            </h2>
+          </motion.div>
 
-        {/* Marquee — atmospheric, not content-heavy */}
-        <Marquee />
+          {/* Scatter layer */}
+          <div className="absolute inset-0">
+            {INDUSTRIES.map((industry, i) => (
+              <ScatterIcon
+                key={industry.name}
+                industry={industry}
+                index={i}
+                total={INDUSTRIES.length}
+                progress={scrollYProgress}
+                fx={gridPos[i].x}
+                fy={gridPos[i].y}
+              />
+            ))}
 
-        {/* Staggered card grid */}
-        <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {INDUSTRIES.map((industry, i) => (
-            <IndustryCard
-              key={industry.name}
-              industry={industry}
-              delay={(i % 3) * 0.1 + Math.floor(i / 3) * 0.06}
-            />
-          ))}
+            {/* Scroll hint */}
+            <motion.div
+              className="absolute bottom-8 left-1/2 z-[30] flex -translate-x-1/2 flex-col items-center gap-2"
+              style={{ opacity: hintOpacity }}
+            >
+              <span
+                className="font-mono text-[10px] uppercase tracking-widest text-white/30"
+              >
+                Scroll to explore
+              </span>
+              <motion.div
+                className="h-9 w-px origin-top"
+                style={{
+                  background:
+                    "linear-gradient(to bottom, rgba(96,165,250,0.6), rgba(96,165,250,0))",
+                }}
+                animate={{ scaleY: [0, 1, 0], opacity: [0, 0.8, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.3 }}
+              />
+            </motion.div>
+          </div>
+
         </div>
       </div>
     </section>
