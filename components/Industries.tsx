@@ -333,8 +333,8 @@ export default function Industries() {
         transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 7 }}
       />
 
-      {/* Top edge — from Products' dark navy */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#05081a] to-transparent" />
+      {/* Top edge — from Solutions' dark indigo */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#051a0a] to-transparent" />
       {/* Bottom edge — to Company section */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-36 bg-gradient-to-t from-[#080412] to-transparent" />
 

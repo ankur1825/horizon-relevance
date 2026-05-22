@@ -14,9 +14,10 @@ const SECTIONS = [
   { id: "intro",      number: "01", label: "Home"       },
   { id: "platform",   number: "02", label: "Platform"   },
   { id: "products",   number: "03", label: "Products"   },
-  { id: "industries", number: "04", label: "Industries" },
-  { id: "company",    number: "05", label: "Company"    },
-  { id: "contact",    number: "06", label: "Contact"    },
+  { id: "solutions",  number: "04", label: "Solutions"  },
+  { id: "industries", number: "05", label: "Industries" },
+  { id: "company",    number: "06", label: "Company"    },
+  { id: "contact",    number: "07", label: "Contact"    },
 ] as const;
 
 type SectionId = (typeof SECTIONS)[number]["id"];
