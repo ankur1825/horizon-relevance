@@ -13,7 +13,8 @@
 }
 
 body {
-  background: #040408;
+  /* Deep violet-navy base — visible in gaps before sections hydrate */
+  background: linear-gradient(160deg, #0e0828 0%, #050b1a 60%);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
