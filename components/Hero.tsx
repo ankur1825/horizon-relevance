@@ -218,7 +218,7 @@ function DashboardVisual() {
             />
           </div>
 
-          <div className="relative rounded-xl bg-[#09090f]/96 p-5 backdrop-blur-md">
+          <div className="relative rounded-xl bg-[#0a091e]/96 p-5 backdrop-blur-md">
             {/* Header */}
             <div className="mb-5 flex items-center justify-between">
               <span className="text-[11px] font-semibold tracking-wide text-white/80">
@@ -265,7 +265,7 @@ function DashboardVisual() {
       >
         <div className="relative rounded-xl p-px">
           <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-violet-500/[0.22] via-white/[0.04] to-transparent" />
-          <div className="relative rounded-[10px] bg-[#09090f]/96 p-3.5 backdrop-blur-md">
+          <div className="relative rounded-[10px] bg-[#0a091e]/96 p-3.5 backdrop-blur-md">
             <div className="mb-1.5 flex items-center gap-1.5">
               <Shield className="h-3 w-3 text-violet-400" strokeWidth={1.5} />
               <span className="text-[9px] font-medium uppercase tracking-wider text-white/38">
@@ -291,7 +291,7 @@ function DashboardVisual() {
       >
         <div className="relative rounded-xl p-px">
           <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-500/[0.22] via-white/[0.04] to-transparent" />
-          <div className="relative rounded-[10px] bg-[#09090f]/96 p-3.5 backdrop-blur-md">
+          <div className="relative rounded-[10px] bg-[#0a091e]/96 p-3.5 backdrop-blur-md">
             <div className="mb-1.5 flex items-center gap-1.5">
               <TrendingDown
                 className="h-3 w-3 text-cyan-400"
@@ -320,7 +320,7 @@ function DashboardVisual() {
       >
         <div className="relative rounded-xl p-px">
           <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-500/[0.22] via-white/[0.04] to-transparent" />
-          <div className="relative rounded-[10px] bg-[#09090f]/96 p-3.5 backdrop-blur-md">
+          <div className="relative rounded-[10px] bg-[#0a091e]/96 p-3.5 backdrop-blur-md">
             <div className="mb-1.5 flex items-center gap-1.5">
               <Activity className="h-3 w-3 text-blue-400" strokeWidth={1.5} />
               <span className="text-[9px] font-medium uppercase tracking-wider text-white/38">
@@ -431,8 +431,8 @@ function HeroBackground() {
       {/* Edge vignette */}
       <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,transparent_25%,rgba(8,8,14,0.65)_100%)]" />
 
-      {/* Bottom section blend */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#08080e] to-transparent" />
+      {/* Bottom fade — color matches Offerings top edge for seamless blend */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#08101e] to-transparent" />
     </div>
   );
 }
@@ -447,7 +447,14 @@ export default function Hero() {
   const contentY = useTransform(scrollY, [0, 700], [0, -22]);
 
   return (
-    <section id="intro" className="relative min-h-screen overflow-hidden bg-[#08080e]">
+    <section
+      id="intro"
+      className="relative min-h-screen overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(ellipse 150% 100% at 50% 0%, #100d2e 0%, #0b0922 50%, #070615 100%)",
+      }}
+    >
       <HeroBackground />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-10">
