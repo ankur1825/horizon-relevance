@@ -126,7 +126,7 @@ function BentoCard({ offering }: { offering: Offering }) {
       />
 
       {/* Glass card body */}
-      <div className="relative h-full rounded-xl bg-[#09090f]/95 p-7 backdrop-blur-sm">
+      <div className="relative h-full rounded-xl bg-[#070c1a]/95 p-7 backdrop-blur-sm">
         {/* Card number */}
         <span className="absolute right-6 top-6 font-mono text-xs font-medium tabular-nums text-white/15">
           {number}
@@ -163,15 +163,28 @@ function BentoCard({ offering }: { offering: Offering }) {
 
 export default function Offerings() {
   return (
-    <section id="platform" className="relative overflow-hidden bg-[#08080e] px-6 py-28 sm:py-36">
-      {/* Section ambient glow */}
+    <section
+      id="platform"
+      className="relative overflow-hidden px-6 py-28 sm:py-36"
+      style={{
+        background:
+          "radial-gradient(ellipse 130% 80% at 10% 0%, #09131f 0%, #070d1c 40%, #050a16 70%, #060b18 100%)",
+      }}
+    >
+      {/* Top edge fade — blends with Hero's bottom */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#08101e] to-transparent" />
+
+      {/* Section ambient glow — richer, positioned center-top */}
       <div
-        className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20 blur-[130px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-[560px] w-[1000px] -translate-x-1/2 -translate-y-1/3 rounded-full opacity-25 blur-[140px]"
         style={{
           background:
-            "radial-gradient(circle, rgba(99,102,241,0.7) 0%, rgba(6,182,212,0.35) 55%, transparent 100%)",
+            "radial-gradient(circle, rgba(79,70,229,0.65) 0%, rgba(6,182,212,0.3) 55%, transparent 100%)",
         }}
       />
+
+      {/* Bottom edge fade — smooth exit toward next section */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#060813] to-transparent" />
 
       <div className="relative mx-auto max-w-5xl">
         {/* Section header */}

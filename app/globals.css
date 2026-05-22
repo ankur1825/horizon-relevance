@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #08080e;
+  --background: #07060f;
   --foreground: #f0f0f5;
 }
 
@@ -13,7 +13,9 @@
 }
 
 body {
-  background: var(--background);
+  /* Rich dark base that matches Hero's bottom edge — visible between sections
+     and before client components hydrate */
+  background: linear-gradient(160deg, #100d2e 0%, #07060f 55%);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
