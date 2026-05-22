@@ -95,8 +95,12 @@ const CLUSTER = [
   { x:   5, y: -17 },
 ];
 
-// Fraction of total scroll used for the scatter animation
-const SCATTER_RANGE = 0.62;
+// Stagger spread across icons (start times), and per-icon travel range
+const STAGGER_SPAN = 0.22;
+const PER_ICON_RANGE = 0.58;
+
+// Smooth cubic-out easing for useTransform
+const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
 // ─── ScatterIcon ──────────────────────────────────────────────────────────────
 
@@ -117,14 +121,14 @@ function ScatterIcon({
 }) {
   const { icon: Icon, name, metric, metricLabel, iconClass, iconBg, borderGlow } = industry;
 
-  const popStart = (index / total) * SCATTER_RANGE;
-  const popEnd = popStart + SCATTER_RANGE / total;
-  const textIn = popEnd;
-  const textDone = Math.min(textIn + 0.07, 1);
+  const popStart = (index / total) * STAGGER_SPAN;
+  const popEnd = Math.min(popStart + PER_ICON_RANGE, 0.94);
+  const textIn = popEnd - 0.10;
+  const textDone = Math.min(textIn + 0.12, 1);
 
-  const x = useTransform(progress, [popStart, popEnd], [CLUSTER[index].x, fx]);
-  const y = useTransform(progress, [popStart, popEnd], [CLUSTER[index].y, fy]);
-  const iconScale = useTransform(progress, [popStart, popEnd], [0.48, 1]);
+  const x = useTransform(progress, [popStart, popEnd], [CLUSTER[index].x, fx], { ease: easeOutCubic });
+  const y = useTransform(progress, [popStart, popEnd], [CLUSTER[index].y, fy], { ease: easeOutCubic });
+  const iconScale = useTransform(progress, [popStart, popEnd], [0.48, 1], { ease: easeOutCubic });
   const textOpacity = useTransform(progress, [textIn, textDone], [0, 1]);
 
   return (
