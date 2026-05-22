@@ -447,7 +447,7 @@ export default function Hero() {
   const contentY = useTransform(scrollY, [0, 700], [0, -22]);
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#08080e]">
+    <section id="intro" className="relative min-h-screen overflow-hidden bg-[#08080e]">
       <HeroBackground />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-10">
