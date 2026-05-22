@@ -11,11 +11,11 @@ const ease = [0.25, 0.46, 0.45, 0.94] as const;
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const SECTIONS = [
-  { id: "intro",      number: "01", label: "Intro"      },
+  { id: "intro",      number: "01", label: "Home"       },
   { id: "platform",   number: "02", label: "Platform"   },
   { id: "products",   number: "03", label: "Products"   },
   { id: "industries", number: "04", label: "Industries" },
-  { id: "trust",      number: "05", label: "Trust"      },
+  { id: "company",    number: "05", label: "Company"    },
   { id: "contact",    number: "06", label: "Contact"    },
 ] as const;
 
