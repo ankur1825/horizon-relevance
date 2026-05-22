@@ -131,7 +131,7 @@ export default function Hero() {
       <Aurora />
 
       {/* ── Content layer ── */}
-      <div className="relative z-[3] flex flex-1 flex-col px-8 pb-16 pt-28 sm:px-12 lg:px-16 xl:pl-32">
+      <div className="relative z-[3] flex flex-1 flex-col px-8 pb-16 pt-28 sm:px-12 lg:px-16 xl:pl-44">
 
         {/* Top meta — whisper-quiet, anchors the brand */}
         <motion.div
