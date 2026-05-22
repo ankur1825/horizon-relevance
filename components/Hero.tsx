@@ -11,9 +11,9 @@ const ease = [0.25, 0.46, 0.45, 0.94] as const;
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const HEADLINE = [
-  { text: "Empowering the Future", gradient: false },
-  { text: "with Cloud, AI &", gradient: false },
-  { text: "DevSecOps", gradient: true },
+  { text: "Cloud Engineering,", gradient: false },
+  { text: "Intelligently", gradient: false },
+  { text: "Automated.", gradient: true },
 ];
 
 const STATS = [
