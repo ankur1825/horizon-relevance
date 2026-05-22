@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import type { MotionValue } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Activity, TrendingUp, Shield, Building2, ShoppingBag, Rocket } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -75,151 +74,106 @@ const INDUSTRIES: Industry[] = [
   },
 ];
 
-// 3×2 grid — desktop positions relative to center (px). Scaled responsively.
-const BASE_POS = [
-  { col: -1, row: -1 }, // Healthcare
-  { col:  0, row: -1 }, // FinTech
-  { col:  1, row: -1 }, // Finance
-  { col: -1, row:  1 }, // Enterprise
-  { col:  0, row:  1 }, // Retail
-  { col:  1, row:  1 }, // Startups
-];
+const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
-// Tight initial cluster offsets so icons look grouped before scatter
-const CLUSTER = [
-  { x: -14, y: -12 },
-  { x:  12, y:  -9 },
-  { x:  -5, y:  15 },
-  { x:  17, y:  11 },
-  { x: -11, y:   5 },
-  { x:   5, y: -17 },
-];
+// ─── IndustryCard ─────────────────────────────────────────────────────────────
 
-// Stagger spread across icons (start times), and per-icon travel range
-const STAGGER_SPAN = 0.22;
-const PER_ICON_RANGE = 0.58;
-
-// Smooth cubic-out easing for useTransform
-const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
-// ─── ScatterIcon ──────────────────────────────────────────────────────────────
-
-function ScatterIcon({
-  industry,
-  index,
-  total,
-  progress,
-  fx,
-  fy,
-}: {
-  industry: Industry;
-  index: number;
-  total: number;
-  progress: MotionValue<number>;
-  fx: number;
-  fy: number;
-}) {
+function IndustryCard({ industry }: { industry: Industry }) {
   const { icon: Icon, name, metric, metricLabel, iconClass, iconBg, borderGlow } = industry;
-
-  const popStart = (index / total) * STAGGER_SPAN;
-  const popEnd = Math.min(popStart + PER_ICON_RANGE, 0.94);
-  const textIn = popEnd - 0.10;
-  const textDone = Math.min(textIn + 0.12, 1);
-
-  const x = useTransform(progress, [popStart, popEnd], [CLUSTER[index].x, fx], { ease: easeOutCubic });
-  const y = useTransform(progress, [popStart, popEnd], [CLUSTER[index].y, fy], { ease: easeOutCubic });
-  const iconScale = useTransform(progress, [popStart, popEnd], [0.48, 1], { ease: easeOutCubic });
-  const textOpacity = useTransform(progress, [textIn, textDone], [0, 1]);
-
   return (
-    <motion.div
-      className="absolute flex flex-col items-center gap-3"
+    <div
+      className="mx-3 flex flex-shrink-0 items-center gap-4 rounded-2xl px-5 py-4"
       style={{
-        x,
-        y,
-        left: "50%",
-        top: "50%",
-        marginLeft: -36,
-        marginTop: -44,
-        zIndex: 20 + index,
+        background:
+          "linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.018) 100%)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        minWidth: 224,
       }}
     >
       {/* Icon pill */}
-      <motion.div
-        className="relative flex h-[72px] w-[72px] items-center justify-center rounded-2xl"
-        style={{ scale: iconScale }}
-      >
-        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${iconBg}`} />
+      <div className="relative flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl">
+        <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${iconBg}`} />
         <div
-          className="absolute inset-0 rounded-2xl"
+          className="absolute inset-0 rounded-xl"
           style={{
             background: `linear-gradient(145deg, ${borderGlow} 0%, transparent 55%)`,
             opacity: 0.55,
           }}
         />
         <div
-          className="absolute inset-[1px] flex items-center justify-center rounded-[calc(1rem-1px)]"
+          className="absolute inset-[1px] flex items-center justify-center rounded-[calc(0.75rem-1px)]"
           style={{ background: "rgba(6,8,22,0.88)" }}
         >
-          <Icon className={`h-7 w-7 ${iconClass}`} strokeWidth={1.5} />
+          <Icon className={`h-5 w-5 ${iconClass}`} strokeWidth={1.5} />
         </div>
-      </motion.div>
+      </div>
 
-      {/* Label — appears after icon lands */}
-      <motion.div
-        className="flex flex-col items-center gap-1 text-center"
-        style={{ opacity: textOpacity }}
-      >
-        <span className="text-[13px] font-semibold tracking-tight text-white/82">{name}</span>
-        <span
-          className="font-mono text-[16px] font-bold leading-none"
+      {/* Text */}
+      <div>
+        <div className="mb-0.5 text-[13px] font-semibold tracking-tight text-white/72">
+          {name}
+        </div>
+        <div
+          className="font-mono text-[18px] font-bold leading-none"
           style={{
-            backgroundImage: `linear-gradient(135deg, rgba(255,255,255,0.94) 0%, ${borderGlow} 100%)`,
+            backgroundImage: `linear-gradient(135deg, rgba(255,255,255,0.92) 0%, ${borderGlow} 100%)`,
             backgroundClip: "text",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
-            color: "transparent",
           }}
         >
           {metric}
-        </span>
-        <span className="text-[10px] uppercase tracking-wider text-white/30">{metricLabel}</span>
-      </motion.div>
-    </motion.div>
+        </div>
+        <div className="mt-1 text-[10px] uppercase tracking-wider text-white/28">
+          {metricLabel}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── MarqueeRow ───────────────────────────────────────────────────────────────
+
+function MarqueeRow({
+  reversed = false,
+  duration = 30,
+}: {
+  reversed?: boolean;
+  duration?: number;
+}) {
+  const [paused, setPaused] = useState(false);
+  const items = reversed ? [...INDUSTRIES].reverse() : [...INDUSTRIES];
+
+  return (
+    <div
+      className="overflow-hidden py-3"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div
+        className="flex"
+        style={{
+          width: "max-content",
+          animation: `${reversed ? "marquee-right" : "marquee-left"} ${duration}s linear infinite`,
+          animationPlayState: paused ? "paused" : "running",
+        }}
+      >
+        {/* Duplicate cards for seamless loop — -50% = exactly one set */}
+        {[...items, ...items].map((ind, i) => (
+          <IndustryCard key={i} industry={ind} />
+        ))}
+      </div>
+    </div>
   );
 }
 
 // ─── Industries ───────────────────────────────────────────────────────────────
 
 export default function Industries() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Responsive grid positions
-  const [gridPos, setGridPos] = useState(
-    BASE_POS.map((p) => ({ x: p.col * 300, y: p.row * 130 })),
-  );
-
-  useEffect(() => {
-    const update = () => {
-      const xSpread = Math.min(300, window.innerWidth * 0.26);
-      const ySpread = Math.min(130, window.innerHeight * 0.14);
-      setGridPos(BASE_POS.map((p) => ({ x: p.col * xSpread, y: p.row * ySpread })));
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  const hintOpacity = useTransform(scrollYProgress, [0, 0.09], [0.75, 0]);
-
   return (
     <section
       id="industries"
-      className="relative"
+      className="relative overflow-hidden py-28 sm:py-36"
       style={{
         background:
           "radial-gradient(ellipse 140% 80% at 12% 5%, #0c1238 0%, #060816 45%, #030610 100%)",
@@ -244,7 +198,8 @@ export default function Industries() {
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "-5%", top: "5%", width: "62vw", height: "82vh",
-          background: "radial-gradient(ellipse at 42% 40%, rgba(60,85,245,0.26) 0%, rgba(40,65,210,0.1) 46%, transparent 68%)",
+          background:
+            "radial-gradient(ellipse at 42% 40%, rgba(60,85,245,0.26) 0%, rgba(40,65,210,0.1) 46%, transparent 68%)",
           filter: "blur(110px)",
         }}
         animate={{ x: [0, 26, 0], y: [0, -14, 0], opacity: [0.72, 1, 0.72] }}
@@ -254,7 +209,8 @@ export default function Industries() {
         className="pointer-events-none absolute z-[0]"
         style={{
           right: "-8%", top: "25%", width: "50vw", height: "68vh",
-          background: "radial-gradient(ellipse at 55% 45%, rgba(30,65,220,0.2) 0%, rgba(20,50,190,0.08) 50%, transparent 68%)",
+          background:
+            "radial-gradient(ellipse at 55% 45%, rgba(30,65,220,0.2) 0%, rgba(20,50,190,0.08) 50%, transparent 68%)",
           filter: "blur(95px)",
         }}
         animate={{ x: [0, -22, 0], opacity: [0.58, 0.9, 0.58] }}
@@ -271,82 +227,61 @@ export default function Industries() {
         transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 7 }}
       />
 
-      {/* Top edge — from Solutions */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-[50] h-36 bg-gradient-to-b from-[#060816] to-transparent" />
-      {/* Bottom edge — into Company */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[50] h-36 bg-gradient-to-t from-[#080412] to-transparent" />
+      {/* Top / bottom section fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[10] h-36 bg-gradient-to-b from-[#060816] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[10] h-36 bg-gradient-to-t from-[#080412] to-transparent" />
 
-      {/* Scroll container */}
-      <div ref={containerRef} style={{ height: "280vh" }}>
-        <div className="sticky top-0 h-screen overflow-hidden">
+      {/* Left / right fades to hide marquee seams */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-[10] w-24 bg-gradient-to-r from-[#060816] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-[10] w-24 bg-gradient-to-l from-[#060816] to-transparent" />
 
-          {/* Header */}
-          <motion.div
-            className="absolute inset-x-0 top-0 z-[30] px-6 pt-16 pb-6 text-center"
-            initial={{ opacity: 0, y: 20 }}
+      <div className="relative z-[3]">
+
+        {/* Header */}
+        <motion.div
+          className="mb-16 px-6 text-center"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.75, ease: easeOutExpo }}
+        >
+          <div className="mb-5 flex justify-center">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
+              <span
+                className="h-1.5 w-1.5 rounded-full bg-blue-400"
+                style={{ boxShadow: "0 0 6px rgba(96,165,250,0.9)" }}
+              />
+              Who We Serve
+            </div>
+          </div>
+          <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            Built for Every{" "}
+            <motion.span
+              className="inline-block bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent"
+              style={{ backgroundSize: "200% 100%" }}
+              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            >
+              Industry
+            </motion.span>
+          </h2>
+          <motion.p
+            className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/34"
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 0.12, ease: easeOutExpo }}
           >
-            <div className="mb-4 flex justify-center">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
-                <span
-                  className="h-1.5 w-1.5 rounded-full bg-blue-400"
-                  style={{ boxShadow: "0 0 6px rgba(96,165,250,0.9)" }}
-                />
-                Who We Serve
-              </div>
-            </div>
-            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Built for Every{" "}
-              <motion.span
-                className="inline-block bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent"
-                style={{ backgroundSize: "200% 100%" }}
-                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-              >
-                Industry
-              </motion.span>
-            </h2>
-          </motion.div>
+            Real outcomes across every vertical — measured in speed, cost, and uptime.
+          </motion.p>
+        </motion.div>
 
-          {/* Scatter layer */}
-          <div className="absolute inset-0">
-            {INDUSTRIES.map((industry, i) => (
-              <ScatterIcon
-                key={industry.name}
-                industry={industry}
-                index={i}
-                total={INDUSTRIES.length}
-                progress={scrollYProgress}
-                fx={gridPos[i].x}
-                fy={gridPos[i].y}
-              />
-            ))}
-
-            {/* Scroll hint */}
-            <motion.div
-              className="absolute bottom-8 left-1/2 z-[30] flex -translate-x-1/2 flex-col items-center gap-2"
-              style={{ opacity: hintOpacity }}
-            >
-              <span
-                className="font-mono text-[10px] uppercase tracking-widest text-white/30"
-              >
-                Scroll to explore
-              </span>
-              <motion.div
-                className="h-9 w-px origin-top"
-                style={{
-                  background:
-                    "linear-gradient(to bottom, rgba(96,165,250,0.6), rgba(96,165,250,0))",
-                }}
-                animate={{ scaleY: [0, 1, 0], opacity: [0, 0.8, 0] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.3 }}
-              />
-            </motion.div>
-          </div>
-
+        {/* Marquee rows — opposite directions */}
+        <div className="flex flex-col gap-4">
+          <MarqueeRow duration={34} />
+          <MarqueeRow reversed duration={28} />
         </div>
+
       </div>
     </section>
   );

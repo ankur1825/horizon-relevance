@@ -94,21 +94,38 @@ const SERVICES: Service[] = [
 function ServiceCard({ service, delay }: { service: Service; delay: number }) {
   const { number, icon: Icon, label, description, accent, glow, iconClass, iconBg } = service;
 
+  // Vibrant version of accent for the comet arc
+  const vibrant = accent.replace(/[\d.]+\)$/, "0.88)");
+  const traceGradient = `conic-gradient(from 0deg, transparent 0deg, ${vibrant} 40deg, rgba(255,255,255,0.5) 60deg, ${vibrant} 80deg, transparent 130deg)`;
+
   return (
     <motion.div
-      className="group relative rounded-3xl p-px"
+      className="group relative overflow-hidden rounded-3xl p-px"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.78, delay, ease: easeOutExpo }}
       whileHover={{ y: -5, transition: { duration: 0.24, ease } }}
     >
+      {/* Static gradient border — dims out on hover */}
       <div
-        className="absolute inset-0 rounded-3xl opacity-30 transition-opacity duration-500 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-3xl opacity-30 transition-opacity duration-500 group-hover:opacity-0"
         style={{
           background: `linear-gradient(135deg, ${accent} 0%, rgba(255,255,255,0.05) 50%, transparent 100%)`,
         }}
       />
+
+      {/* Rotating comet trace — fades in on hover */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <motion.div
+          className="absolute inset-0"
+          style={{ background: traceGradient }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        />
+      </div>
+
+      {/* Card body */}
       <div
         className="relative h-full overflow-hidden rounded-[calc(1.5rem-1px)] p-7"
         style={{
@@ -116,25 +133,35 @@ function ServiceCard({ service, delay }: { service: Service; delay: number }) {
           backdropFilter: "blur(10px)",
         }}
       >
+        {/* Inner hover glow */}
         <div
           className="pointer-events-none absolute inset-0 rounded-[calc(1.5rem-1px)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{
             background: `radial-gradient(ellipse 60% 50% at 18% 8%, ${glow.replace(/[\d.]+\)$/, "0.2)")} 0%, transparent 65%)`,
           }}
         />
+
+        {/* Service number — brightens on hover */}
         <span
-          className="pointer-events-none absolute right-6 top-5 select-none font-mono font-black leading-none tracking-tighter text-white/[0.035]"
+          className="pointer-events-none absolute right-6 top-5 select-none font-mono font-black leading-none tracking-tighter text-white/[0.035] transition-colors duration-500 group-hover:text-white/[0.09]"
           style={{ fontSize: "clamp(44px,7vw,72px)" }}
         >
           {number}
         </span>
-        <div className={`mb-6 inline-flex items-center justify-center rounded-xl bg-gradient-to-br p-3 ${iconBg}`}>
+
+        {/* Icon — scales on hover */}
+        <div
+          className={`mb-6 inline-flex items-center justify-center rounded-xl bg-gradient-to-br p-3 transition-transform duration-200 group-hover:scale-110 ${iconBg}`}
+        >
           <Icon className={`h-5 w-5 ${iconClass}`} strokeWidth={1.5} />
         </div>
+
         <h3 className="mb-3 text-[1.05rem] font-bold leading-snug tracking-tight text-white/90">
           {label}
         </h3>
         <p className="text-[13px] leading-relaxed text-white/40">{description}</p>
+
+        {/* Bottom glow line */}
         <div
           className="absolute bottom-0 left-7 right-7 h-px opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{ background: `linear-gradient(90deg, transparent, ${accent}, transparent)` }}
