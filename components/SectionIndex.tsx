@@ -11,13 +11,13 @@ const ease = [0.25, 0.46, 0.45, 0.94] as const;
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const SECTIONS = [
-  { id: "intro",      number: "01", label: "Home"       },
-  { id: "platform",   number: "02", label: "Platform"   },
-  { id: "products",   number: "03", label: "Products"   },
-  { id: "solutions",  number: "04", label: "Solutions"  },
-  { id: "industries", number: "05", label: "Industries" },
-  { id: "company",    number: "06", label: "Company"    },
-  { id: "contact",    number: "07", label: "Contact"    },
+  { id: "intro",      number: "01", label: "Home",       color: "rgba(52,211,153,0.9)"  },
+  { id: "platform",   number: "02", label: "Platform",   color: "rgba(232,72,212,0.9)"  },
+  { id: "products",   number: "03", label: "Products",   color: "rgba(96,165,250,0.9)"  },
+  { id: "solutions",  number: "04", label: "Solutions",  color: "rgba(251,146,60,0.9)"  },
+  { id: "industries", number: "05", label: "Industries", color: "rgba(99,102,241,0.9)"  },
+  { id: "company",    number: "06", label: "Company",    color: "rgba(251,113,133,0.9)" },
+  { id: "contact",    number: "07", label: "Contact",    color: "rgba(16,185,129,0.9)"  },
 ] as const;
 
 type SectionId = (typeof SECTIONS)[number]["id"];
@@ -58,6 +58,7 @@ export default function SectionIndex() {
   }, []);
 
   const activeIndex = SECTIONS.findIndex((s) => s.id === activeId);
+  const activeColor = (SECTIONS.find((s) => s.id === activeId)?.color ?? "rgba(167,139,250,0.9)") as string;
 
   return (
     // Hidden on all viewports below lg
@@ -68,19 +69,25 @@ export default function SectionIndex() {
         <div className="absolute left-[7px] top-3 h-[calc(100%-24px)] w-px overflow-hidden">
           {/* Static dim rail */}
           <div className="h-full w-full bg-white/[0.09]" />
-          {/* Animated highlight segment that slides to active position */}
+          {/* Animated highlight — color matches active section */}
           <motion.div
-            className="absolute left-0 w-full rounded-full bg-gradient-to-b from-violet-400/70 via-violet-300/50 to-transparent"
-            style={{ height: 32 }}
+            className="absolute left-0 w-full rounded-full"
+            style={{
+              height: 32,
+              background: `linear-gradient(to bottom, ${activeColor.replace("0.9)", "0.7)")}, ${activeColor.replace("0.9)", "0.35)")}, transparent)`,
+            }}
             animate={{ top: `${activeIndex * 52 + 10}px` }}
             transition={{ duration: 0.55, ease: easeOutExpo }}
           />
         </div>
 
         {/* ── Section items ── */}
-        {SECTIONS.map(({ id, number, label }) => {
+        {SECTIONS.map(({ id, number, label, color }) => {
           const isActive = activeId === id;
           const isHovered = hoveredId === id;
+          const ringColor = (color as string).replace("0.9)", "0.28)");
+          const glowHard = (color as string).replace("0.9)", "0.85)");
+          const glowSoft = (color as string).replace("0.9)", "0.32)");
 
           return (
             <button
@@ -93,9 +100,10 @@ export default function SectionIndex() {
             >
               {/* ── Dot ── */}
               <div className="relative z-10 flex h-[15px] w-[15px] flex-shrink-0 items-center justify-center">
-                {/* Pulse ring — active only */}
+                {/* Pulse ring — color matches section */}
                 <motion.div
-                  className="absolute rounded-full border border-violet-400/30"
+                  className="absolute rounded-full border"
+                  style={{ width: 8, height: 8, borderColor: ringColor }}
                   animate={
                     isActive
                       ? { scale: [1, 2.6], opacity: [0.55, 0] }
@@ -106,7 +114,6 @@ export default function SectionIndex() {
                       ? { duration: 2, repeat: Infinity, ease: "easeOut", repeatDelay: 0.6 }
                       : { duration: 0.2 }
                   }
-                  style={{ width: 8, height: 8 }}
                 />
 
                 {/* Core dot */}
@@ -117,9 +124,8 @@ export default function SectionIndex() {
                       ? {
                           width: 7,
                           height: 7,
-                          backgroundColor: "rgb(167,139,250)",
-                          boxShadow:
-                            "0 0 10px rgba(167,139,250,0.85), 0 0 22px rgba(167,139,250,0.35)",
+                          backgroundColor: color as string,
+                          boxShadow: `0 0 10px ${glowHard}, 0 0 22px ${glowSoft}`,
                         }
                       : isHovered
                         ? {
@@ -174,7 +180,7 @@ export default function SectionIndex() {
                 </motion.span>
               </div>
 
-              {/* ── Hover cursor line (left of dot, reinforces clickability) ── */}
+              {/* ── Hover cursor line ── */}
               <motion.div
                 className="absolute left-[-6px] top-1/2 h-px -translate-y-1/2 bg-white/30"
                 animate={{ width: isHovered && !isActive ? 5 : 0, opacity: isHovered && !isActive ? 1 : 0 }}
