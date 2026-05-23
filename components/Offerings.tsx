@@ -190,13 +190,15 @@ function OfferingPanel({
 
   return (
     <div
-      className="sticky flex items-center justify-center px-6"
-      style={{ top: `${STICKY_TOP}px`, height: "100vh", zIndex: 10 + index, background: "#08031a" }}
+      className="sticky flex flex-col justify-start px-6 pt-4"
+      style={{ top: `${STICKY_TOP}px`, height: "100vh", zIndex: 10 + index }}
     >
-      <motion.div
-        className="relative w-full max-w-4xl rounded-3xl p-px"
-        style={{ scale, opacity, transformOrigin: "top center" }}
-      >
+      {/* Card sits at the top — enters viewport immediately, no black space above */}
+      <div className="flex justify-center">
+        <motion.div
+          className="relative w-full max-w-4xl rounded-3xl p-px"
+          style={{ scale, opacity, transformOrigin: "top center" }}
+        >
         {/* 1px gradient border */}
         <div
           className="pointer-events-none absolute inset-0 rounded-3xl"
@@ -277,6 +279,8 @@ function OfferingPanel({
         </div>
       </motion.div>
     </div>
+    <div className="flex-1" style={{ background: "#08031a" }} />
+  </div>
   );
 }
 

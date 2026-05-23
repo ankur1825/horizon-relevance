@@ -436,7 +436,7 @@ export default function Products() {
                   <product.icon className={`h-6 w-6 ${product.iconClass}`} strokeWidth={1.5} />
                 </div>
                 <h3 className="mb-3 font-bold leading-tight tracking-tight text-white/92" style={{ fontSize: "clamp(1.4rem,2.3vw,2rem)" }}>{product.name}</h3>
-                <p className="mb-8 text-sm font-medium italic text-white/32">"{product.tagline}"</p>
+                <p className="mb-8 text-sm font-medium italic text-white/32">{product.tagline}</p>
                 <div className="mb-8 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   {product.features.map((f) => (
                     <div key={f} className="flex items-start gap-2.5">
