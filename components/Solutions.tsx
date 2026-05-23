@@ -27,10 +27,10 @@ const SERVICES: Service[] = [
     label: "Cloud Strategy & Migration",
     description:
       "Cloud readiness assessments, migration roadmaps, and multi-cloud architecture design — built around your team's velocity.",
-    accent: "rgba(255,130,30,0.55)",
-    glow: "rgba(255,130,30,0.13)",
-    iconClass: "text-orange-400",
-    iconBg: "from-orange-500/[0.2] to-amber-600/[0.08]",
+    accent: "rgba(244,63,94,0.55)",
+    glow: "rgba(244,63,94,0.13)",
+    iconClass: "text-rose-400",
+    iconBg: "from-rose-500/[0.2] to-pink-700/[0.08]",
   },
   {
     number: "02",
@@ -38,10 +38,10 @@ const SERVICES: Service[] = [
     label: "DevSecOps as a Service",
     description:
       "Automated CI/CD pipelines with integrated security tools, policy gates, and compliance checks at every merge.",
-    accent: "rgba(245,100,18,0.55)",
-    glow: "rgba(245,100,18,0.13)",
-    iconClass: "text-orange-500",
-    iconBg: "from-orange-600/[0.2] to-red-700/[0.08]",
+    accent: "rgba(232,72,212,0.55)",
+    glow: "rgba(232,72,212,0.13)",
+    iconClass: "text-fuchsia-400",
+    iconBg: "from-fuchsia-500/[0.2] to-purple-700/[0.08]",
   },
   {
     number: "03",
@@ -49,10 +49,10 @@ const SERVICES: Service[] = [
     label: "AI & Data Science Consulting",
     description:
       "Data pipeline design, feature engineering, and predictive analytics using LLMs and cloud-native ML infrastructure.",
-    accent: "rgba(220,165,40,0.55)",
-    glow: "rgba(220,165,40,0.13)",
-    iconClass: "text-amber-400",
-    iconBg: "from-amber-500/[0.2] to-yellow-600/[0.08]",
+    accent: "rgba(167,139,250,0.55)",
+    glow: "rgba(167,139,250,0.13)",
+    iconClass: "text-violet-400",
+    iconBg: "from-violet-500/[0.2] to-indigo-600/[0.08]",
   },
   {
     number: "04",
@@ -60,10 +60,10 @@ const SERVICES: Service[] = [
     label: "Generative AI Enablement",
     description:
       "RAG pipelines, LLM-based automation, and AI-powered workflows that plug directly into your existing product stack.",
-    accent: "rgba(255,92,22,0.55)",
-    glow: "rgba(255,92,22,0.13)",
-    iconClass: "text-orange-300",
-    iconBg: "from-orange-400/[0.2] to-red-600/[0.08]",
+    accent: "rgba(236,72,153,0.55)",
+    glow: "rgba(236,72,153,0.13)",
+    iconClass: "text-pink-400",
+    iconBg: "from-pink-500/[0.2] to-fuchsia-700/[0.08]",
   },
   {
     number: "05",
@@ -71,10 +71,10 @@ const SERVICES: Service[] = [
     label: "Serverless Application Framework",
     description:
       "Build and deploy event-driven applications with AWS Lambda and Step Functions — zero infrastructure overhead.",
-    accent: "rgba(205,135,28,0.55)",
-    glow: "rgba(205,135,28,0.13)",
-    iconClass: "text-yellow-400",
-    iconBg: "from-yellow-500/[0.2] to-amber-600/[0.08]",
+    accent: "rgba(192,38,211,0.55)",
+    glow: "rgba(192,38,211,0.13)",
+    iconClass: "text-purple-400",
+    iconBg: "from-purple-500/[0.2] to-violet-700/[0.08]",
   },
   {
     number: "06",
@@ -82,10 +82,10 @@ const SERVICES: Service[] = [
     label: "Cloud Governance & Cost Compliance",
     description:
       "Budgets, guardrails, tagging policies, and cost control dashboards across every cloud environment you run.",
-    accent: "rgba(235,155,38,0.55)",
-    glow: "rgba(235,155,38,0.13)",
-    iconClass: "text-amber-300",
-    iconBg: "from-amber-400/[0.2] to-orange-600/[0.08]",
+    accent: "rgba(217,70,239,0.55)",
+    glow: "rgba(217,70,239,0.13)",
+    iconClass: "text-fuchsia-300",
+    iconBg: "from-fuchsia-400/[0.2] to-rose-600/[0.08]",
   },
 ];
 
@@ -180,7 +180,7 @@ export default function Solutions() {
       className="relative overflow-hidden py-28 sm:py-36"
       style={{
         background:
-          "radial-gradient(ellipse 150% 80% at 78% 0%, #2e1205 0%, #180a02 48%, #0c0601 100%)",
+          "radial-gradient(ellipse 150% 80% at 78% 0%, #2d0535 0%, #1a0228 48%, #0d0118 100%)",
       }}
     >
       {/* Grain */}
@@ -197,36 +197,36 @@ export default function Solutions() {
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
 
-      {/* Sunset orange bloom — right-top dominant */}
+      {/* Rose bloom — right-top dominant */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
           right: "-6%", top: "-8%", width: "70vw", height: "90vh",
-          background: "radial-gradient(ellipse 54% 55% at 56% 40%, rgba(255,110,18,0.28) 0%, rgba(210,75,8,0.11) 46%, transparent 68%)",
+          background: "radial-gradient(ellipse 54% 55% at 56% 40%, rgba(244,63,94,0.26) 0%, rgba(190,40,80,0.1) 46%, transparent 68%)",
           filter: "blur(115px)",
         }}
         animate={{ x: [0, -26, 0], y: [0, 18, 0], opacity: [0.72, 1, 0.72] }}
         transition={{ duration: 17, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Amber — left-center */}
+      {/* Violet — left-center */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "-5%", top: "20%", width: "54vw", height: "70vh",
-          background: "radial-gradient(ellipse 52% 48% at 44% 44%, rgba(220,140,20,0.2) 0%, rgba(180,105,10,0.08) 52%, transparent 70%)",
+          background: "radial-gradient(ellipse 52% 48% at 44% 44%, rgba(167,139,250,0.2) 0%, rgba(120,90,220,0.08) 52%, transparent 70%)",
           filter: "blur(100px)",
         }}
         animate={{ x: [0, 20, 0], opacity: [0.55, 0.88, 0.55] }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       />
 
-      {/* Deep rust accent — bottom */}
+      {/* Fuchsia accent — bottom */}
       <motion.div
         className="pointer-events-none absolute z-[0]"
         style={{
           left: "28%", bottom: "8%", width: "38vw", height: "42vh",
-          background: "radial-gradient(circle, rgba(160,50,8,0.16) 0%, transparent 62%)",
+          background: "radial-gradient(circle, rgba(192,38,211,0.16) 0%, transparent 62%)",
           filter: "blur(88px)",
         }}
         animate={{ scale: [1, 1.2, 1], opacity: [0.42, 0.74, 0.42] }}
@@ -250,8 +250,8 @@ export default function Solutions() {
           <div className="mb-5 flex justify-center">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
               <span
-                className="h-1.5 w-1.5 rounded-full bg-orange-400"
-                style={{ boxShadow: "0 0 6px rgba(255,130,30,0.9)" }}
+                className="h-1.5 w-1.5 rounded-full bg-rose-400"
+                style={{ boxShadow: "0 0 6px rgba(244,63,94,0.9)" }}
               />
               What We Do
             </div>
@@ -259,7 +259,7 @@ export default function Solutions() {
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Our{" "}
             <motion.span
-              className="inline-block bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400 bg-clip-text text-transparent"
+              className="inline-block bg-gradient-to-r from-rose-400 via-fuchsia-400 to-violet-400 bg-clip-text text-transparent"
               style={{ backgroundSize: "200% 100%" }}
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}

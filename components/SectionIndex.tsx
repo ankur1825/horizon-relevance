@@ -14,7 +14,7 @@ const SECTIONS = [
   { id: "intro",      number: "01", label: "Home",       color: "rgba(52,211,153,0.9)"  },
   { id: "platform",   number: "02", label: "Platform",   color: "rgba(232,72,212,0.9)"  },
   { id: "products",   number: "03", label: "Products",   color: "rgba(96,165,250,0.9)"  },
-  { id: "solutions",  number: "04", label: "Solutions",  color: "rgba(251,146,60,0.9)"  },
+  { id: "solutions",  number: "04", label: "Solutions",  color: "rgba(244,63,94,0.9)"   },
   { id: "industries", number: "05", label: "Industries", color: "rgba(99,102,241,0.9)"  },
   { id: "company",    number: "06", label: "Company",    color: "rgba(251,113,133,0.9)" },
   { id: "contact",    number: "07", label: "Contact",    color: "rgba(16,185,129,0.9)"  },
