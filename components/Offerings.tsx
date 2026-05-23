@@ -186,7 +186,6 @@ function OfferingPanel({
 
   const scaleTarget = isLast ? 1 : 1 - (total - 1 - index) * 0.045;
   const scale = useTransform(progress, [index / total, (index + 1) / total], [1, scaleTarget]);
-  const opacity = useTransform(progress, [index / total, (index + 1) / total], isLast ? [1, 1] : [1, 0]);
 
   return (
     <div
@@ -197,7 +196,7 @@ function OfferingPanel({
       <div className="flex justify-center">
         <motion.div
           className="relative w-full max-w-4xl rounded-3xl p-px"
-          style={{ scale, opacity, transformOrigin: "top center" }}
+          style={{ scale, transformOrigin: "top center" }}
         >
         {/* 1px gradient border */}
         <div
