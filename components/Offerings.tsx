@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import type { MotionValue } from "framer-motion";
 import { Cloud, ShieldCheck, BrainCircuit, Zap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -84,10 +85,8 @@ const OFFERINGS: Offering[] = [
 ];
 
 const STICKY_TOP = 88;
-const TAB_HEIGHT = 72;
-const TAB_GAP = 6;
 
-// ─── Scene background ──────────────────────────────────────────────────────────
+// ─── Scene background (sticky, stays behind cards) ────────────────────────────
 
 function SceneBackground() {
   return (
@@ -95,6 +94,7 @@ function SceneBackground() {
       className="sticky top-0 z-[2] h-[100vh] overflow-hidden"
       style={{ marginBottom: "-100vh" }}
     >
+      {/* Grain */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-[10]"
@@ -107,40 +107,60 @@ function SceneBackground() {
         animate={{ backgroundPosition: ["0% 0%", "-5% -9%", "8% 5%", "-6% 11%", "4% -4%", "0% 0%"] }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
       />
+
+      {/* Violet bloom — dominant, left-center */}
       <motion.div
         className="absolute"
         style={{
-          left: "-10%", top: "5%", width: "75vw", height: "95vh",
-          background: "radial-gradient(ellipse 48% 55% at 42% 40%, rgba(155,50,255,0.32) 0%, rgba(110,30,210,0.14) 45%, transparent 68%)",
+          left: "-10%",
+          top: "5%",
+          width: "75vw",
+          height: "95vh",
+          background:
+            "radial-gradient(ellipse 48% 55% at 42% 40%, rgba(155,50,255,0.32) 0%, rgba(110,30,210,0.14) 45%, transparent 68%)",
           filter: "blur(115px)",
         }}
         animate={{ x: [0, 32, 0], y: [0, -18, 0], opacity: [0.72, 1, 0.72] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
+
+      {/* Magenta bloom — right, warm contrast */}
       <motion.div
         className="absolute"
         style={{
-          right: "-8%", top: "10%", width: "55vw", height: "75vh",
-          background: "radial-gradient(ellipse 54% 50% at 52% 45%, rgba(230,60,185,0.24) 0%, rgba(185,40,145,0.1) 48%, transparent 70%)",
+          right: "-8%",
+          top: "10%",
+          width: "55vw",
+          height: "75vh",
+          background:
+            "radial-gradient(ellipse 54% 50% at 52% 45%, rgba(230,60,185,0.24) 0%, rgba(185,40,145,0.1) 48%, transparent 70%)",
           filter: "blur(100px)",
         }}
         animate={{ x: [0, -26, 0], opacity: [0.6, 0.92, 0.6] }}
         transition={{ duration: 19, repeat: Infinity, ease: "easeInOut", delay: 3.5 }}
       />
+
+      {/* Teal contrast — bottom, cold accent */}
       <motion.div
         className="absolute"
         style={{
-          left: "15%", bottom: "8%", width: "40vw", height: "40vh",
+          left: "15%",
+          bottom: "8%",
+          width: "40vw",
+          height: "40vh",
           background: "radial-gradient(circle, rgba(0,185,175,0.18) 0%, transparent 62%)",
           filter: "blur(88px)",
         }}
         animate={{ scale: [1, 1.18, 1], opacity: [0.48, 0.82, 0.48] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 7 }}
       />
+
+      {/* Soft base gradient so the dark areas aren't dead black */}
       <div
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 140% 100% at 20% 5%, #220950 0%, #0d0520 50%, #080318 100%)",
+          background:
+            "radial-gradient(ellipse 140% 100% at 20% 5%, #220950 0%, #0d0520 50%, #080318 100%)",
           opacity: 0.6,
         }}
       />
@@ -148,188 +168,119 @@ function SceneBackground() {
   );
 }
 
-// ─── Collapsed tab (previous offering) ────────────────────────────────────────
+// ─── OfferingPanel ────────────────────────────────────────────────────────────
 
-function OfferingTab({ offering }: { offering: Offering }) {
-  const { icon: Icon, number, label, iconClass, iconBg, borderGlow } = offering;
-  return (
-    <motion.div
-      className="relative flex shrink-0 items-center gap-3.5 overflow-hidden rounded-2xl px-5"
-      style={{
-        height: TAB_HEIGHT,
-        background: "rgba(14,5,32,0.92)",
-        border: "1px solid rgba(255,255,255,0.07)",
-      }}
-      initial={{ opacity: 0, y: -14 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, height: 0, marginTop: 0 }}
-      transition={{ duration: 0.32, ease }}
-    >
-      {/* Left color bar */}
-      <div
-        className="absolute left-0 top-0 h-full w-[3px] rounded-r-full"
-        style={{ background: `linear-gradient(to bottom, ${borderGlow}, transparent)` }}
-      />
-      <div className={`ml-2 inline-flex shrink-0 items-center justify-center rounded-xl bg-gradient-to-br p-2.5 ${iconBg}`}>
-        <Icon className={`h-4 w-4 ${iconClass}`} strokeWidth={1.5} />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="font-mono text-[10px] font-medium text-white/25">{number}</p>
-        <p className="truncate text-sm font-semibold leading-tight text-white/55">{label}</p>
-      </div>
-      {/* Subtle bottom line */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: `linear-gradient(90deg, ${borderGlow}40, transparent 60%)` }}
-      />
-    </motion.div>
-  );
-}
-
-// ─── Expanded active card ──────────────────────────────────────────────────────
-
-function ExpandedCard({ offering }: { offering: Offering }) {
+function OfferingPanel({
+  offering,
+  index,
+  total,
+  progress,
+}: {
+  offering: Offering;
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+}) {
   const { icon: Icon, label, description, iconClass, iconBg, glowColor, borderGlow, number, tags, metric, metricLabel } = offering;
-  return (
-    <div
-      className="relative h-full w-full rounded-3xl p-px"
-      style={{
-        background: `linear-gradient(135deg, ${borderGlow} 0%, rgba(255,255,255,0.06) 45%, transparent 100%)`,
-      }}
-    >
-      <div
-        className="relative flex h-full flex-col overflow-hidden rounded-[calc(1.5rem-1px)] px-8 py-8"
-        style={{
-          background: `radial-gradient(ellipse 65% 55% at 10% 0%, ${glowColor} 0%, transparent 52%), rgba(14,5,32,1)`,
-        }}
-      >
-        {/* Watermark */}
-        <span
-          className="pointer-events-none absolute right-8 top-5 select-none font-mono font-black leading-none tracking-tighter text-white/[0.035]"
-          style={{ fontSize: "clamp(56px,7vw,88px)" }}
-        >
-          {number}
-        </span>
+  const isLast = index === total - 1;
 
-        {/* Icon */}
-        <div className={`mb-5 inline-flex self-start items-center justify-center rounded-2xl bg-gradient-to-br p-4 ${iconBg}`}>
-          <Icon className={`h-6 w-6 ${iconClass}`} strokeWidth={1.5} />
-        </div>
-
-        {/* Title */}
-        <h3
-          className="mb-4 font-bold leading-tight tracking-tight text-white/92"
-          style={{ fontSize: "clamp(1.2rem,1.9vw,1.85rem)" }}
-        >
-          {label}
-        </h3>
-
-        {/* Description */}
-        <p className="text-[15px] leading-relaxed text-white/42 max-w-[500px]">
-          {description}
-        </p>
-
-        {/* Metric row */}
-        <div className="mt-6 flex items-baseline gap-3">
-          <span
-            className="font-mono text-3xl font-bold leading-none"
-            style={{
-              backgroundImage: `linear-gradient(145deg, rgba(255,255,255,0.9) 0%, ${borderGlow} 100%)`,
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            {metric}
-          </span>
-          <span className="text-[11px] font-medium uppercase tracking-widest text-white/28">
-            {metricLabel}
-          </span>
-        </div>
-
-        {/* Tags */}
-        <div className="mt-auto pt-6 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-xs font-medium text-white/38"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* Bottom accent */}
-        <div
-          className="absolute bottom-0 left-8 right-8 h-px"
-          style={{ background: `linear-gradient(90deg, transparent, ${borderGlow}, transparent)` }}
-        />
-      </div>
-    </div>
-  );
-}
-
-// ─── Right visual panel ────────────────────────────────────────────────────────
-
-function OfferingVisual({ offering }: { offering: Offering }) {
-  const { icon: Icon, iconClass, iconBg, glowColor, borderGlow } = offering;
-
-  const glow = (a: number) => glowColor.replace(/[\d.]+\)$/, `${a})`);
-  const border = (a: number) => borderGlow.replace(/[\d.]+\)$/, `${a})`);
+  const scaleTarget = isLast ? 1 : 1 - (total - 1 - index) * 0.045;
+  const scale = useTransform(progress, [index / total, (index + 1) / total], [1, scaleTarget]);
+  const opacity = useTransform(progress, [index / total, (index + 1) / total], isLast ? [1, 1] : [1, 0]);
 
   return (
     <div
-      className="relative flex h-full flex-col items-center justify-center overflow-hidden rounded-3xl"
-      style={{
-        background: "rgba(10,4,26,0.75)",
-        border: "1px solid rgba(255,255,255,0.07)",
-      }}
+      className="sticky flex flex-col justify-start px-6 pt-4"
+      style={{ top: `${STICKY_TOP}px`, height: "100vh", zIndex: 10 + index }}
     >
-      {/* Radial bloom */}
-      <motion.div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: `radial-gradient(ellipse 68% 58% at 50% 50%, ${glow(0.4)} 0%, transparent 70%)`,
-        }}
-        animate={{ scale: [1, 1.08, 1], opacity: [0.8, 1, 0.8] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Decorative concentric rings */}
-      {([160, 230, 305] as const).map((size, i) => (
+      {/* Card sits at the top — enters viewport immediately, no black space above */}
+      <div className="flex justify-center">
         <motion.div
-          key={size}
-          className="pointer-events-none absolute rounded-full"
-          style={{
-            width: size,
-            height: size,
-            border: `1px solid ${border(0.1 - i * 0.025)}`,
-          }}
-          animate={{ rotate: i % 2 === 0 ? [0, 360] : [360, 0] }}
-          transition={{ duration: 22 + i * 8, repeat: Infinity, ease: "linear" }}
-        />
-      ))}
-
-      {/* Floating icon */}
-      <motion.div
-        className="relative z-10"
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <div
-          className={`inline-flex items-center justify-center rounded-3xl bg-gradient-to-br p-7 ${iconBg}`}
-          style={{ boxShadow: `0 0 40px ${glow(0.55)}, 0 0 90px ${glow(0.2)}` }}
+          className="relative w-full max-w-4xl rounded-3xl p-px"
+          style={{ scale, opacity, transformOrigin: "top center" }}
         >
-          <Icon className={`h-14 w-14 ${iconClass}`} strokeWidth={1.25} />
+        {/* 1px gradient border */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-3xl"
+          style={{
+            background: `linear-gradient(135deg, ${borderGlow} 0%, rgba(255,255,255,0.06) 45%, transparent 100%)`,
+          }}
+        />
+
+        {/* Glass body — tinted to match the violet scene */}
+        <div
+          className="relative overflow-hidden rounded-[calc(1.5rem-1px)] px-10 py-12 md:px-14 md:py-14"
+          style={{
+            background: `radial-gradient(ellipse 65% 55% at 10% 0%, ${glowColor} 0%, transparent 52%), rgba(14,5,32,1)`,
+            backdropFilter: "blur(12px)",
+          }}
+        >
+          {/* Watermark number */}
+          <span
+            className="pointer-events-none absolute right-10 top-8 select-none font-mono font-black leading-none tracking-tighter text-white/[0.04]"
+            style={{ fontSize: "clamp(60px,10vw,100px)" }}
+          >
+            {number}
+          </span>
+
+          <div className="flex items-start justify-between gap-10">
+            {/* Left */}
+            <div className="flex-1">
+              <div className={`mb-8 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br p-4 ${iconBg}`}>
+                <Icon className={`h-6 w-6 ${iconClass}`} strokeWidth={1.5} />
+              </div>
+              <h3
+                className="mb-5 font-bold leading-tight tracking-tight text-white/92"
+                style={{ fontSize: "clamp(1.4rem,2.4vw,2.1rem)" }}
+              >
+                {label}
+              </h3>
+              <p className="mb-8 max-w-[480px] text-base leading-relaxed text-white/42">
+                {description}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-1.5 text-xs font-medium text-white/38"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: metric */}
+            <div className="hidden shrink-0 flex-col items-end text-right md:flex">
+              <span
+                className="font-mono font-bold leading-none tracking-tight"
+                style={{
+                  fontSize: "clamp(2rem,3.8vw,3.25rem)",
+                  backgroundImage: `linear-gradient(145deg, rgba(255,255,255,0.92) 0%, ${borderGlow} 100%)`,
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "transparent",
+                }}
+              >
+                {metric}
+              </span>
+              <span className="mt-2.5 max-w-[120px] text-[11px] font-medium uppercase leading-tight tracking-widest text-white/22">
+                {metricLabel}
+              </span>
+            </div>
+          </div>
+
+          {/* Bottom accent */}
+          <div
+            className="absolute bottom-0 left-12 right-12 h-px"
+            style={{ background: `linear-gradient(90deg, transparent, ${borderGlow}, transparent)` }}
+          />
         </div>
       </motion.div>
-
-      {/* Corner gradient overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-3xl"
-        style={{ background: `linear-gradient(135deg, ${border(0.1)} 0%, transparent 55%)` }}
-      />
     </div>
+    <div className="flex-1" style={{ background: "#08031a" }} />
+  </div>
   );
 }
 
@@ -337,32 +288,19 @@ function OfferingVisual({ offering }: { offering: Offering }) {
 
 export default function Offerings() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    return scrollYProgress.on("change", (v) => {
-      const idx = Math.min(
-        Math.floor(v * OFFERINGS.length),
-        OFFERINGS.length - 1,
-      );
-      setActiveIndex(Math.max(0, idx));
-    });
-  }, [scrollYProgress]);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
 
   return (
     <section
       id="platform"
       className="relative"
       style={{
-        background:
-          "radial-gradient(ellipse 150% 100% at 20% 5%, #1e0840 0%, #0d0520 45%, #08031a 100%)",
+        background: "radial-gradient(ellipse 150% 100% at 20% 5%, #1e0840 0%, #0d0520 45%, #08031a 100%)",
       }}
     >
+      {/* Top edge — blends with Hero's bottom */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-50 h-36 bg-gradient-to-b from-[#0c0520] to-transparent" />
+      {/* Bottom edge — bleeds into Products */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-50 h-36 bg-gradient-to-t from-[#060b22] to-transparent" />
 
       {/* Section header */}
@@ -395,7 +333,7 @@ export default function Offerings() {
         </h2>
       </motion.div>
 
-      {/* Scroll driver */}
+      {/* Sticky stack container */}
       <div
         ref={containerRef}
         className="relative"
@@ -403,64 +341,15 @@ export default function Offerings() {
       >
         <SceneBackground />
 
-        {/* Single sticky two-column panel */}
-        <div
-          className="sticky flex gap-4 px-6 lg:gap-5"
-          style={{
-            top: STICKY_TOP,
-            height: `calc(100vh - ${STICKY_TOP}px)`,
-            zIndex: 10,
-            paddingTop: 16,
-            paddingBottom: 28,
-          }}
-        >
-          {/* ── Left: accordion stack ── */}
-          <div
-            className="flex min-h-0 flex-1 flex-col"
-            style={{ gap: TAB_GAP }}
-          >
-            {/* Collapsed tabs for already-seen offerings */}
-            <AnimatePresence>
-              {OFFERINGS.map((offering, i) =>
-                i < activeIndex ? (
-                  <OfferingTab key={offering.number} offering={offering} />
-                ) : null,
-              )}
-            </AnimatePresence>
-
-            {/* Active expanded card */}
-            <div className="min-h-0 flex-1">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.38, ease }}
-                  className="h-full"
-                >
-                  <ExpandedCard offering={OFFERINGS[activeIndex]} />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {/* ── Right: visual panel (desktop only) ── */}
-          <div className="hidden w-[38%] shrink-0 lg:block">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, scale: 0.95, y: 14 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -14 }}
-                transition={{ duration: 0.42, ease }}
-                className="h-full"
-              >
-                <OfferingVisual offering={OFFERINGS[activeIndex]} />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
+        {OFFERINGS.map((offering, i) => (
+          <OfferingPanel
+            key={offering.number}
+            offering={offering}
+            index={i}
+            total={OFFERINGS.length}
+            progress={scrollYProgress}
+          />
+        ))}
       </div>
 
       <div className="h-28" />
