@@ -70,10 +70,10 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["Platform Engineering", "SREs", "DevOps teams"],
     cta: "Book a Demo",
-    glowColor: "rgba(60,120,255,0.1)",
-    borderGlow: "rgba(60,120,255,0.52)",
-    iconClass: "text-blue-400",
-    iconBg: "from-blue-500/[0.2] to-indigo-600/[0.08]",
+    glowColor: "rgba(0,185,95,0.1)",
+    borderGlow: "rgba(0,185,95,0.52)",
+    iconClass: "text-emerald-400",
+    iconBg: "from-emerald-500/[0.2] to-teal-600/[0.08]",
   },
   {
     number: "03",
@@ -87,10 +87,10 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["DevOps", "Startups", "Event-driven apps"],
     cta: "Deploy Your First Function",
-    glowColor: "rgba(80,150,255,0.1)",
-    borderGlow: "rgba(80,150,255,0.52)",
-    iconClass: "text-sky-300",
-    iconBg: "from-sky-500/[0.2] to-blue-600/[0.08]",
+    glowColor: "rgba(245,158,11,0.1)",
+    borderGlow: "rgba(245,158,11,0.52)",
+    iconClass: "text-amber-400",
+    iconBg: "from-amber-500/[0.2] to-yellow-600/[0.08]",
   },
   {
     number: "04",
@@ -104,10 +104,10 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["SREs", "DevOps", "Regulated industries"],
     cta: "Explore AI Monitoring",
-    glowColor: "rgba(0,180,255,0.1)",
-    borderGlow: "rgba(0,180,255,0.52)",
-    iconClass: "text-blue-300",
-    iconBg: "from-blue-400/[0.2] to-cyan-600/[0.08]",
+    glowColor: "rgba(147,51,234,0.1)",
+    borderGlow: "rgba(167,139,250,0.52)",
+    iconClass: "text-violet-400",
+    iconBg: "from-violet-500/[0.2] to-purple-600/[0.08]",
   },
   {
     number: "05",
@@ -121,10 +121,10 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["DevOps", "DevSecOps", "Kubernetes-first teams"],
     cta: "Try Self-Service Pipeline",
-    glowColor: "rgba(0,220,200,0.09)",
-    borderGlow: "rgba(0,220,200,0.48)",
-    iconClass: "text-teal-400",
-    iconBg: "from-teal-500/[0.2] to-cyan-600/[0.08]",
+    glowColor: "rgba(244,63,94,0.09)",
+    borderGlow: "rgba(244,63,94,0.48)",
+    iconClass: "text-rose-400",
+    iconBg: "from-rose-500/[0.2] to-pink-600/[0.08]",
   },
 ];
 
@@ -167,15 +167,15 @@ function ServerlessVisual({ animKey }: { animKey: number }) {
     <div className="flex flex-col gap-2.5 p-5">
       {LAMBDA_FNS.map((fn, i) => (
         <motion.div key={`${fn.name}-${animKey}`} className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45, delay: i * 0.1, ease: easeOutExpo }}>
-          <div className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-sky-400" style={{ boxShadow: "0 0 6px rgba(56,189,248,0.9)" }} />
+          <div className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-amber-400" style={{ boxShadow: "0 0 6px rgba(245,158,11,0.9)" }} />
           <span className="flex-1 font-mono text-xs text-white/60">{fn.name}</span>
           <span className="font-mono text-[10px] text-white/30">{fn.ms}</span>
-          <span className="font-mono text-[10px] font-semibold text-sky-300/80">{fn.inv}</span>
+          <span className="font-mono text-[10px] font-semibold text-amber-300/80">{fn.inv}</span>
         </motion.div>
       ))}
-      <motion.div key={`total-${animKey}`} className="mt-1 flex items-center justify-between rounded-xl border border-sky-500/[0.18] bg-sky-500/[0.06] px-4 py-2.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+      <motion.div key={`total-${animKey}`} className="mt-1 flex items-center justify-between rounded-xl border border-amber-500/[0.18] bg-amber-500/[0.06] px-4 py-2.5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
         <span className="text-xs text-white/35">Total invocations</span>
-        <span className="font-mono text-xs font-bold text-sky-300">2.1M / 0 errors</span>
+        <span className="font-mono text-xs font-bold text-amber-300">2.1M / 0 errors</span>
       </motion.div>
     </div>
   );
@@ -187,7 +187,7 @@ function MonitorVisual({ animKey }: { animKey: number }) {
       <motion.div key={`hb-${animKey}`} className="relative overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02] p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
         <span className="mb-2 block text-[9px] uppercase tracking-widest text-white/22">System Health</span>
         <svg viewBox="0 0 220 48" className="h-10 w-full overflow-visible">
-          <motion.path key={animKey} d="M0,24 L38,24 L48,4 L58,44 L68,24 L90,24 L100,12 L110,36 L120,24 L148,24 L158,6 L168,42 L178,24 L220,24" fill="none" stroke="rgba(0,180,255,0.75)" strokeWidth="1.5" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.4, ease: "easeInOut" }} />
+          <motion.path key={animKey} d="M0,24 L38,24 L48,4 L58,44 L68,24 L90,24 L100,12 L110,36 L120,24 L148,24 L158,6 L168,42 L178,24 L220,24" fill="none" stroke="rgba(167,139,250,0.75)" strokeWidth="1.5" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.4, ease: "easeInOut" }} />
         </svg>
         <div className="absolute right-4 top-4 flex items-center gap-1.5">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 6px rgba(52,211,153,1)" }} />
@@ -196,7 +196,7 @@ function MonitorVisual({ animKey }: { animKey: number }) {
       </motion.div>
       {[
         { msg: "Anomaly detected — auto-remediated", time: "2m ago", Icon: Activity, color: "text-yellow-400" },
-        { msg: "RCA complete — root cause isolated", time: "5m ago", Icon: CheckCircle2, color: "text-blue-400" },
+        { msg: "RCA complete — root cause isolated", time: "5m ago", Icon: CheckCircle2, color: "text-violet-400" },
         { msg: "Incident resolved via AI playbook", time: "11m ago", Icon: CheckCircle2, color: "text-emerald-400" },
       ].map((alert, i) => (
         <motion.div key={`${alert.msg}-${animKey}`} className="flex items-start gap-3 rounded-xl border border-white/[0.05] bg-white/[0.02] px-4 py-3" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 + i * 0.12, ease: easeOutExpo }}>
@@ -222,10 +222,10 @@ const CLOUD_NODES = [
 function CloudNodesVisual({ animKey }: { animKey: number }) {
   return (
     <div className="relative flex h-full w-full items-center justify-center">
-      <motion.div key={animKey} className="relative z-10 flex h-16 w-16 flex-col items-center justify-center rounded-2xl border border-blue-500/30 bg-blue-900/30 backdrop-blur-sm" initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }}>
-        <motion.div className="absolute h-full w-full rounded-2xl border border-blue-400/20" animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2.5, repeat: Infinity }} />
-        <span className="text-[10px] font-bold text-blue-300">HRel</span>
-        <span className="text-[8px] text-blue-400/60">Hub</span>
+      <motion.div key={animKey} className="relative z-10 flex h-16 w-16 flex-col items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-900/20 backdrop-blur-sm" initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }}>
+        <motion.div className="absolute h-full w-full rounded-2xl border border-emerald-400/20" animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2.5, repeat: Infinity }} />
+        <span className="text-[10px] font-bold text-emerald-300">HRel</span>
+        <span className="text-[8px] text-emerald-400/60">Hub</span>
       </motion.div>
       {CLOUD_NODES.map((node, i) => {
         const pos: React.CSSProperties = { top: "top" in node ? node.top : undefined, bottom: "bottom" in node ? node.bottom : undefined, left: "left" in node ? node.left : undefined, right: "right" in node ? node.right : undefined };
@@ -249,10 +249,10 @@ function PipelineVisual({ animKey }: { animKey: number }) {
         {PIPELINE_STAGES.map((stage, i) => (
           <div key={stage} className="flex flex-1 items-center">
             <div className="flex flex-1 flex-col items-center">
-              <motion.div key={`${stage}-${animKey}`} className="flex h-10 w-full max-w-[68px] items-center justify-center rounded-xl border border-teal-500/[0.22] bg-teal-500/[0.08] text-[11px] font-semibold text-teal-300" initial={{ opacity: 0, scale: 0.75 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.15, ease: easeOutExpo }}>{stage}</motion.div>
+              <motion.div key={`${stage}-${animKey}`} className="flex h-10 w-full max-w-[68px] items-center justify-center rounded-xl border border-rose-500/[0.22] bg-rose-500/[0.08] text-[11px] font-semibold text-rose-300" initial={{ opacity: 0, scale: 0.75 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.15, ease: easeOutExpo }}>{stage}</motion.div>
             </div>
             {i < PIPELINE_STAGES.length - 1 && (
-              <motion.div key={`line-${i}-${animKey}`} className="h-px flex-1 bg-gradient-to-r from-teal-500/40 to-teal-400/15" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} style={{ originX: 0 }} transition={{ delay: i * 0.15 + 0.12, duration: 0.35 }} />
+              <motion.div key={`line-${i}-${animKey}`} className="h-px flex-1 bg-gradient-to-r from-rose-500/40 to-rose-400/15" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} style={{ originX: 0 }} transition={{ delay: i * 0.15 + 0.12, duration: 0.35 }} />
             )}
           </div>
         ))}
@@ -260,14 +260,14 @@ function PipelineVisual({ animKey }: { animKey: number }) {
       <div className="grid w-full grid-cols-2 gap-3">
         {[{ value: "3×", label: "faster deployments" }, { value: "75%", label: "fewer manual reviews" }].map((stat) => (
           <motion.div key={`${stat.label}-${animKey}`} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 text-center" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, ease: easeOutExpo }}>
-            <p className="font-mono text-xl font-bold text-teal-300">{stat.value}</p>
+            <p className="font-mono text-xl font-bold text-rose-300">{stat.value}</p>
             <p className="mt-0.5 text-[10px] text-white/28">{stat.label}</p>
           </motion.div>
         ))}
       </div>
       {["feat: add cost guardrails", "fix: lambda timeout config", "ci: OPA policy updated"].map((commit, i) => (
         <motion.div key={`${commit}-${animKey}`} className="flex w-full items-center gap-2 rounded-lg border border-white/[0.04] bg-white/[0.02] px-3 py-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 + i * 0.1 }}>
-          <div className="h-1 w-1 rounded-full bg-teal-400" />
+          <div className="h-1 w-1 rounded-full bg-rose-400" />
           <span className="font-mono text-[10px] text-white/38">{commit}</span>
         </motion.div>
       ))}
