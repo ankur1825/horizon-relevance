@@ -191,7 +191,7 @@ function OfferingPanel({
   return (
     <div
       className="sticky flex items-center justify-center px-6"
-      style={{ top: `${STICKY_TOP}px`, height: "100vh", zIndex: 10 + index }}
+      style={{ top: `${STICKY_TOP}px`, height: "100vh", zIndex: 10 + index, background: "#08031a" }}
     >
       <motion.div
         className="relative w-full max-w-4xl rounded-3xl p-px"
