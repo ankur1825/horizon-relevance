@@ -204,7 +204,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.88, delay: 1.08, ease: easeOutExpo }}
         >
-          <p className="max-w-[280px] leading-relaxed text-white/32" style={{ fontSize: "13px" }}>
+          <p className="max-w-[280px] leading-relaxed text-white/52" style={{ fontSize: "13px" }}>
             Next-gen cloud solutions to optimize, automate, and scale — powered by AI, built for
             engineering teams.
           </p>

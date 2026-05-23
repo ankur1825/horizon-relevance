@@ -209,7 +209,7 @@ function OfferingPanel({
         <div
           className="relative overflow-hidden rounded-[calc(1.5rem-1px)] px-10 py-12 md:px-14 md:py-14"
           style={{
-            background: `radial-gradient(ellipse 65% 55% at 10% 0%, ${glowColor} 0%, transparent 52%), rgba(14,5,32,0.95)`,
+            background: `radial-gradient(ellipse 65% 55% at 10% 0%, ${glowColor} 0%, transparent 52%), rgba(14,5,32,1)`,
             backdropFilter: "blur(12px)",
           }}
         >
