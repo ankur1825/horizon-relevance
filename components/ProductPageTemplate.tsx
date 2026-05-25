@@ -354,7 +354,21 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.65, ease: easeOutExpo }}
         >
-          <p className="mb-6 text-sm text-white/32">
+          <h2 className="mb-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            Ready to{" "}
+            <span
+              style={{
+                backgroundImage: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
+                backgroundClip: "text",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+              }}
+            >
+              get started?
+            </span>
+          </h2>
+          <p className="mb-7 text-sm text-white/32">
             Talk to an expert and see how {name} fits your stack.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
