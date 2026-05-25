@@ -42,13 +42,21 @@ const SOCIALS = [
 
 // ─── ContactForm ───────────────────────────────────────────────────────────────
 
+const DEMO_PRODUCTS = [
+  "AI-Powered Secure SDLC",
+  "AI DevSecOps Platform",
+  "AI Monitoring & Incident Response",
+  "Cloud Cost Optimization",
+  "Cloud Migration & Modernization",
+] as const;
+
 function ContactForm() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
-  const [fields, setFields] = useState({ name: "", email: "", company: "", message: "" });
+  const [fields, setFields] = useState({ name: "", email: "", company: "", message: "", demo: "" });
 
   function set(k: keyof typeof fields) {
-    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       setFields((f) => ({ ...f, [k]: e.target.value }));
   }
 
@@ -107,7 +115,7 @@ function ContactForm() {
                 </p>
               </div>
               <button
-                onClick={() => { setSent(false); setFields({ name: "", email: "", company: "", message: "" }); }}
+                onClick={() => { setSent(false); setFields({ name: "", email: "", company: "", message: "", demo: "" }); }}
                 className="mt-2 text-[12px] font-medium text-emerald-400/60 underline underline-offset-4 hover:text-emerald-400"
               >
                 Send another
@@ -174,6 +182,32 @@ function ContactForm() {
                   onChange={set("message")}
                   className={`${inputBase} resize-none`}
                 />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
+                  Book a Demo
+                  <span className="ml-1.5 normal-case text-white/18">(optional)</span>
+                </label>
+                <div className="relative">
+                  <select
+                    value={fields.demo}
+                    onChange={set("demo")}
+                    className={`${inputBase} appearance-none cursor-pointer pr-10`}
+                    style={{ color: fields.demo ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.22)" }}
+                  >
+                    <option value="" disabled style={{ color: "rgba(0,0,0,0.7)", background: "#0a110a" }}>
+                      Select a product
+                    </option>
+                    {DEMO_PRODUCTS.map((p) => (
+                      <option key={p} value={p} style={{ color: "rgba(255,255,255,0.9)", background: "#0a110a" }}>
+                        {p}
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-white/25">
+                    ▾
+                  </span>
+                </div>
               </div>
               <motion.button
                 type="submit"
@@ -333,14 +367,17 @@ export default function Contact() {
                 info@horizonrelevance.com
               </a>
 
-              <div className="flex items-center gap-3 text-[14px] text-white/50">
+              <div className="flex items-start gap-3 text-[14px] text-white/50">
                 <div
-                  className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl"
+                  className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl"
                   style={{ background: "rgba(0,185,95,0.08)", border: "1px solid rgba(0,185,95,0.15)" }}
                 >
                   <MapPin className="h-4 w-4 text-emerald-400/70" strokeWidth={1.5} />
                 </div>
-                Woodbridge, NJ — United States
+                <div className="flex flex-col gap-1.5">
+                  <span>Woodbridge, NJ — United States</span>
+                  <span className="text-white/32">New Delhi — India</span>
+                </div>
               </div>
             </div>
 
@@ -371,7 +408,7 @@ export default function Contact() {
           style={{ borderColor: "rgba(255,255,255,0.06)" }}
         >
           <p className="text-[11px] font-medium uppercase tracking-widest text-white/18">
-            © 2024 Horizon Relevance LLC · Woodbridge, NJ · Built for engineering teams.
+            © 2024 Horizon Relevance LLC · Woodbridge, NJ · New Delhi · Built for engineering teams.
           </p>
         </div>
       </div>

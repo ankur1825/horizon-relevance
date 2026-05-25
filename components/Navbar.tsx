@@ -9,15 +9,16 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const NAV_LINKS = [
-  { label: "Platform", href: "#platform" },
-  { label: "Products", href: "#products" },
-  { label: "Industries", href: "#industries" },
-  { label: "Company", href: "#company" },
-  { label: "Contact", href: "#contact" },
+const NAV_LABELS = [
+  { label: "Platform",   hash: "platform"   },
+  { label: "Products",   hash: "products"   },
+  { label: "Industries", hash: "industries" },
+  { label: "Company",    hash: "company"    },
+  { label: "Contact",    hash: "contact"    },
 ] as const;
 
 // ─── Easing ───────────────────────────────────────────────────────────────────
@@ -92,7 +93,7 @@ function HamburgerButton({
 function CTAButton({ onClick }: { onClick?: () => void }) {
   return (
     <motion.a
-      href="#demo"
+      href="/#contact"
       onClick={onClick}
       className="relative inline-flex cursor-pointer select-none items-center overflow-hidden rounded-full bg-gradient-to-r from-violet-600 via-blue-500 to-cyan-500 px-5 py-2 text-sm font-semibold text-white"
       initial="rest"
@@ -129,7 +130,13 @@ function CTAButton({ onClick }: { onClick?: () => void }) {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
   const { scrollY } = useScroll();
+
+  const navLinks = NAV_LABELS.map(({ label, hash }) => ({
+    label,
+    href: pathname === "/" ? `#${hash}` : `/#${hash}`,
+  }));
 
   const bgOpacity = useTransform(scrollY, [0, 80], [0, 0.82]);
   const blurAmount = useTransform(scrollY, [0, 80], [0, 14]);
@@ -190,7 +197,7 @@ export default function Navbar() {
 
             {/* Desktop links */}
             <nav className="hidden items-center gap-7 md:flex">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <NavLink key={link.href} label={link.label} href={link.href} />
               ))}
             </nav>
@@ -220,7 +227,7 @@ export default function Navbar() {
               >
                 <div className="border-t border-white/[0.07] px-4 pb-5 pt-3">
                   <div className="flex flex-col gap-0.5">
-                    {NAV_LINKS.map((link, i) => (
+                    {navLinks.map((link, i) => (
                       <motion.div
                         key={link.href}
                         initial={{ opacity: 0, x: -10 }}
@@ -245,7 +252,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
-                        delay: NAV_LINKS.length * 0.055,
+                        delay: navLinks.length * 0.055,
                         duration: 0.35,
                         ease: easeOutExpo,
                       }}

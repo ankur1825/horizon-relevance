@@ -346,49 +346,35 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
       </section>
 
       {/* ── CTA ── */}
-      <section className="px-6 pb-32 pt-24 sm:px-10 sm:pt-28">
+      <section className="px-6 pb-20 pt-16 sm:px-10 sm:pt-20">
         <motion.div
-          className="mx-auto max-w-3xl text-center"
-          initial={{ opacity: 0, y: 24 }}
+          className="mx-auto max-w-xl text-center"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: easeOutExpo }}
+          transition={{ duration: 0.65, ease: easeOutExpo }}
         >
-          <h2 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Ready to{" "}
-            <span
-              style={{
-                backgroundImage: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                color: "transparent",
-              }}
-            >
-              get started?
-            </span>
-          </h2>
-          <p className="mb-10 text-sm leading-relaxed text-white/35">
+          <p className="mb-6 text-sm text-white/32">
             Talk to an expert and see how {name} fits your stack.
           </p>
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <motion.a
-              href="#demo"
-              className="inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-sm font-semibold text-white"
+              href="/#contact"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold text-white"
               style={{
                 background: `linear-gradient(135deg, ${alpha(primaryColor, 0.9)} 0%, ${alpha(secondaryColor, 0.72)} 100%)`,
-                boxShadow: `0 4px 24px ${alpha(primaryColor, 0.32)}`,
+                boxShadow: `0 4px 20px ${alpha(primaryColor, 0.28)}`,
               }}
-              whileHover={{ scale: 1.03, boxShadow: `0 6px 40px ${alpha(primaryColor, 0.48)}` }}
+              whileHover={{ scale: 1.03, boxShadow: `0 6px 32px ${alpha(primaryColor, 0.44)}` }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.22 }}
             >
-              {cta}
+              Book a Demo
               <ArrowRight className="h-3.5 w-3.5" />
             </motion.a>
             <Link
               href="/#products"
-              className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-7 py-3.5 text-sm font-medium text-white/50 transition-colors duration-200 hover:text-white/80"
+              className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-6 py-3 text-sm font-medium text-white/45 transition-colors duration-200 hover:text-white/75"
             >
               View all products
             </Link>
