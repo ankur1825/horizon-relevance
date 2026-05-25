@@ -162,7 +162,7 @@ export default function Hero() {
         >
           <h1
             className="font-extrabold"
-            style={{ fontSize: "clamp(3.5rem,10vw,9rem)", lineHeight: 0.91, letterSpacing: "-0.03em" }}
+            style={{ fontSize: "clamp(2.8rem,8vw,7.2rem)", lineHeight: 0.91, letterSpacing: "-0.03em" }}
           >
             {LINES.map((line, i) => (
               <div key={i} className="overflow-hidden pb-[0.06em]">
