@@ -142,19 +142,23 @@ function CTAButton({ onClick }: { onClick?: () => void }) {
     <motion.a
       href="/#contact"
       onClick={onClick}
-      className="relative inline-flex cursor-pointer select-none items-center overflow-hidden rounded-full bg-gradient-to-r from-violet-600 via-blue-500 to-cyan-500 px-5 py-2 text-sm font-semibold text-white"
-      initial="rest"
-      whileHover="hover"
-      whileTap={{ scale: 0.96 }}
-      variants={{
-        rest:  { scale: 1,    boxShadow: "0 2px 12px rgba(99,102,241,0.25)" },
-        hover: { scale: 1.03, boxShadow: "0 0 28px rgba(139,92,246,0.55), 0 0 60px rgba(99,102,241,0.2), 0 4px 16px rgba(0,0,0,0.25)" },
+      className="relative inline-flex cursor-pointer select-none items-center overflow-hidden rounded-full border px-5 py-2 text-sm font-semibold text-white/88 backdrop-blur-sm"
+      style={{
+        borderColor: "rgba(167,139,250,0.30)",
+        background: "rgba(139,92,246,0.08)",
       }}
-      transition={{ duration: 0.25, ease }}
+      whileHover={{
+        borderColor: "rgba(167,139,250,0.52)",
+        background: "rgba(139,92,246,0.16)",
+        boxShadow: "0 0 22px rgba(139,92,246,0.28), inset 0 0 12px rgba(139,92,246,0.06)",
+      }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.22, ease }}
     >
       <motion.span
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.18] to-transparent"
-        variants={{ rest: { x: "-120%" }, hover: { x: "140%" } }}
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.09] to-transparent"
+        initial={{ x: "-120%" }}
+        whileHover={{ x: "140%" }}
         transition={{ duration: 0.55, ease }}
       />
       <span className="relative z-10">Book a Demo</span>
@@ -228,9 +232,9 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+    <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4 pointer-events-none">
       <motion.div
-        className="w-full max-w-5xl"
+        className="w-full max-w-5xl pointer-events-auto"
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.75, ease: easeOutExpo, delay: 0.12 }}

@@ -351,7 +351,7 @@ export default function Offerings() {
         ))}
       </div>
 
-      <div className="h-28" />
+      <div className="h-6" />
     </section>
   );
 }
