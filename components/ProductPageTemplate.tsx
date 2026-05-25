@@ -238,34 +238,52 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {capabilities.map((cap, i) => {
               const accent = i % 2 === 0 ? primaryColor : secondaryColor;
+              const num = String(i + 1).padStart(2, "0");
               return (
                 <motion.div
                   key={cap.title}
-                  className="relative overflow-hidden rounded-2xl p-px"
+                  className="relative overflow-hidden rounded-2xl border border-white/[0.06]"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.55, delay: i * 0.07, ease: easeOutExpo }}
                   style={{
-                    background: `linear-gradient(135deg, ${alpha(accent, 0.28)} 0%, rgba(255,255,255,0.04) 100%)`,
+                    background: `radial-gradient(ellipse 65% 55% at 5% 0%, ${alpha(accent, 0.08)} 0%, transparent 60%), rgba(7,10,24,1)`,
                   }}
                 >
-                  <div
-                    className="rounded-[calc(1rem-1px)] p-6"
-                    style={{
-                      background: `radial-gradient(ellipse 80% 60% at 5% 0%, ${alpha(accent, 0.08)} 0%, transparent 65%), rgba(7,10,24,1)`,
-                    }}
+                  {/* Watermark number */}
+                  <span
+                    className="pointer-events-none absolute right-5 top-3 select-none font-mono font-black leading-none text-white/[0.045]"
+                    style={{ fontSize: "clamp(52px,6vw,76px)" }}
                   >
-                    <div
-                      className="mb-4 inline-flex items-center justify-center rounded-xl p-2.5"
-                      style={{ background: alpha(accent, 0.12) }}
-                    >
-                      <cap.icon className="h-5 w-5" style={{ color: accent }} strokeWidth={1.5} />
+                    {num}
+                  </span>
+
+                  <div className="relative p-7">
+                    {/* Small number label + icon row */}
+                    <div className="mb-5 flex items-center gap-3">
+                      <span
+                        className="font-mono text-[10px] font-bold tabular-nums"
+                        style={{ color: alpha(accent, 0.65) }}
+                      >
+                        {num}
+                      </span>
+                      <div
+                        className="h-px flex-1"
+                        style={{ background: `linear-gradient(to right, ${alpha(accent, 0.3)}, transparent)` }}
+                      />
+                      <div
+                        className="flex items-center justify-center rounded-lg p-2"
+                        style={{ background: alpha(accent, 0.11) }}
+                      >
+                        <cap.icon className="h-4 w-4" style={{ color: accent }} strokeWidth={1.5} />
+                      </div>
                     </div>
-                    <h3 className="mb-2 text-sm font-semibold text-white/85">{cap.title}</h3>
+
+                    <h3 className="mb-2.5 text-sm font-semibold leading-snug text-white/85">{cap.title}</h3>
                     <p className="text-xs leading-relaxed text-white/38">{cap.description}</p>
                   </div>
                 </motion.div>
