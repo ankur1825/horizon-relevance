@@ -214,7 +214,10 @@ export default function WhyUs() {
                 </div>
 
                 {/* Response */}
-                <p className="text-[0.95rem] font-medium leading-snug text-white/78 sm:text-base">
+                <p
+                  className="font-semibold leading-snug text-white/78"
+                  style={{ fontSize: "clamp(1.05rem, 1.65vw, 1.35rem)" }}
+                >
                   {row.response}
                 </p>
               </motion.div>
@@ -231,14 +234,14 @@ export default function WhyUs() {
           transition={{ duration: 0.65, ease: easeOutExpo }}
         >
           <div className="mb-8 flex items-center gap-3">
-            <span className="font-mono text-[10px] font-medium uppercase tracking-widest text-white/22">
+            <span className="font-mono text-[10px] font-medium uppercase tracking-widest text-white/40">
               How We Work
             </span>
             <div
               className="h-px flex-1"
               style={{
                 background:
-                  "linear-gradient(to right, rgba(255,255,255,0.06), transparent)",
+                  "linear-gradient(to right, rgba(255,255,255,0.1), transparent)",
               }}
             />
           </div>
@@ -255,15 +258,15 @@ export default function WhyUs() {
               >
                 <span
                   className="mt-0.5 shrink-0 font-mono text-[9px] font-bold tabular-nums"
-                  style={{ color: "rgba(139,92,246,0.48)" }}
+                  style={{ color: "rgba(139,92,246,0.72)" }}
                 >
                   {step.num}
                 </span>
                 <div>
-                  <p className="text-[11px] font-semibold leading-tight text-white/42">
+                  <p className="text-[11px] font-semibold leading-tight text-white/62">
                     {step.title}
                   </p>
-                  <p className="mt-1 text-[10px] leading-relaxed text-white/20">
+                  <p className="mt-1 text-[10px] leading-relaxed text-white/38">
                     {step.detail}
                   </p>
                 </div>

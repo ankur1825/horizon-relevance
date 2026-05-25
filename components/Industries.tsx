@@ -247,7 +247,7 @@ export default function Industries() {
   return (
     <section
       id="industries"
-      className="relative overflow-hidden py-28 sm:py-36"
+      className="relative overflow-hidden pt-20 pb-10 sm:pt-24 sm:pb-12"
       style={{
         background:
           "radial-gradient(ellipse 140% 80% at 12% 5%, #0c1238 0%, #060816 45%, #030610 100%)",
