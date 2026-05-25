@@ -314,7 +314,7 @@ export default function Products() {
   return (
     <section
       id="products"
-      className="relative overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-12"
+      className="relative overflow-hidden py-28 sm:py-36"
       style={{
         background:
           "radial-gradient(ellipse 130% 80% at 80% 5%, #0c1840 0%, #060b22 45%, #040914 100%)",
