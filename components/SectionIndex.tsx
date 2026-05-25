@@ -12,9 +12,10 @@ const SECTIONS = [
   { id: "platform",   number: "02", label: "Platform",   color: "rgba(232,72,212,0.9)"  },
   { id: "products",   number: "03", label: "Products",   color: "rgba(96,165,250,0.9)"  },
   { id: "services",   number: "04", label: "Services",   color: "rgba(244,63,94,0.9)"   },
-  { id: "industries", number: "05", label: "Industries", color: "rgba(99,102,241,0.9)"  },
-  { id: "company",    number: "06", label: "Company",    color: "rgba(251,113,133,0.9)" },
-  { id: "contact",    number: "07", label: "Contact",    color: "rgba(16,185,129,0.9)"  },
+  { id: "why-us",     number: "05", label: "Why Us",     color: "rgba(168,85,247,0.9)"  },
+  { id: "industries", number: "06", label: "Industries", color: "rgba(99,102,241,0.9)"  },
+  { id: "company",    number: "07", label: "Company",    color: "rgba(251,113,133,0.9)" },
+  { id: "contact",    number: "08", label: "Contact",    color: "rgba(16,185,129,0.9)"  },
 ] as const;
 
 type SectionId = (typeof SECTIONS)[number]["id"];

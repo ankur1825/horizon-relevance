@@ -27,6 +27,7 @@ const ALL_SECTIONS = [
   { id: "platform",   navHash: "platform"    },
   { id: "products",   navHash: "products"    },
   { id: "services",   navHash: null          },
+  { id: "why-us",     navHash: null          },
   { id: "industries", navHash: "industries"  },
   { id: "company",    navHash: "company"     },
   { id: "contact",    navHash: "contact"     },

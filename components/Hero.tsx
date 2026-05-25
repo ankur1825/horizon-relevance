@@ -1,6 +1,7 @@
 "use client";
 
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
@@ -111,12 +112,20 @@ const LINES = [
   { text: "Cloud", accent: false },
   { text: "Engineering,", accent: false },
   { text: "Intelligently", accent: true },
-  { text: "Automated.", accent: false },
 ] as const;
+
+const CYCLE_WORDS = ["Automated.", "Optimized.", "Secured.", "Monitored.", "Migrated."] as const;
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 export default function Hero() {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setWordIndex((n) => (n + 1) % CYCLE_WORDS.length), 3200);
+    return () => clearInterval(id);
+  }, []);
+
   const { scrollY } = useScroll();
   const headlineY = useTransform(scrollY, [0, 650], [0, -88]);
   const fadeOut = useTransform(scrollY, [0, 480], [1, 0]);
@@ -164,6 +173,7 @@ export default function Hero() {
             className="font-extrabold"
             style={{ fontSize: "clamp(2.8rem,8vw,7.2rem)", lineHeight: 0.91, letterSpacing: "-0.03em" }}
           >
+            {/* Static lines */}
             {LINES.map((line, i) => (
               <div key={i} className="overflow-hidden pb-[0.06em]">
                 <motion.div
@@ -194,6 +204,28 @@ export default function Hero() {
                 </motion.div>
               </div>
             ))}
+
+            {/* Cycling last word — no overflow-hidden so y animation isn't clipped */}
+            <div className="pb-[0.06em]">
+              <motion.div
+                initial={{ y: "108%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                transition={{ duration: 0.92, delay: 0.48 + LINES.length * 0.12, ease: easeOutExpo }}
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={CYCLE_WORDS[wordIndex]}
+                    className="block text-white"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.38, ease: easeOutExpo }}
+                  >
+                    {CYCLE_WORDS[wordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </motion.div>
+            </div>
           </h1>
         </motion.div>
 
