@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import {
   Cloud,
   Layers,
@@ -32,6 +33,7 @@ type Product = {
   useCases: UseCase[];
   idealFor: string[];
   cta: string;
+  slug: string;
   glowColor: string;
   borderGlow: string;
   iconClass: string;
@@ -53,6 +55,7 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["DevSecOps teams", "Engineering orgs", "Compliance-driven teams"],
     cta: "Explore Secure SDLC",
+    slug: "ai-powered-secure-sdlc",
     glowColor: "rgba(0,195,220,0.1)",
     borderGlow: "rgba(0,195,220,0.52)",
     iconClass: "text-cyan-400",
@@ -70,6 +73,7 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["DevOps", "DevSecOps", "Modern engineering teams"],
     cta: "Book a Demo",
+    slug: "ai-devsecops-platform",
     glowColor: "rgba(0,185,95,0.1)",
     borderGlow: "rgba(0,185,95,0.52)",
     iconClass: "text-emerald-400",
@@ -87,6 +91,7 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["SREs", "DevOps", "Regulated industries"],
     cta: "Explore AI Monitoring",
+    slug: "ai-monitoring-incident-response",
     glowColor: "rgba(245,158,11,0.1)",
     borderGlow: "rgba(245,158,11,0.52)",
     iconClass: "text-amber-400",
@@ -104,6 +109,7 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["FinOps", "Engineering", "Multi-cloud operations"],
     cta: "Start Free Assessment",
+    slug: "cloud-cost-optimization",
     glowColor: "rgba(147,51,234,0.1)",
     borderGlow: "rgba(167,139,250,0.52)",
     iconClass: "text-violet-400",
@@ -121,6 +127,7 @@ const PRODUCTS: Product[] = [
     ],
     idealFor: ["Platform Engineering", "SREs", "Cloud migration teams"],
     cta: "Plan Your Migration",
+    slug: "cloud-migration-modernization",
     glowColor: "rgba(244,63,94,0.09)",
     borderGlow: "rgba(244,63,94,0.48)",
     iconClass: "text-rose-400",
@@ -460,16 +467,18 @@ export default function Products() {
                     <span key={tag} className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-xs font-medium text-white/42">{tag}</span>
                   ))}
                 </div>
-                <motion.button
-                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
-                  style={{ background: `linear-gradient(135deg, ${product.borderGlow.replace("0.52)", "0.72)")} 0%, ${product.borderGlow.replace("0.52)", "0.36)")} 100%)`, boxShadow: `0 2px 20px ${product.glowColor}` }}
-                  whileHover={{ scale: 1.03, boxShadow: `0 4px 32px ${product.borderGlow.replace("0.52)", "0.4)")}` }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.22, ease }}
-                >
-                  {product.cta}
-                  <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
-                </motion.button>
+                <Link href={`/products/${product.slug}`}>
+                  <motion.span
+                    className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+                    style={{ background: `linear-gradient(135deg, ${product.borderGlow.replace("0.52)", "0.72)")} 0%, ${product.borderGlow.replace("0.52)", "0.36)")} 100%)`, boxShadow: `0 2px 20px ${product.glowColor}` }}
+                    whileHover={{ scale: 1.03, boxShadow: `0 4px 32px ${product.borderGlow.replace("0.52)", "0.4)")}` }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.22, ease }}
+                  >
+                    {product.cta}
+                    <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+                  </motion.span>
+                </Link>
               </div>
 
               {/* Visual panel */}
