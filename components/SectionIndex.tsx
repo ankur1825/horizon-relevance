@@ -25,16 +25,21 @@ const PRODUCTS_COLOR = "rgba(96,165,250,0.9)";
 export default function SectionIndex() {
   const pathname = usePathname();
   const router = useRouter();
+  const isHomePage    = pathname === "/";
   const isProductPage = pathname.startsWith("/products/");
 
   const [scrollActiveId, setScrollActiveId] = useState<SectionId>("intro");
   const [hoveredId, setHoveredId] = useState<SectionId | null>(null);
 
-  // On product pages pin "products" as active; otherwise use scroll detection
-  const activeId: SectionId = isProductPage ? "products" : scrollActiveId;
+  // Home: scroll-detected · Product pages: pin "products" · Everything else: no glow
+  const activeId: SectionId | null = isProductPage
+    ? "products"
+    : isHomePage
+      ? scrollActiveId
+      : null;
 
   useEffect(() => {
-    if (isProductPage) return;
+    if (!isHomePage) return; // observer only meaningful on home page
 
     const elements = SECTIONS.map(({ id }) => document.getElementById(id)).filter(
       (el): el is HTMLElement => el !== null,
@@ -53,24 +58,23 @@ export default function SectionIndex() {
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [isProductPage]);
+  }, [isHomePage]);
 
   const handleClick = useCallback(
     (id: string) => {
-      if (isProductPage) {
-        // Navigate home then scroll — hash navigation handles the scroll
-        router.push(`/#${id}`);
-      } else {
+      if (isHomePage) {
         document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        router.push(`/#${id}`);
       }
     },
-    [isProductPage, router],
+    [isHomePage, router],
   );
 
-  const activeIndex = SECTIONS.findIndex((s) => s.id === activeId);
-  const activeColor = isProductPage
-    ? PRODUCTS_COLOR
-    : (SECTIONS.find((s) => s.id === activeId)?.color ?? "rgba(167,139,250,0.9)");
+  const activeIndex = activeId !== null ? SECTIONS.findIndex((s) => s.id === activeId) : -1;
+  const activeColor = activeId !== null
+    ? (SECTIONS.find((s) => s.id === activeId)?.color ?? "rgba(167,139,250,0.9)")
+    : "rgba(167,139,250,0)";
 
   return (
     <aside className="fixed left-7 top-1/2 z-40 hidden -translate-y-1/2 xl:flex">
@@ -85,14 +89,14 @@ export default function SectionIndex() {
               height: 32,
               background: `linear-gradient(to bottom, ${activeColor.replace("0.9)", "0.7)")}, ${activeColor.replace("0.9)", "0.35)")}, transparent)`,
             }}
-            animate={{ top: `${activeIndex * 52 + 10}px` }}
+            animate={{ top: `${Math.max(activeIndex, 0) * 52 + 10}px`, opacity: activeId !== null ? 1 : 0 }}
             transition={{ duration: 0.55, ease: easeOutExpo }}
           />
         </div>
 
         {/* Section items */}
         {SECTIONS.map(({ id, number, label, color }) => {
-          const isActive = activeId === id;
+          const isActive = activeId !== null && activeId === id;
           const isHovered = hoveredId === id;
           const ringColor = (color as string).replace("0.9)", "0.28)");
           const glowHard = (color as string).replace("0.9)", "0.85)");
