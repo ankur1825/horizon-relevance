@@ -177,7 +177,7 @@ export default function Solutions() {
   return (
     <section
       id="services"
-      className="relative overflow-hidden pt-28 pb-10 sm:pt-36 sm:pb-12"
+      className="relative overflow-hidden py-28 sm:py-36"
       style={{
         background:
           "radial-gradient(ellipse 150% 80% at 78% 0%, #2d0535 0%, #1a0228 48%, #0d0118 100%)",

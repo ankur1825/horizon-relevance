@@ -68,7 +68,7 @@ export default function WhyUs() {
   return (
     <section
       id="why-us"
-      className="relative overflow-hidden pt-24 pb-10 sm:pt-32 sm:pb-12"
+      className="relative overflow-hidden py-24 sm:py-32"
       style={{
         background:
           "radial-gradient(ellipse 140% 80% at 62% 35%, #0e0522 0%, #07091b 50%, #050a12 100%)",
