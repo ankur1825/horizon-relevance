@@ -14,7 +14,7 @@ import Link from "next/link";
 
 const NAV_LINKS = [
   { label: "Platform", href: "#platform" },
-  { label: "Solutions", href: "#solutions" },
+  { label: "Products", href: "#products" },
   { label: "Industries", href: "#industries" },
   { label: "Company", href: "#company" },
   { label: "Contact", href: "#contact" },
