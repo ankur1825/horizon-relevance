@@ -1,143 +1,166 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingDown, Cloud, Server, AlertCircle } from "lucide-react";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
 const PRIMARY   = "rgba(168,85,247,1)";
 const SECONDARY = "rgba(124,58,237,1)";
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
-
-// budget height % · actual height %
-const BARS = [
-  { budget: 88, actual: 82 },
-  { budget: 72, actual: 58 },
-  { budget: 92, actual: 74 },
-  { budget: 66, actual: 44 },
-  { budget: 80, actual: 52 },
-  { budget: 90, actual: 50 },
-  { budget: 60, actual: 32 },
+// Three cloud providers at top
+const PROVIDERS = [
+  { label: "AWS",   color: "rgba(255,153,0,0.9)",   services: ["EC2", "S3", "RDS"] },
+  { label: "GCP",   color: "rgba(66,133,244,0.9)",   services: ["GKE", "BigQuery", "Pub/Sub"] },
+  { label: "Azure", color: "rgba(0,120,212,0.9)",    services: ["AKS", "Cosmos", "Blob"] },
 ];
 
-const RECOMMENDATIONS = [
-  { icon: Server,       label: "5 oversized EC2",    action: "Rightsize → save $3,840/mo",  accent: PRIMARY   },
-  { icon: Cloud,        label: "Idle S3 buckets (8)", action: "Archive → save $1,260/mo",   accent: SECONDARY },
-  { icon: AlertCircle,  label: "Reserved capacity",   action: "Commit → save $6,100/mo",    accent: "rgba(200,80,230,1)" },
+// Three output pillars below hub
+const OUTPUTS = [
+  { label: "Visibility",   sub: "Unified cost view",       accent: PRIMARY   },
+  { label: "Rightsizing",  sub: "AI resource matching",    accent: "rgba(192,68,248,1)" },
+  { label: "Governance",   sub: "Policy enforcement",      accent: SECONDARY },
 ];
+
+function FlowParticle({ delay, color, fromX, toX }: { delay: number; color: string; fromX: string; toX: string }) {
+  return (
+    <motion.div
+      className="absolute rounded-full"
+      style={{ width: 5, height: 5, background: color, boxShadow: `0 0 7px ${color}`, top: 0 }}
+      animate={{ y: [0, 72], opacity: [0, 0.9, 0.9, 0] }}
+      transition={{ duration: 1.6, repeat: Infinity, delay, ease: "easeIn", times: [0, 0.08, 0.88, 1] }}
+    />
+  );
+}
 
 export default function CloudCostVisual() {
   return (
-    <div className="flex flex-col gap-0 px-6 py-10 md:px-14 md:py-12">
+    <div className="flex flex-col items-center gap-0 px-6 py-10 md:px-14 md:py-12">
 
-      {/* Header row */}
+      {/* Header */}
       <motion.div
-        className="mb-6 flex items-center justify-between"
+        className="mb-8 flex w-full items-center justify-between"
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: easeOutExpo }}
       >
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-widest text-white/22">Cloud Spend Analysis</p>
-          <p className="mt-0.5 text-xs text-white/38">Multi-cloud · All regions</p>
+          <p className="text-[10px] font-medium uppercase tracking-widest text-white/22">FinOps Intelligence</p>
+          <p className="mt-0.5 text-xs text-white/38">Multi-cloud resource governance</p>
         </div>
         <div
           className="flex items-center gap-2 rounded-full border px-3 py-1.5"
-          style={{ borderColor: "rgba(168,85,247,0.28)", background: "rgba(168,85,247,0.08)" }}
+          style={{ borderColor: "rgba(168,85,247,0.28)", background: "rgba(168,85,247,0.07)" }}
         >
-          <TrendingDown className="h-3.5 w-3.5" style={{ color: PRIMARY }} />
-          <span className="font-mono text-sm font-bold" style={{ color: PRIMARY }}>↓ 47%</span>
-          <span className="text-[9px] text-white/30">avg savings</span>
+          <motion.span
+            className="h-1.5 w-1.5 rounded-full"
+            style={{ background: PRIMARY, boxShadow: `0 0 6px ${PRIMARY}` }}
+            animate={{ opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
+          />
+          <span className="text-[10px] font-semibold" style={{ color: PRIMARY }}>Live Analysis</span>
         </div>
       </motion.div>
 
-      {/* Bar chart */}
-      <div className="mb-6">
-        <div className="relative flex items-end gap-2" style={{ height: 100 }}>
-          {BARS.map((bar, i) => (
-            <div key={i} className="relative flex flex-1 flex-col items-center gap-0.5">
-              {/* Budget bar (ghost) */}
-              <motion.div
-                className="absolute bottom-0 w-full rounded-t-sm"
-                style={{ background: "rgba(255,255,255,0.06)", maxHeight: 90 }}
-                initial={{ height: 0 }}
-                animate={{ height: `${bar.budget}%` }}
-                transition={{ duration: 0.7, delay: i * 0.06, ease: easeOutExpo }}
-              />
-              {/* Actual bar */}
-              <motion.div
-                className="absolute bottom-0 w-full rounded-t-sm"
-                style={{
-                  background: `linear-gradient(to top, ${SECONDARY.replace("1)", "0.9)")}, ${PRIMARY.replace("1)", "0.7)")})`,
-                  maxHeight: 90,
-                }}
-                initial={{ height: 0 }}
-                animate={{ height: `${bar.actual}%` }}
-                transition={{ duration: 0.8, delay: i * 0.06 + 0.1, ease: easeOutExpo }}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="mt-2 flex justify-between px-0.5">
-          {MONTHS.map((m) => (
-            <span key={m} className="flex-1 text-center text-[9px] text-white/20">{m}</span>
-          ))}
-        </div>
-        <div className="mt-3 flex items-center gap-4">
-          <div className="flex items-center gap-1.5">
-            <div className="h-2 w-3 rounded-sm" style={{ background: "rgba(255,255,255,0.06)" }} />
-            <span className="text-[9px] text-white/25">Budget</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <div className="h-2 w-3 rounded-sm" style={{ background: PRIMARY.replace("1)", "0.7)") }} />
-            <span className="text-[9px] text-white/25">Actual</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Recommendations */}
-      <div>
-        <p className="mb-3 text-[9px] font-medium uppercase tracking-widest text-white/22">AI Recommendations</p>
-        <div className="flex flex-col gap-2">
-          {RECOMMENDATIONS.map((rec, i) => (
-            <motion.div
-              key={rec.label}
-              className="flex items-center gap-3.5 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
-              initial={{ opacity: 0, x: 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.45, delay: 0.6 + i * 0.12, ease: easeOutExpo }}
+      {/* Cloud providers row */}
+      <div className="flex w-full items-start justify-around gap-4">
+        {PROVIDERS.map((provider, pi) => (
+          <motion.div
+            key={provider.label}
+            className="flex flex-1 flex-col items-center gap-2"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: pi * 0.1, ease: easeOutExpo }}
+          >
+            {/* Provider node */}
+            <div
+              className="flex h-12 w-full max-w-[88px] items-center justify-center rounded-xl border border-white/[0.08] text-sm font-bold"
+              style={{
+                background: `radial-gradient(circle, ${provider.color.replace("0.9)", "0.12)")} 0%, rgba(6,9,22,0.96) 100%)`,
+                color: provider.color,
+                boxShadow: `0 0 14px ${provider.color.replace("0.9)", "0.12)")}`,
+              }}
             >
-              <div
-                className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg"
-                style={{ background: rec.accent.replace("1)", "0.12)") }}
-              >
-                <rec.icon className="h-3.5 w-3.5" style={{ color: rec.accent }} strokeWidth={1.5} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white/62">{rec.label}</p>
-                <p className="text-[10px] text-white/28">{rec.action}</p>
-              </div>
-              <div
-                className="h-1.5 w-1.5 flex-shrink-0 rounded-full"
-                style={{ background: rec.accent, boxShadow: `0 0 6px ${rec.accent}` }}
-              />
-            </motion.div>
-          ))}
-        </div>
+              {provider.label}
+            </div>
+
+            {/* Services below */}
+            <div className="flex w-full flex-col gap-1">
+              {provider.services.map((svc) => (
+                <div
+                  key={svc}
+                  className="w-full rounded-lg border border-white/[0.05] px-2.5 py-1 text-center font-mono text-[9px] text-white/32"
+                  style={{ background: "rgba(255,255,255,0.02)" }}
+                >
+                  {svc}
+                </div>
+              ))}
+            </div>
+
+            {/* Connector line down to hub */}
+            <div className="relative h-10 w-px" style={{ background: `linear-gradient(to bottom, ${provider.color.replace("0.9)", "0.4)")}, rgba(168,85,247,0.4))` }}>
+              <FlowParticle delay={pi * 0.55} color={provider.color} fromX="0" toX="0" />
+            </div>
+          </motion.div>
+        ))}
       </div>
 
-      {/* Total savings */}
+      {/* FinOps Hub */}
       <motion.div
-        className="mt-4 flex items-center justify-between rounded-xl border px-5 py-3"
-        style={{ borderColor: "rgba(168,85,247,0.22)", background: "radial-gradient(ellipse 80% 60% at 0% 50%, rgba(168,85,247,0.08) 0%, transparent 60%), rgba(6,9,22,1)" }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        className="relative flex flex-col items-center justify-center rounded-2xl border px-8 py-4 text-center"
+        style={{
+          borderColor: "rgba(168,85,247,0.32)",
+          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(168,85,247,0.14) 0%, rgba(6,9,22,1) 100%)",
+          minWidth: 180,
+          boxShadow: "0 0 32px rgba(168,85,247,0.14)",
+        }}
+        initial={{ opacity: 0, scale: 0.88 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.55, delay: 0.35, ease: easeOutExpo }}
       >
-        <span className="text-xs text-white/38">Projected monthly savings</span>
-        <span className="font-mono text-xl font-bold" style={{ color: PRIMARY }}>$11,200</span>
+        <motion.div
+          className="absolute inset-0 rounded-2xl"
+          style={{ border: "1px solid rgba(168,85,247,0.22)" }}
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2.4, repeat: Infinity }}
+        />
+        <p className="relative font-semibold text-white/82" style={{ fontSize: 13 }}>FinOps Engine</p>
+        <p className="relative mt-0.5 text-[9px] font-medium uppercase tracking-widest" style={{ color: PRIMARY }}>AI-powered</p>
       </motion.div>
+
+      {/* Hub → outputs connector */}
+      <div className="relative flex w-full justify-around" style={{ height: 40 }}>
+        {OUTPUTS.map((_, i) => (
+          <div key={i} className="relative flex justify-center" style={{ flex: 1 }}>
+            <div
+              className="absolute top-0 h-full w-px"
+              style={{ background: `linear-gradient(to bottom, rgba(168,85,247,0.4), ${OUTPUTS[i].accent.replace("1)", "0.35)")})` }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Output pillars */}
+      <div className="flex w-full gap-3">
+        {OUTPUTS.map((output, i) => (
+          <motion.div
+            key={output.label}
+            className="relative flex-1 overflow-hidden rounded-xl border border-white/[0.06] px-3 py-3 text-center"
+            style={{
+              background: `radial-gradient(ellipse 80% 60% at 50% 0%, ${output.accent.replace("1)", "0.07)")} 0%, transparent 60%), rgba(6,9,22,1)`,
+            }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 + i * 0.1, ease: easeOutExpo }}
+          >
+            <div
+              className="mx-auto mb-2 h-0.5 w-8 rounded-full"
+              style={{ background: output.accent }}
+            />
+            <p className="text-[11px] font-semibold text-white/72">{output.label}</p>
+            <p className="mt-0.5 text-[9px] text-white/28">{output.sub}</p>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }
