@@ -176,7 +176,7 @@ function ServiceCard({ service, delay }: { service: Service; delay: number }) {
 export default function Solutions() {
   return (
     <section
-      id="solutions"
+      id="services"
       className="relative overflow-hidden py-28 sm:py-36"
       style={{
         background:
