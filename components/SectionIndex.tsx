@@ -2,19 +2,16 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-
-// ─── Easing — matches design system ───────────────────────────────────────────
+import { usePathname, useRouter } from "next/navigation";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
-
-// ─── Data ─────────────────────────────────────────────────────────────────────
 
 const SECTIONS = [
   { id: "intro",      number: "01", label: "Home",       color: "rgba(52,211,153,0.9)"  },
   { id: "platform",   number: "02", label: "Platform",   color: "rgba(232,72,212,0.9)"  },
   { id: "products",   number: "03", label: "Products",   color: "rgba(96,165,250,0.9)"  },
-  { id: "solutions",  number: "04", label: "Solutions",  color: "rgba(244,63,94,0.9)"   },
+  { id: "services",   number: "04", label: "Services",   color: "rgba(244,63,94,0.9)"   },
   { id: "industries", number: "05", label: "Industries", color: "rgba(99,102,241,0.9)"  },
   { id: "company",    number: "06", label: "Company",    color: "rgba(251,113,133,0.9)" },
   { id: "contact",    number: "07", label: "Contact",    color: "rgba(16,185,129,0.9)"  },
@@ -22,54 +19,65 @@ const SECTIONS = [
 
 type SectionId = (typeof SECTIONS)[number]["id"];
 
-// ─── SectionIndex ─────────────────────────────────────────────────────────────
+const PRODUCTS_COLOR = "rgba(96,165,250,0.9)";
 
 export default function SectionIndex() {
-  const [activeId, setActiveId] = useState<SectionId>("intro");
+  const pathname = usePathname();
+  const router = useRouter();
+  const isProductPage = pathname.startsWith("/products/");
+
+  const [scrollActiveId, setScrollActiveId] = useState<SectionId>("intro");
   const [hoveredId, setHoveredId] = useState<SectionId | null>(null);
 
+  // On product pages pin "products" as active; otherwise use scroll detection
+  const activeId: SectionId = isProductPage ? "products" : scrollActiveId;
+
   useEffect(() => {
+    if (isProductPage) return;
+
     const elements = SECTIONS.map(({ id }) => document.getElementById(id)).filter(
       (el): el is HTMLElement => el !== null,
     );
-
     if (elements.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Use the first intersecting entry (topmost in viewport)
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-
-        if (visible.length > 0) {
-          setActiveId(visible[0].target.id as SectionId);
-        }
+        if (visible.length > 0) setScrollActiveId(visible[0].target.id as SectionId);
       },
       { rootMargin: "-38% 0px -38% 0px", threshold: 0 },
     );
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [isProductPage]);
 
-  const handleClick = useCallback((id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  const handleClick = useCallback(
+    (id: string) => {
+      if (isProductPage) {
+        // Navigate home then scroll — hash navigation handles the scroll
+        router.push(`/#${id}`);
+      } else {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [isProductPage, router],
+  );
 
   const activeIndex = SECTIONS.findIndex((s) => s.id === activeId);
-  const activeColor = (SECTIONS.find((s) => s.id === activeId)?.color ?? "rgba(167,139,250,0.9)") as string;
+  const activeColor = isProductPage
+    ? PRODUCTS_COLOR
+    : (SECTIONS.find((s) => s.id === activeId)?.color ?? "rgba(167,139,250,0.9)");
 
   return (
-    // Hidden on all viewports below lg
     <aside className="fixed left-7 top-1/2 z-40 hidden -translate-y-1/2 xl:flex">
       <div className="relative flex select-none flex-col">
 
-        {/* ── Vertical rail ── */}
+        {/* Vertical rail */}
         <div className="absolute left-[7px] top-3 h-[calc(100%-24px)] w-px overflow-hidden">
-          {/* Static dim rail */}
           <div className="h-full w-full bg-white/[0.09]" />
-          {/* Animated highlight — color matches active section */}
           <motion.div
             className="absolute left-0 w-full rounded-full"
             style={{
@@ -81,7 +89,7 @@ export default function SectionIndex() {
           />
         </div>
 
-        {/* ── Section items ── */}
+        {/* Section items */}
         {SECTIONS.map(({ id, number, label, color }) => {
           const isActive = activeId === id;
           const isHovered = hoveredId === id;
@@ -98,9 +106,9 @@ export default function SectionIndex() {
               aria-label={`Go to ${label}`}
               className="group relative flex h-[52px] items-center gap-4 text-left focus:outline-none"
             >
-              {/* ── Dot ── */}
+              {/* Dot */}
               <div className="relative z-10 flex h-[15px] w-[15px] flex-shrink-0 items-center justify-center">
-                {/* Pulse ring — color matches section */}
+                {/* Pulse ring */}
                 <motion.div
                   className="absolute rounded-full border"
                   style={{ width: 8, height: 8, borderColor: ringColor }}
@@ -115,7 +123,6 @@ export default function SectionIndex() {
                       : { duration: 0.2 }
                   }
                 />
-
                 {/* Core dot */}
                 <motion.div
                   className="rounded-full"
@@ -128,26 +135,15 @@ export default function SectionIndex() {
                           boxShadow: `0 0 10px ${glowHard}, 0 0 22px ${glowSoft}`,
                         }
                       : isHovered
-                        ? {
-                            width: 5,
-                            height: 5,
-                            backgroundColor: "rgba(255,255,255,0.4)",
-                            boxShadow: "none",
-                          }
-                        : {
-                            width: 4,
-                            height: 4,
-                            backgroundColor: "rgba(255,255,255,0.16)",
-                            boxShadow: "none",
-                          }
+                        ? { width: 5, height: 5, backgroundColor: "rgba(255,255,255,0.4)", boxShadow: "none" }
+                        : { width: 4, height: 4, backgroundColor: "rgba(255,255,255,0.16)", boxShadow: "none" }
                   }
                   transition={{ duration: 0.32, ease }}
                 />
               </div>
 
-              {/* ── Text ── */}
+              {/* Text */}
               <div className="flex items-baseline gap-2">
-                {/* Number */}
                 <motion.span
                   className="font-mono text-[9px] tabular-nums leading-none tracking-widest"
                   animate={{
@@ -161,8 +157,6 @@ export default function SectionIndex() {
                 >
                   {number}
                 </motion.span>
-
-                {/* Label */}
                 <motion.span
                   className="text-[10px] font-medium leading-none tracking-[0.16em]"
                   style={{ textTransform: "uppercase" }}
@@ -180,7 +174,7 @@ export default function SectionIndex() {
                 </motion.span>
               </div>
 
-              {/* ── Hover cursor line ── */}
+              {/* Hover cursor line */}
               <motion.div
                 className="absolute left-[-6px] top-1/2 h-px -translate-y-1/2 bg-white/30"
                 animate={{ width: isHovered && !isActive ? 5 : 0, opacity: isHovered && !isActive ? 1 : 0 }}
