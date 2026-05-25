@@ -13,24 +13,27 @@ import { usePathname } from "next/navigation";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const NAV_LABELS = [
-  { label: "Platform",   hash: "platform",   color: "rgba(232,72,212,0.9)"  },
-  { label: "Products",   hash: "products",   color: "rgba(96,165,250,0.9)"  },
-  { label: "Industries", hash: "industries", color: "rgba(99,102,241,0.9)"  },
-  { label: "Company",    hash: "company",    color: "rgba(251,113,133,0.9)" },
-  { label: "Contact",    hash: "contact",    color: "rgba(16,185,129,0.9)"  },
-] as const;
+type NavLabel = { label: string; color: string; hash: string | null; page: string | null };
+
+const NAV_LABELS: NavLabel[] = [
+  { label: "Products", hash: "products", page: null,       color: "rgba(96,165,250,0.9)"  },
+  { label: "Why Us",   hash: "why-us",   page: null,       color: "rgba(168,85,247,0.9)"  },
+  { label: "Team",     hash: null,       page: "/team",    color: "rgba(232,72,212,0.9)"  },
+  { label: "Blog",     hash: null,       page: "/blog",    color: "rgba(251,113,133,0.9)" },
+  { label: "Careers",  hash: null,       page: "/careers", color: "rgba(52,211,153,0.9)"  },
+  { label: "Contact",  hash: "contact",  page: null,       color: "rgba(16,185,129,0.9)"  },
+];
 
 // All sections on the home page + which nav hash they activate (null = no highlight)
 const ALL_SECTIONS = [
-  { id: "intro",      navHash: null          },
-  { id: "platform",   navHash: "platform"    },
-  { id: "products",   navHash: "products"    },
-  { id: "services",   navHash: null          },
-  { id: "why-us",     navHash: null          },
-  { id: "industries", navHash: "industries"  },
-  { id: "company",    navHash: "company"     },
-  { id: "contact",    navHash: "contact"     },
+  { id: "intro",      navHash: null       },
+  { id: "platform",   navHash: null       },
+  { id: "products",   navHash: "products" },
+  { id: "services",   navHash: null       },
+  { id: "why-us",     navHash: "why-us"   },
+  { id: "industries", navHash: null       },
+  { id: "company",    navHash: null       },
+  { id: "contact",    navHash: "contact"  },
 ] as const;
 
 // ─── Easing ───────────────────────────────────────────────────────────────────
@@ -209,12 +212,13 @@ export default function Navbar() {
   // On product pages: always highlight Products tab
   const activeNavHash = isProductPage ? "products" : activeHash;
 
-  // Nav links — prefix hash with / on non-home pages
-  const navLinks = NAV_LABELS.map(({ label, hash, color }) => ({
+  // Nav links — page links are direct paths; hash links are prefixed on non-home pages
+  const navLinks = NAV_LABELS.map(({ label, hash, page, color }) => ({
     label,
-    href: pathname === "/" ? `#${hash}` : `/#${hash}`,
+    href: page ?? (hash ? (pathname === "/" ? `#${hash}` : `/#${hash}`) : "/"),
     hash,
     color,
+    isPage: page !== null,
   }));
 
   useEffect(() => {
@@ -260,10 +264,10 @@ export default function Navbar() {
             <nav className="hidden items-center gap-1 md:flex">
               {navLinks.map((link) => (
                 <NavLink
-                  key={link.hash}
+                  key={link.label}
                   label={link.label}
                   href={link.href}
-                  isActive={activeNavHash === link.hash}
+                  isActive={link.isPage ? pathname === link.href : activeNavHash === link.hash}
                   color={link.color}
                 />
               ))}
@@ -292,10 +296,10 @@ export default function Navbar() {
                 <div className="border-t border-white/[0.07] px-4 pb-5 pt-3">
                   <div className="flex flex-col gap-0.5">
                     {navLinks.map((link, i) => {
-                      const isActive = activeNavHash === link.hash;
+                      const isActive = link.isPage ? pathname === link.href : activeNavHash === link.hash;
                       return (
                         <motion.div
-                          key={link.hash}
+                          key={link.label}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.055, duration: 0.32, ease: easeOutExpo }}
