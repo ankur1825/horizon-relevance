@@ -99,24 +99,6 @@ const PRODUCTS: Product[] = [
   },
   {
     number: "04",
-    icon: Cloud,
-    name: "Cloud Cost Optimization",
-    tagline: "Spend less. Scale more. Stay in control.",
-    features: ["Intelligent cost visibility", "Usage analysis & reporting", "AI rightsizing recommendations", "Governance workflows", "Multi-cloud support"],
-    useCases: [
-      { industry: "FinTech", result: "Saved 37% on AWS within 2 weeks" },
-      { industry: "Healthcare", result: "40% infrastructure waste eliminated" },
-    ],
-    idealFor: ["FinOps", "Engineering", "Multi-cloud operations"],
-    cta: "Reclaim Your Cloud Budget",
-    slug: "cloud-cost-optimization",
-    glowColor: "rgba(147,51,234,0.1)",
-    borderGlow: "rgba(167,139,250,0.52)",
-    iconClass: "text-violet-400",
-    iconBg: "from-violet-500/[0.2] to-purple-600/[0.08]",
-  },
-  {
-    number: "05",
     icon: Layers,
     name: "Cloud Migration & Modernization",
     tagline: "Move faster. Land cleaner. Control every step.",
@@ -132,6 +114,24 @@ const PRODUCTS: Product[] = [
     borderGlow: "rgba(244,63,94,0.48)",
     iconClass: "text-rose-400",
     iconBg: "from-rose-500/[0.2] to-pink-600/[0.08]",
+  },
+  {
+    number: "05",
+    icon: Cloud,
+    name: "Cloud Cost Optimization",
+    tagline: "Spend less. Scale more. Stay in control.",
+    features: ["Intelligent cost visibility", "Usage analysis & reporting", "AI rightsizing recommendations", "Governance workflows", "Multi-cloud support"],
+    useCases: [
+      { industry: "FinTech", result: "Saved 37% on AWS within 2 weeks" },
+      { industry: "Healthcare", result: "40% infrastructure waste eliminated" },
+    ],
+    idealFor: ["FinOps", "Engineering", "Multi-cloud operations"],
+    cta: "Reclaim Your Cloud Budget",
+    slug: "cloud-cost-optimization",
+    glowColor: "rgba(147,51,234,0.1)",
+    borderGlow: "rgba(167,139,250,0.52)",
+    iconClass: "text-violet-400",
+    iconBg: "from-violet-500/[0.2] to-purple-600/[0.08]",
   },
 ];
 
@@ -286,8 +286,8 @@ function ProductVisual({ index, animKey }: { index: number; animKey: number }) {
   if (index === 0) return <CostVisual animKey={animKey} />;
   if (index === 1) return <CloudNodesVisual animKey={animKey} />;
   if (index === 2) return <ServerlessVisual animKey={animKey} />;
-  if (index === 3) return <MonitorVisual animKey={animKey} />;
-  return <PipelineVisual animKey={animKey} />;
+  if (index === 3) return <PipelineVisual animKey={animKey} />;
+  return <MonitorVisual animKey={animKey} />;
 }
 
 // ─── Panel variants ───────────────────────────────────────────────────────────

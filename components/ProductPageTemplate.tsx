@@ -326,7 +326,7 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
                     <p
                       className="mb-2 font-mono font-bold leading-none"
                       style={{
-                        fontSize: "clamp(2.2rem,4vw,3.2rem)",
+                        fontSize: "clamp(1.3rem,2vw,1.75rem)",
                         backgroundImage: `linear-gradient(135deg, rgba(255,255,255,0.92) 0%, ${accent} 100%)`,
                         backgroundClip: "text",
                         WebkitBackgroundClip: "text",
