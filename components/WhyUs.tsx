@@ -177,7 +177,7 @@ export default function WhyUs() {
                 {/* Problem text */}
                 <p
                   className="font-semibold leading-snug"
-                  style={{ fontSize: "clamp(1.05rem, 1.65vw, 1.35rem)" }}
+                  style={{ fontSize: "clamp(0.88rem, 1.2vw, 1.05rem)" }}
                 >
                   <span className="text-white/32">{row.before}</span>
                   <span
@@ -216,7 +216,7 @@ export default function WhyUs() {
                 {/* Response */}
                 <p
                   className="font-semibold leading-snug text-white/78"
-                  style={{ fontSize: "clamp(1.05rem, 1.65vw, 1.35rem)" }}
+                  style={{ fontSize: "clamp(0.88rem, 1.2vw, 1.05rem)" }}
                 >
                   {row.response}
                 </p>
@@ -257,16 +257,16 @@ export default function WhyUs() {
                 transition={{ duration: 0.5, delay: i * 0.07, ease: easeOutExpo }}
               >
                 <span
-                  className="mt-0.5 shrink-0 font-mono text-[9px] font-bold tabular-nums"
+                  className="mt-0.5 shrink-0 font-mono text-[11px] font-bold tabular-nums"
                   style={{ color: "rgba(139,92,246,0.72)" }}
                 >
                   {step.num}
                 </span>
                 <div>
-                  <p className="text-[11px] font-semibold leading-tight text-white/62">
+                  <p className="text-[13px] font-semibold leading-tight text-white/62">
                     {step.title}
                   </p>
-                  <p className="mt-1 text-[10px] leading-relaxed text-white/38">
+                  <p className="mt-1 text-[12px] leading-relaxed text-white/38">
                     {step.detail}
                   </p>
                 </div>
