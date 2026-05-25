@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Mail, Send, CheckCircle2 } from "lucide-react";
+import { MapPin, Mail, Send, CheckCircle2, ChevronDown } from "lucide-react";
 import type { FormEvent } from "react";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
@@ -49,6 +49,92 @@ const DEMO_PRODUCTS = [
   "Cloud Cost Optimization",
   "Cloud Migration & Modernization",
 ] as const;
+
+// ─── DemoDropdown ──────────────────────────────────────────────────────────────
+
+function DemoDropdown({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, []);
+
+  const selected = DEMO_PRODUCTS.find((p) => p === value) ?? null;
+
+  return (
+    <div ref={ref} className="relative">
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-[14px] outline-none transition-all duration-200"
+        style={{
+          borderColor: open ? "rgba(0,185,95,0.42)" : "rgba(255,255,255,0.08)",
+          background: open ? "rgba(0,185,95,0.04)" : "rgba(255,255,255,0.03)",
+          boxShadow: open ? "0 0 0 3px rgba(0,185,95,0.08)" : "none",
+        }}
+      >
+        <span style={{ color: selected ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.22)" }}>
+          {selected ?? "Select a product"}
+        </span>
+        <motion.span
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <ChevronDown className="h-4 w-4 text-white/25" />
+        </motion.span>
+      </button>
+
+      {/* Panel */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="absolute z-50 mt-1.5 w-full overflow-hidden rounded-xl border border-white/[0.07]"
+            style={{
+              background: "rgba(3,14,7,0.98)",
+              backdropFilter: "blur(16px)",
+              boxShadow: "0 16px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,185,95,0.1)",
+            }}
+            initial={{ opacity: 0, y: -8, scaleY: 0.94 }}
+            animate={{ opacity: 1, y: 0, scaleY: 1 }}
+            exit={{ opacity: 0, y: -4, scaleY: 0.94 }}
+            transition={{ duration: 0.18, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            {DEMO_PRODUCTS.map((p, i) => {
+              const isSelected = value === p;
+              return (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => { onChange(p); setOpen(false); }}
+                  className="group flex w-full items-center gap-3 px-4 py-3 text-left text-[13px] transition-colors duration-150"
+                  style={{
+                    borderBottom: i < DEMO_PRODUCTS.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                    background: isSelected ? "rgba(0,185,95,0.07)" : "transparent",
+                    color: isSelected ? "rgba(52,211,153,0.92)" : "rgba(255,255,255,0.5)",
+                  }}
+                  onMouseEnter={(e) => { if (!isSelected) e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.color = isSelected ? "rgba(52,211,153,0.92)" : "rgba(255,255,255,0.78)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = isSelected ? "rgba(0,185,95,0.07)" : "transparent"; e.currentTarget.style.color = isSelected ? "rgba(52,211,153,0.92)" : "rgba(255,255,255,0.5)"; }}
+                >
+                  <span
+                    className="h-1.5 w-1.5 flex-shrink-0 rounded-full transition-all duration-150"
+                    style={{ background: isSelected ? "rgba(52,211,153,1)" : "rgba(255,255,255,0.1)", boxShadow: isSelected ? "0 0 6px rgba(52,211,153,0.8)" : "none" }}
+                  />
+                  {p}
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function ContactForm() {
   const [sent, setSent] = useState(false);
@@ -172,42 +258,26 @@ function ContactForm() {
               </div>
               <div>
                 <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
-                  Message *
+                  Book a Demo
+                  <span className="ml-1.5 normal-case text-white/18">(optional)</span>
+                </label>
+                <DemoDropdown
+                  value={fields.demo}
+                  onChange={(v) => setFields((f) => ({ ...f, demo: v }))}
+                />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
+                  Message
+                  <span className="ml-1.5 normal-case text-white/18">(optional)</span>
                 </label>
                 <textarea
-                  required
                   rows={5}
                   placeholder="Tell us what you're building — or what's breaking."
                   value={fields.message}
                   onChange={set("message")}
                   className={`${inputBase} resize-none`}
                 />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
-                  Book a Demo
-                  <span className="ml-1.5 normal-case text-white/18">(optional)</span>
-                </label>
-                <div className="relative">
-                  <select
-                    value={fields.demo}
-                    onChange={set("demo")}
-                    className={`${inputBase} appearance-none cursor-pointer pr-10`}
-                    style={{ color: fields.demo ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.22)" }}
-                  >
-                    <option value="" disabled style={{ color: "rgba(0,0,0,0.7)", background: "#0a110a" }}>
-                      Select a product
-                    </option>
-                    {DEMO_PRODUCTS.map((p) => (
-                      <option key={p} value={p} style={{ color: "rgba(255,255,255,0.9)", background: "#0a110a" }}>
-                        {p}
-                      </option>
-                    ))}
-                  </select>
-                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-white/25">
-                    ▾
-                  </span>
-                </div>
               </div>
               <motion.button
                 type="submit"
@@ -367,16 +437,26 @@ export default function Contact() {
                 info@horizonrelevance.com
               </a>
 
-              <div className="flex items-start gap-3 text-[14px] text-white/50">
-                <div
-                  className="mt-0.5 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl"
-                  style={{ background: "rgba(0,185,95,0.08)", border: "1px solid rgba(0,185,95,0.15)" }}
-                >
-                  <MapPin className="h-4 w-4 text-emerald-400/70" strokeWidth={1.5} />
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <MapPin className="h-3.5 w-3.5 text-emerald-400/70" strokeWidth={1.5} />
+                  <span className="text-[10px] font-medium uppercase tracking-widest text-white/30">Locations</span>
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <span>Woodbridge, NJ — United States</span>
-                  <span className="text-white/32">New Delhi — India</span>
+                <div className="flex flex-col gap-3">
+                  <div
+                    className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
+                  >
+                    <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-emerald-400/70">USA</p>
+                    <p className="text-[13px] text-white/55">Woodbridge, NJ</p>
+                    <p className="text-[11px] text-white/25">United States</p>
+                  </div>
+                  <div
+                    className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
+                  >
+                    <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-emerald-400/70">India</p>
+                    <p className="text-[13px] text-white/55">New Delhi</p>
+                    <p className="text-[11px] text-white/25">India</p>
+                  </div>
                 </div>
               </div>
             </div>
