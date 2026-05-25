@@ -283,8 +283,8 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
                       </div>
                     </div>
 
-                    <h3 className="mb-2.5 text-sm font-semibold leading-snug text-white/85">{cap.title}</h3>
-                    <p className="text-xs leading-relaxed text-white/38">{cap.description}</p>
+                    <h3 className="mb-2.5 text-[0.95rem] font-semibold leading-snug text-white/85">{cap.title}</h3>
+                    <p className="text-[13px] leading-relaxed text-white/38">{cap.description}</p>
                   </div>
                 </motion.div>
               );
