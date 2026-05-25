@@ -122,9 +122,9 @@ const EDGES: [string, string][] = [
   ["devops-lead", "fullstack-eng"],
 ];
 
-const CARD_W = 152;
-const CARD_H = 178;
-const LEVEL_Y = [0, 265, 530];
+const CARD_W = 196;
+const CARD_H = 268;
+const LEVEL_Y = [0, 344, 688];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -193,60 +193,64 @@ function MemberCard({
 
         {/* Card body */}
         <div
-          className="relative rounded-[calc(1rem-1px)] p-4"
+          className="relative rounded-[calc(1rem-1px)] px-5 py-6 text-center"
           style={{
-            background: `radial-gradient(ellipse 90% 65% at 12% 0%, ${alpha(member.color, 0.13)} 0%, transparent 55%), rgba(8,3,22,0.97)`,
+            background: `radial-gradient(ellipse 90% 60% at 50% 0%, ${alpha(member.color, 0.14)} 0%, transparent 55%), rgba(8,3,22,0.97)`,
             backdropFilter: "blur(10px)",
           }}
         >
-          {/* Avatar + name placeholder */}
-          <div className="mb-3 flex items-center gap-2.5">
+          {/* Avatar */}
+          <div className="mb-4 flex justify-center">
             <div
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border text-[9px] font-bold tracking-wide"
+              className="flex h-20 w-20 items-center justify-center rounded-full border-2 text-[13px] font-bold tracking-wide"
               style={{
-                borderColor: alpha(member.color, 0.35),
+                borderColor: alpha(member.color, 0.4),
                 background: alpha(member.color, 0.1),
                 color: member.color,
-                boxShadow: `0 0 10px ${alpha(member.color, isSelf ? 0.35 : 0.15)}`,
+                boxShadow: `0 0 18px ${alpha(member.color, isSelf ? 0.4 : 0.18)}, inset 0 0 12px ${alpha(member.color, 0.06)}`,
               }}
             >
               {member.initials}
             </div>
-            <div>
-              <div
-                className="mb-1.5 h-2 w-16 rounded-full"
-                style={{ background: "rgba(255,255,255,0.13)" }}
-              />
-              <div
-                className="h-1.5 w-10 rounded-full"
-                style={{ background: "rgba(255,255,255,0.06)" }}
-              />
-            </div>
+          </div>
+
+          {/* Name placeholder bars */}
+          <div className="mb-3 flex flex-col items-center gap-1.5">
+            <div
+              className="h-2.5 w-24 rounded-full"
+              style={{ background: "rgba(255,255,255,0.14)" }}
+            />
+            <div
+              className="h-2 w-16 rounded-full"
+              style={{ background: "rgba(255,255,255,0.07)" }}
+            />
           </div>
 
           {/* Role */}
           <p
-            className="mb-2 text-[11px] font-semibold leading-tight tracking-wide"
+            className="mb-2.5 text-[13px] font-semibold leading-tight tracking-wide"
             style={{ color: member.color }}
           >
             {member.title}
           </p>
 
           {/* Bio */}
-          <p className="mb-3 text-[11px] leading-relaxed text-white/36">
+          <p className="mb-4 text-[12px] leading-relaxed text-white/36">
             {member.bio}
           </p>
 
           {/* Dept tag */}
-          <div
-            className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-medium uppercase tracking-widest"
-            style={{
-              background: alpha(member.color, 0.07),
-              border: `1px solid ${alpha(member.color, 0.18)}`,
-              color: alpha(member.color, 0.62),
-            }}
-          >
-            {member.department}
+          <div className="flex justify-center">
+            <div
+              className="inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest"
+              style={{
+                background: alpha(member.color, 0.07),
+                border: `1px solid ${alpha(member.color, 0.2)}`,
+                color: alpha(member.color, 0.65),
+              }}
+            >
+              {member.department}
+            </div>
           </div>
         </div>
 
@@ -386,41 +390,42 @@ function MobileMemberCard({ member, index }: { member: Member; index: number }) 
           background: `radial-gradient(ellipse 70% 55% at 10% 0%, ${alpha(member.color, 0.11)} 0%, transparent 55%), rgba(8,3,22,0.97)`,
         }}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <div
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border text-[10px] font-bold"
+            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 text-[12px] font-bold"
             style={{
-              borderColor: alpha(member.color, 0.35),
+              borderColor: alpha(member.color, 0.4),
               background: alpha(member.color, 0.1),
               color: member.color,
+              boxShadow: `0 0 14px ${alpha(member.color, 0.2)}`,
             }}
           >
             {member.initials}
           </div>
           <div className="flex-1">
             <div
-              className="mb-1.5 h-2 w-24 rounded-full"
-              style={{ background: "rgba(255,255,255,0.13)" }}
+              className="mb-1.5 h-2.5 w-28 rounded-full"
+              style={{ background: "rgba(255,255,255,0.14)" }}
             />
             <p
-              className="text-[12px] font-semibold leading-tight"
+              className="text-[14px] font-semibold leading-tight"
               style={{ color: member.color }}
             >
               {member.title}
             </p>
           </div>
           <div
-            className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-medium uppercase tracking-widest"
+            className="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest"
             style={{
               background: alpha(member.color, 0.08),
               border: `1px solid ${alpha(member.color, 0.2)}`,
-              color: alpha(member.color, 0.62),
+              color: alpha(member.color, 0.65),
             }}
           >
             {member.department}
           </div>
         </div>
-        <p className="mt-3 text-[12px] leading-relaxed text-white/38">
+        <p className="mt-3 text-[13px] leading-relaxed text-white/38">
           {member.bio}
         </p>
       </div>
