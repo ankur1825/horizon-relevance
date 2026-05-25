@@ -28,21 +28,12 @@ const ROLES = [
     ],
   },
   {
-    title: "Cloud Engineer",
+    title: "Cloud & DevOps Engineer",
     location: "Delhi · Remote",
     responsibilities: [
-      "Design scalable cloud infrastructure",
-      "Work with multi-cloud deployments and best practices",
-      "Monitor, troubleshoot, and improve reliability",
-    ],
-  },
-  {
-    title: "DevOps Engineer",
-    location: "Delhi · Remote",
-    responsibilities: [
+      "Design and manage scalable cloud infrastructure across providers",
       "Automate CI/CD pipelines and infrastructure provisioning",
-      "Improve build/release reliability and deployment speed",
-      "Collaborate with engineering teams on observability",
+      "Monitor, troubleshoot, and improve multi-cloud reliability",
     ],
   },
   {
@@ -58,8 +49,7 @@ const ROLES = [
 
 const POSITION_OPTIONS = [
   "Full Stack Developer",
-  "Cloud Engineer",
-  "DevOps Engineer",
+  "Cloud & DevOps Engineer",
   "DB Administrator",
   "General Application",
 ] as const;
@@ -211,6 +201,7 @@ export default function CareersPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.position) return;
     setSubmitted(true);
   };
 
@@ -359,7 +350,7 @@ export default function CareersPage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
             {ROLES.map((role, i) => (
               <JobCard key={role.title} role={role} index={i} onApply={scrollToApply} />
             ))}
@@ -472,36 +463,26 @@ export default function CareersPage() {
 
                     {/* Position */}
                     <FormField label="Position Interested In" required>
-                      <div className="relative">
-                        <select
-                          required
-                          value={form.position}
-                          onChange={set("position")}
-                          className={`${inputClass} cursor-pointer pr-10`}
-                          style={{
-                            appearance: "none",
-                            WebkitAppearance: "none",
-                            colorScheme: "dark",
-                          }}
-                        >
-                          <option value="" disabled>
-                            Select a position
-                          </option>
-                          {POSITION_OPTIONS.map((opt) => (
-                            <option key={opt} value={opt}>
+                      <div className="flex flex-wrap gap-2 pt-0.5">
+                        {POSITION_OPTIONS.map((opt) => {
+                          const isSelected = form.position === opt;
+                          return (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() => setForm((prev) => ({ ...prev, position: opt }))}
+                              className="rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200"
+                              style={{
+                                borderColor: isSelected ? alpha(PRIMARY, 0.55) : "rgba(255,255,255,0.08)",
+                                background: isSelected ? alpha(PRIMARY, 0.12) : "rgba(255,255,255,0.03)",
+                                color: isSelected ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.38)",
+                                boxShadow: isSelected ? `0 0 16px ${alpha(PRIMARY, 0.22)}` : "none",
+                              }}
+                            >
                               {opt}
-                            </option>
-                          ))}
-                        </select>
-                        <svg
-                          className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={1.5}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="m19 9-7 7-7-7" />
-                        </svg>
+                            </button>
+                          );
+                        })}
                       </div>
                     </FormField>
 
