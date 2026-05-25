@@ -14,11 +14,22 @@ import { usePathname } from "next/navigation";
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const NAV_LABELS = [
-  { label: "Platform",   hash: "platform"   },
-  { label: "Products",   hash: "products"   },
-  { label: "Industries", hash: "industries" },
-  { label: "Company",    hash: "company"    },
-  { label: "Contact",    hash: "contact"    },
+  { label: "Platform",   hash: "platform",   color: "rgba(232,72,212,0.9)"  },
+  { label: "Products",   hash: "products",   color: "rgba(96,165,250,0.9)"  },
+  { label: "Industries", hash: "industries", color: "rgba(99,102,241,0.9)"  },
+  { label: "Company",    hash: "company",    color: "rgba(251,113,133,0.9)" },
+  { label: "Contact",    hash: "contact",    color: "rgba(16,185,129,0.9)"  },
+] as const;
+
+// All sections on the home page + which nav hash they activate (null = no highlight)
+const ALL_SECTIONS = [
+  { id: "intro",      navHash: null          },
+  { id: "platform",   navHash: "platform"    },
+  { id: "products",   navHash: "products"    },
+  { id: "services",   navHash: null          },
+  { id: "industries", navHash: "industries"  },
+  { id: "company",    navHash: "company"     },
+  { id: "contact",    navHash: "contact"     },
 ] as const;
 
 // ─── Easing ───────────────────────────────────────────────────────────────────
@@ -26,41 +37,75 @@ const NAV_LABELS = [
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function alpha(color: string, a: number) {
+  return color.replace(/[\d.]+\)$/, `${a})`);
+}
+
 // ─── NavLink ──────────────────────────────────────────────────────────────────
 
-function NavLink({ label, href }: { label: string; href: string }) {
+function NavLink({
+  label,
+  href,
+  isActive,
+  color,
+}: {
+  label: string;
+  href: string;
+  isActive: boolean;
+  color: string;
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <Link
       href={href}
-      className="relative py-0.5 text-sm font-medium text-white/55 transition-colors duration-300 hover:text-white/90"
+      className="relative rounded-full px-3.5 py-1.5 text-sm font-medium"
+      style={{
+        color: isActive
+          ? "rgba(255,255,255,0.92)"
+          : hovered
+            ? "rgba(255,255,255,0.72)"
+            : "rgba(255,255,255,0.45)",
+        transition: "color 0.22s ease",
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {label}
-      <motion.span
-        className="absolute -bottom-0.5 left-0 h-px w-full bg-gradient-to-r from-white/75 via-white/45 to-transparent"
-        style={{ originX: 0 }}
-        animate={{
-          scaleX: hovered ? 1 : 0,
-          opacity: hovered ? 1 : 0,
-        }}
-        transition={{ duration: 0.3, ease }}
-      />
+      {/* Active frosted pill — shared layoutId slides between tabs */}
+      {isActive && (
+        <motion.div
+          layoutId="nav-active-pill"
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: alpha(color, 0.13),
+            border: `1px solid ${alpha(color, 0.38)}`,
+            boxShadow: `0 0 20px ${alpha(color, 0.22)}, inset 0 0 12px ${alpha(color, 0.07)}`,
+          }}
+          transition={{ duration: 0.42, ease: easeOutExpo }}
+        />
+      )}
+
+      {/* Hover ghost pill (inactive only) */}
+      {!isActive && (
+        <span
+          className="absolute inset-0 rounded-full border border-white/[0.09] bg-white/[0.04]"
+          style={{
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.15s ease",
+          }}
+        />
+      )}
+
+      <span className="relative z-10">{label}</span>
     </Link>
   );
 }
 
 // ─── HamburgerButton ──────────────────────────────────────────────────────────
 
-function HamburgerButton({
-  isOpen,
-  onClick,
-}: {
-  isOpen: boolean;
-  onClick: () => void;
-}) {
+function HamburgerButton({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
@@ -74,9 +119,7 @@ function HamburgerButton({
       />
       <motion.span
         className="block h-px w-5 rounded-full bg-white/75"
-        animate={
-          isOpen ? { opacity: 0, scaleX: 0.4 } : { opacity: 1, scaleX: 1 }
-        }
+        animate={isOpen ? { opacity: 0, scaleX: 0.4 } : { opacity: 1, scaleX: 1 }}
         transition={{ duration: 0.22, ease }}
       />
       <motion.span
@@ -100,25 +143,14 @@ function CTAButton({ onClick }: { onClick?: () => void }) {
       whileHover="hover"
       whileTap={{ scale: 0.96 }}
       variants={{
-        rest: {
-          scale: 1,
-          boxShadow: "0 2px 12px rgba(99, 102, 241, 0.25)",
-        },
-        hover: {
-          scale: 1.03,
-          boxShadow:
-            "0 0 28px rgba(139, 92, 246, 0.55), 0 0 60px rgba(99, 102, 241, 0.2), 0 4px 16px rgba(0,0,0,0.25)",
-        },
+        rest:  { scale: 1,    boxShadow: "0 2px 12px rgba(99,102,241,0.25)" },
+        hover: { scale: 1.03, boxShadow: "0 0 28px rgba(139,92,246,0.55), 0 0 60px rgba(99,102,241,0.2), 0 4px 16px rgba(0,0,0,0.25)" },
       }}
       transition={{ duration: 0.25, ease }}
     >
-      {/* Shimmer sweep */}
       <motion.span
         className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.18] to-transparent"
-        variants={{
-          rest: { x: "-120%" },
-          hover: { x: "140%" },
-        }}
+        variants={{ rest: { x: "-120%" }, hover: { x: "140%" } }}
         transition={{ duration: 0.55, ease }}
       />
       <span className="relative z-10">Book a Demo</span>
@@ -130,28 +162,62 @@ function CTAButton({ onClick }: { onClick?: () => void }) {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState<string | null>(null);
   const pathname = usePathname();
+  const isProductPage = pathname.startsWith("/products/");
+
   const { scrollY } = useScroll();
-
-  const navLinks = NAV_LABELS.map(({ label, hash }) => ({
-    label,
-    href: pathname === "/" ? `#${hash}` : `/#${hash}`,
-  }));
-
-  const bgOpacity = useTransform(scrollY, [0, 80], [0, 0.82]);
-  const blurAmount = useTransform(scrollY, [0, 80], [0, 14]);
+  const bgOpacity     = useTransform(scrollY, [0, 80], [0, 0.82]);
+  const blurAmount    = useTransform(scrollY, [0, 80], [0, 14]);
   const borderOpacity = useTransform(scrollY, [0, 80], [0.07, 0.16]);
   const shadowOpacity = useTransform(scrollY, [0, 80], [0, 0.45]);
-  const navHeight = useTransform(scrollY, [0, 80], [56, 46]);
+  const navHeight     = useTransform(scrollY, [0, 80], [56, 46]);
 
-  const background = useMotionTemplate`rgba(8, 8, 14, ${bgOpacity})`;
+  const background    = useMotionTemplate`rgba(8, 8, 14, ${bgOpacity})`;
   const backdropFilter = useMotionTemplate`blur(${blurAmount}px)`;
-  const boxShadow = useMotionTemplate`0 8px 40px rgba(0, 0, 0, ${shadowOpacity}), inset 0 0 0 1px rgba(255, 255, 255, ${borderOpacity})`;
+  const boxShadow     = useMotionTemplate`0 8px 40px rgba(0, 0, 0, ${shadowOpacity}), inset 0 0 0 1px rgba(255, 255, 255, ${borderOpacity})`;
+
+  // Scroll-based active section detection (home page only)
+  useEffect(() => {
+    if (isProductPage) return;
+
+    const elements = ALL_SECTIONS
+      .map(({ id }) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length > 0) {
+          const hit = ALL_SECTIONS.find((s) => s.id === visible[0].target.id);
+          setActiveHash(hit?.navHash ?? null);
+        }
+      },
+      { rootMargin: "-38% 0px -38% 0px", threshold: 0 },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [isProductPage]);
+
+  // On product pages: always highlight Products tab
+  const activeNavHash = isProductPage ? "products" : activeHash;
+
+  // Nav links — prefix hash with / on non-home pages
+  const navLinks = NAV_LABELS.map(({ label, hash, color }) => ({
+    label,
+    href: pathname === "/" ? `#${hash}` : `/#${hash}`,
+    hash,
+    color,
+  }));
 
   useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 768) setMobileOpen(false);
-    };
+    const onResize = () => { if (window.innerWidth >= 768) setMobileOpen(false); };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -164,21 +230,15 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.75, ease: easeOutExpo, delay: 0.12 }}
       >
-        {/* Pill / card */}
         <motion.nav
           className="overflow-hidden"
-          style={{
-            background,
-            backdropFilter,
-            WebkitBackdropFilter: backdropFilter,
-            boxShadow,
-          }}
+          style={{ background, backdropFilter, WebkitBackdropFilter: backdropFilter, boxShadow }}
           animate={{ borderRadius: mobileOpen ? 20 : 9999 }}
           transition={{ duration: 0.38, ease }}
         >
           {/* Header row */}
           <motion.div
-            className="flex items-center justify-between px-4 sm:px-6"
+            className="flex items-center justify-between px-4 sm:px-5"
             style={{ height: navHeight }}
           >
             {/* Logo */}
@@ -195,22 +255,25 @@ export default function Navbar() {
               </motion.span>
             </Link>
 
-            {/* Desktop links */}
-            <nav className="hidden items-center gap-7 md:flex">
+            {/* Desktop tabs */}
+            <nav className="hidden items-center gap-1 md:flex">
               {navLinks.map((link) => (
-                <NavLink key={link.href} label={link.label} href={link.href} />
+                <NavLink
+                  key={link.hash}
+                  label={link.label}
+                  href={link.href}
+                  isActive={activeNavHash === link.hash}
+                  color={link.color}
+                />
               ))}
             </nav>
 
-            {/* Desktop CTA + Mobile toggle */}
+            {/* CTA + Mobile toggle */}
             <div className="flex items-center gap-3">
               <div className="hidden md:block">
                 <CTAButton />
               </div>
-              <HamburgerButton
-                isOpen={mobileOpen}
-                onClick={() => setMobileOpen((v) => !v)}
-              />
+              <HamburgerButton isOpen={mobileOpen} onClick={() => setMobileOpen((v) => !v)} />
             </div>
           </motion.div>
 
@@ -227,35 +290,39 @@ export default function Navbar() {
               >
                 <div className="border-t border-white/[0.07] px-4 pb-5 pt-3">
                   <div className="flex flex-col gap-0.5">
-                    {navLinks.map((link, i) => (
-                      <motion.div
-                        key={link.href}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{
-                          delay: i * 0.055,
-                          duration: 0.32,
-                          ease: easeOutExpo,
-                        }}
-                      >
-                        <Link
-                          href={link.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="block px-1 py-2.5 text-sm font-medium text-white/55 transition-colors duration-200 hover:text-white/90"
+                    {navLinks.map((link, i) => {
+                      const isActive = activeNavHash === link.hash;
+                      return (
+                        <motion.div
+                          key={link.hash}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.055, duration: 0.32, ease: easeOutExpo }}
                         >
-                          {link.label}
-                        </Link>
-                      </motion.div>
-                    ))}
+                          <Link
+                            href={link.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="flex items-center gap-2.5 px-1 py-2.5 text-sm font-medium transition-colors duration-200"
+                            style={{ color: isActive ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.45)" }}
+                          >
+                            {/* Active color dot on mobile */}
+                            <span
+                              className="h-1.5 w-1.5 flex-shrink-0 rounded-full transition-all duration-300"
+                              style={{
+                                background: isActive ? link.color : "rgba(255,255,255,0.15)",
+                                boxShadow: isActive ? `0 0 6px ${link.color}` : "none",
+                              }}
+                            />
+                            {link.label}
+                          </Link>
+                        </motion.div>
+                      );
+                    })}
 
                     <motion.div
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        delay: navLinks.length * 0.055,
-                        duration: 0.35,
-                        ease: easeOutExpo,
-                      }}
+                      transition={{ delay: navLinks.length * 0.055, duration: 0.35, ease: easeOutExpo }}
                       className="pt-3"
                     >
                       <CTAButton onClick={() => setMobileOpen(false)} />
