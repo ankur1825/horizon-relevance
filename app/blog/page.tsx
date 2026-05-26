@@ -150,7 +150,18 @@ export default function BlogPage() {
   useEffect(() => {
     fetch(SHEET_URL)
       .then((r) => r.json())
-      .then((data: Post[]) => setPosts(data.filter((p) => p.title?.trim())))
+      .then((data: Record<string, string>[]) =>
+        setPosts(
+          data
+            .map((row) => ({
+              title:       row.TITLE       ?? row.title       ?? "",
+              description: row.DESCRIPTION ?? row.description ?? "",
+              link:        row.LINK        ?? row.link        ?? "",
+              date:        row.DATE        ?? row.date        ?? "",
+            }))
+            .filter((p) => p.title.trim())
+        )
+      )
       .catch(() => setPosts([]))
       .finally(() => setLoading(false));
   }, []);
