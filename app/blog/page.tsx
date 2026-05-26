@@ -27,7 +27,7 @@ function FeaturedCard({ post }: { post: Post }) {
       rel="noopener noreferrer"
       className="group relative col-span-1 overflow-hidden rounded-2xl sm:col-span-2"
       style={{
-        background: "rgba(7,3,20,0.97)",
+        background: "rgba(22,11,42,0.97)",
         border: "1px solid rgba(255,255,255,0.07)",
       }}
       initial={{ opacity: 0, y: 20 }}
@@ -93,7 +93,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
       rel="noopener noreferrer"
       className="group relative flex flex-col overflow-hidden rounded-2xl"
       style={{
-        background: "rgba(7,3,20,0.97)",
+        background: "rgba(22,11,42,0.97)",
         border: "1px solid rgba(255,255,255,0.07)",
       }}
       initial={{ opacity: 0, y: 20 }}
@@ -155,7 +155,7 @@ function FeaturedSkeleton() {
   return (
     <div
       className="col-span-1 overflow-hidden rounded-2xl px-8 py-9 sm:col-span-2 sm:px-10 sm:py-10"
-      style={{ background: "rgba(7,3,20,0.97)", border: "1px solid rgba(255,255,255,0.06)" }}
+      style={{ background: "rgba(22,11,42,0.97)", border: "1px solid rgba(255,255,255,0.06)" }}
     >
       <div className="mb-5 h-2.5 w-24 animate-pulse rounded-full bg-white/[0.06]" />
       <div className="border-l-2 pl-6" style={{ borderColor: "rgba(139,92,246,0.2)" }}>
@@ -173,7 +173,7 @@ function SkeletonCard() {
   return (
     <div
       className="overflow-hidden rounded-2xl px-6 py-7"
-      style={{ background: "rgba(7,3,20,0.97)", border: "1px solid rgba(255,255,255,0.05)" }}
+      style={{ background: "rgba(22,11,42,0.97)", border: "1px solid rgba(255,255,255,0.05)" }}
     >
       <div className="mb-4 h-2.5 w-20 animate-pulse rounded-full bg-white/[0.06]" />
       <div className="border-l-2 pl-5" style={{ borderColor: "rgba(139,92,246,0.18)" }}>
@@ -234,6 +234,7 @@ export default function BlogPage() {
               date:        row.DATE        ?? row.date        ?? "",
             }))
             .filter((p) => p.title.trim())
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         )
       )
       .catch(() => setPosts([]))
