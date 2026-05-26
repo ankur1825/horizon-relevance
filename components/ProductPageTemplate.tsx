@@ -162,7 +162,7 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
               className="relative overflow-hidden rounded-[calc(1.5rem-1px)]"
               style={{
                 background: `radial-gradient(ellipse 60% 55% at 10% 0%, ${alpha(primaryColor, 0.1)} 0%, transparent 55%), rgba(6,9,22,1)`,
-                minHeight: 420,
+                minHeight: "clamp(260px,45vw,420px)",
               }}
             >
               <div
@@ -205,7 +205,7 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
               }}
             >
               <div
-                className="rounded-[calc(1rem-1px)] px-8 py-8"
+                className="rounded-[calc(1rem-1px)] px-5 py-6 sm:px-8 sm:py-8"
                 style={{
                   background: `radial-gradient(ellipse 70% 60% at 5% 0%, ${alpha(primaryColor, 0.09)} 0%, transparent 60%), rgba(8,11,28,1)`,
                 }}

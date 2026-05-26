@@ -208,7 +208,7 @@ function OfferingPanel({
 
         {/* Glass body — tinted to match the violet scene */}
         <div
-          className="relative overflow-hidden rounded-[calc(1.5rem-1px)] px-10 py-12 md:px-14 md:py-14"
+          className="relative overflow-hidden rounded-[calc(1.5rem-1px)] px-5 py-8 sm:px-8 sm:py-10 md:px-14 md:py-14"
           style={{
             background: `radial-gradient(ellipse 65% 55% at 10% 0%, ${glowColor} 0%, transparent 52%), rgba(14,5,32,1)`,
             backdropFilter: "blur(12px)",
@@ -216,8 +216,8 @@ function OfferingPanel({
         >
           {/* Watermark number */}
           <span
-            className="pointer-events-none absolute right-10 top-8 select-none font-mono font-black leading-none tracking-tighter text-white/[0.04]"
-            style={{ fontSize: "clamp(60px,10vw,100px)" }}
+            className="pointer-events-none absolute right-4 top-6 select-none font-mono font-black leading-none tracking-tighter text-white/[0.04] sm:right-10 sm:top-8"
+            style={{ fontSize: "clamp(40px,8vw,100px)" }}
           >
             {number}
           </span>

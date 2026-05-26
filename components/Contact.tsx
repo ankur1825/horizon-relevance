@@ -174,7 +174,7 @@ function ContactForm() {
         }}
       />
       <div
-        className="relative overflow-hidden rounded-[calc(1.5rem-1px)] px-8 py-10"
+        className="relative overflow-hidden rounded-[calc(1.5rem-1px)] px-5 py-8 sm:px-8 sm:py-10"
         style={{
           background: `radial-gradient(ellipse 70% 50% at 8% 0%, ${EMERALD_GLOW} 0%, transparent 55%), rgba(2,18,8,0.97)`,
           backdropFilter: "blur(12px)",
@@ -323,7 +323,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden pb-0 pt-28 sm:pt-36"
+      className="relative overflow-hidden pb-0 pt-20 sm:pt-36"
       style={{
         background:
           "radial-gradient(ellipse 150% 85% at 12% 0%, #082818 0%, #031a09 50%, #01080400 100%)",
@@ -384,7 +384,7 @@ export default function Contact() {
 
       <div className="relative z-[3] mx-auto max-w-6xl px-6">
 
-        <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-20">
 
           {/* Left — info */}
           <motion.div
@@ -488,7 +488,7 @@ export default function Contact() {
           className="mt-16 border-t pt-8 pb-6"
           style={{ borderColor: "rgba(255,255,255,0.06)" }}
         >
-          <div className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 sm:gap-x-8">
 
             {/* Logo column */}
             <div className="col-span-2 sm:col-span-1">

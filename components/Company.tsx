@@ -389,7 +389,7 @@ export default function Company() {
           </div>
 
           {/* ── RIGHT: Scroll story ───────────────────────────────────────── */}
-          <div className="flex-1 py-28 lg:py-52">
+          <div className="flex-1 py-14 lg:py-52">
 
             {/* Mobile-only header */}
             <motion.div

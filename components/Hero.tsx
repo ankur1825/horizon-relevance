@@ -142,7 +142,7 @@ export default function Hero() {
       <Grain />
       <Aurora />
 
-      <div className="relative z-[4] flex flex-1 flex-col px-8 pb-16 pt-28 sm:px-12 lg:px-16 xl:pl-44">
+      <div className="relative z-[4] flex flex-1 flex-col px-6 pb-12 pt-24 sm:px-12 sm:pb-16 sm:pt-28 lg:px-16 xl:pl-44">
         {/* Meta */}
         <motion.div
           className="flex items-center justify-between"
@@ -171,7 +171,7 @@ export default function Hero() {
         >
           <h1
             className="font-extrabold"
-            style={{ fontSize: "clamp(2.8rem,8vw,7.2rem)", lineHeight: 0.91, letterSpacing: "-0.03em" }}
+            style={{ fontSize: "clamp(2.2rem,8vw,7.2rem)", lineHeight: 0.91, letterSpacing: "-0.03em" }}
           >
             {/* Static lines */}
             {LINES.map((line, i) => (
