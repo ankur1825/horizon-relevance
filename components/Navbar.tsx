@@ -259,8 +259,8 @@ export default function Navbar() {
               >
                 {/* Tile mark */}
                 <svg
-                  width="16"
-                  height="16"
+                  width="20"
+                  height="20"
                   viewBox="0 0 100 100"
                   aria-hidden
                 >
