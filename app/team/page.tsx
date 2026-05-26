@@ -392,7 +392,7 @@ function MobileMemberCard({ member, index }: { member: Member; index: number }) 
       >
         <div className="flex items-center gap-4">
           <div
-            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 text-[12px] font-bold"
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 text-[12px] font-bold"
             style={{
               borderColor: alpha(member.color, 0.4),
               background: alpha(member.color, 0.1),
@@ -402,27 +402,19 @@ function MobileMemberCard({ member, index }: { member: Member; index: number }) 
           >
             {member.initials}
           </div>
-          <div className="flex-1">
-            <div
-              className="mb-1.5 h-2.5 w-28 rounded-full"
-              style={{ background: "rgba(255,255,255,0.14)" }}
-            />
+          <div className="min-w-0 flex-1">
+            <p
+              className="mb-0.5 truncate text-[10px] font-medium uppercase tracking-widest"
+              style={{ color: alpha(member.color, 0.6) }}
+            >
+              {member.department}
+            </p>
             <p
               className="text-[14px] font-semibold leading-tight"
               style={{ color: member.color }}
             >
               {member.title}
             </p>
-          </div>
-          <div
-            className="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest"
-            style={{
-              background: alpha(member.color, 0.08),
-              border: `1px solid ${alpha(member.color, 0.2)}`,
-              color: alpha(member.color, 0.65),
-            }}
-          >
-            {member.department}
           </div>
         </div>
         <p className="mt-3 text-[13px] leading-relaxed text-white/38">

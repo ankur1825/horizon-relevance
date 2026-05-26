@@ -350,7 +350,7 @@ export default function CareersPage() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {ROLES.map((role, i) => (
               <JobCard key={role.title} role={role} index={i} onApply={scrollToApply} />
             ))}
@@ -399,7 +399,7 @@ export default function CareersPage() {
             transition={{ duration: 0.7, ease: easeOutExpo }}
           >
             <div
-              className="relative rounded-[calc(1rem-1px)] px-8 py-10"
+              className="relative rounded-[calc(1rem-1px)] px-5 py-8 sm:px-8 sm:py-10"
               style={{
                 background: `radial-gradient(ellipse 70% 55% at 5% 0%, ${alpha(PRIMARY, 0.08)} 0%, transparent 55%), rgba(7,10,24,1)`,
               }}

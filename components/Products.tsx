@@ -389,7 +389,7 @@ export default function Products() {
 
         {/* Tabs */}
         <motion.div
-          className="mb-10 flex gap-2 overflow-x-auto pb-1"
+          className="mb-10 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -408,7 +408,7 @@ export default function Products() {
                 }}
               >
                 <span className="font-mono text-[9px] tabular-nums transition-colors duration-200" style={{ color: isActive ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.22)" }}>{p.number}</span>
-                <span className="hidden text-xs font-medium transition-colors duration-200 sm:block" style={{ color: isActive ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.32)" }}>{p.name.split(" ").slice(0, 2).join(" ")}</span>
+                <span className="text-xs font-medium transition-colors duration-200" style={{ color: isActive ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.32)" }}>{p.name.split(" ").slice(0, 2).join(" ")}</span>
                 {isActive && (
                   <motion.div layoutId="tab-indicator" className="absolute inset-0 rounded-full" style={{ boxShadow: `0 0 0 1px ${p.borderGlow}` }} transition={{ duration: 0.35, ease: easeOutExpo }} />
                 )}
@@ -438,7 +438,7 @@ export default function Products() {
               className="relative grid grid-cols-1 gap-0 lg:grid-cols-[1fr_380px]"
             >
               {/* Content */}
-              <div className="px-10 py-12 md:px-14 md:py-14">
+              <div className="px-5 py-8 sm:px-8 sm:py-10 md:px-14 md:py-14">
                 <div className={`mb-8 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br p-4 ${product.iconBg}`}>
                   <product.icon className={`h-6 w-6 ${product.iconClass}`} strokeWidth={1.5} />
                 </div>
