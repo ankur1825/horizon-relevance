@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Calendar } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -17,7 +17,66 @@ type Post = {
   date: string;
 };
 
-// ─── Card ─────────────────────────────────────────────────────────────────────
+// ─── Featured card (first post, spans full width) ─────────────────────────────
+
+function FeaturedCard({ post }: { post: Post }) {
+  return (
+    <motion.a
+      href={post.link || "#"}
+      target={post.link ? "_blank" : undefined}
+      rel="noopener noreferrer"
+      className="group relative col-span-1 overflow-hidden rounded-2xl sm:col-span-2"
+      style={{
+        background: "rgba(7,3,20,0.97)",
+        border: "1px solid rgba(255,255,255,0.07)",
+      }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-24px" }}
+      transition={{ duration: 0.65, ease: easeOutExpo }}
+    >
+      {/* B: violet bloom from top-left on hover */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 75% at 0% 0%, rgba(139,92,246,0.18) 0%, transparent 65%)",
+        }}
+      />
+
+      <div className="relative px-8 py-9 sm:px-10 sm:py-10">
+        {/* A: monospace date chip */}
+        {post.date && (
+          <span className="mb-5 block font-mono text-[10px] font-medium uppercase tracking-widest text-white/28">
+            {post.date}
+          </span>
+        )}
+
+        {/* A: left accent bar + title */}
+        <div className="border-l-2 pl-6" style={{ borderColor: "rgba(139,92,246,0.45)" }}>
+          <h2 className="mb-4 text-[22px] font-bold leading-snug tracking-tight text-white/85 transition-colors duration-200 group-hover:text-white sm:text-[24px]">
+            <span className="underline-offset-4 decoration-violet-400/35 group-hover:underline">
+              {post.title}
+            </span>
+          </h2>
+          {post.description && (
+            <p className="max-w-2xl text-[14px] leading-relaxed text-white/52">
+              {post.description}
+            </p>
+          )}
+        </div>
+
+        {/* B: arrow fades in on hover */}
+        <div className="mt-7 flex items-center gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <span className="text-[12px] font-medium text-violet-400">Read more</span>
+          <ArrowUpRight className="h-3.5 w-3.5 text-violet-400" />
+        </div>
+      </div>
+    </motion.a>
+  );
+}
+
+// ─── Regular card ─────────────────────────────────────────────────────────────
 
 function PostCard({ post, index }: { post: Post; index: number }) {
   return (
@@ -25,90 +84,91 @@ function PostCard({ post, index }: { post: Post; index: number }) {
       href={post.link || "#"}
       target={post.link ? "_blank" : undefined}
       rel="noopener noreferrer"
-      className="group relative flex flex-col overflow-hidden rounded-2xl p-px"
+      className="group relative flex flex-col overflow-hidden rounded-2xl"
+      style={{
+        background: "rgba(7,3,20,0.97)",
+        border: "1px solid rgba(255,255,255,0.07)",
+      }}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-24px" }}
-      transition={{ duration: 0.6, delay: (index % 3) * 0.07, ease: easeOutExpo }}
-      whileHover={{ y: -5, transition: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] } }}
+      transition={{ duration: 0.6, delay: (index % 2) * 0.07, ease: easeOutExpo }}
     >
-      {/* Gradient border */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-25 transition-opacity duration-500 group-hover:opacity-70"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(167,139,250,0.6) 0%, rgba(255,255,255,0.05) 45%, transparent 100%)",
-        }}
-      />
-
-      {/* Inner glow on hover */}
+      {/* B: violet bloom from top-left on hover */}
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
           background:
-            "radial-gradient(ellipse 65% 45% at 15% 0%, rgba(139,92,246,0.1) 0%, transparent 60%)",
+            "radial-gradient(ellipse 85% 70% at 0% 0%, rgba(139,92,246,0.13) 0%, transparent 65%)",
         }}
       />
 
-      {/* Card body */}
-      <div
-        className="relative flex flex-1 flex-col rounded-[calc(1rem-1px)] px-6 py-6"
-        style={{ background: "rgba(7,3,20,0.97)" }}
-      >
-        {/* Date */}
+      <div className="relative flex flex-1 flex-col px-6 py-7">
+        {/* A: monospace date chip */}
         {post.date && (
-          <div className="mb-4 flex items-center gap-1.5">
-            <Calendar className="h-3 w-3 text-white/25" />
-            <span className="text-[11px] text-white/28">{post.date}</span>
-          </div>
-        )}
-
-        {/* Title */}
-        <h2 className="mb-3 text-[15px] font-semibold leading-snug tracking-tight text-white/85 transition-colors duration-200 group-hover:text-white">
-          {post.title}
-        </h2>
-
-        {/* Description */}
-        {post.description && (
-          <p className="mb-6 flex-1 text-[13px] leading-relaxed text-white/40 line-clamp-3">
-            {post.description}
-          </p>
-        )}
-
-        {/* Footer */}
-        <div
-          className="flex items-center justify-between border-t pt-4"
-          style={{ borderColor: "rgba(255,255,255,0.06)" }}
-        >
-          <span className="text-[11px] text-white/22">Read more</span>
-          <span className="flex items-center gap-1 text-[11px] font-medium text-violet-400/55 transition-all duration-200 group-hover:text-violet-400 group-hover:gap-1.5">
-            Open
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <span className="mb-4 block font-mono text-[10px] font-medium uppercase tracking-widest text-white/25">
+            {post.date}
           </span>
+        )}
+
+        {/* A: left accent bar + title */}
+        <div className="flex-1 border-l-2 pl-5" style={{ borderColor: "rgba(139,92,246,0.35)" }}>
+          <h2 className="mb-3 text-[17px] font-bold leading-snug tracking-tight text-white/82 transition-colors duration-200 group-hover:text-white">
+            <span className="underline-offset-4 decoration-violet-400/35 group-hover:underline">
+              {post.title}
+            </span>
+          </h2>
+          {post.description && (
+            <p className="text-[13px] leading-relaxed text-white/45 line-clamp-4">
+              {post.description}
+            </p>
+          )}
+        </div>
+
+        {/* B: arrow fades in on hover */}
+        <div className="mt-6 flex items-center gap-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <span className="text-[11px] font-medium text-violet-400">Read more</span>
+          <ArrowUpRight className="h-3 w-3 text-violet-400" />
         </div>
       </div>
     </motion.a>
   );
 }
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
+// ─── Skeletons ────────────────────────────────────────────────────────────────
+
+function FeaturedSkeleton() {
+  return (
+    <div
+      className="col-span-1 overflow-hidden rounded-2xl px-8 py-9 sm:col-span-2 sm:px-10 sm:py-10"
+      style={{ background: "rgba(7,3,20,0.97)", border: "1px solid rgba(255,255,255,0.06)" }}
+    >
+      <div className="mb-5 h-2.5 w-24 animate-pulse rounded-full bg-white/[0.06]" />
+      <div className="border-l-2 pl-6" style={{ borderColor: "rgba(139,92,246,0.2)" }}>
+        <div className="mb-2 h-6 w-[70%] animate-pulse rounded-full bg-white/[0.09]" />
+        <div className="mb-6 h-6 w-[48%] animate-pulse rounded-full bg-white/[0.06]" />
+        <div className="mb-1.5 h-3.5 w-full animate-pulse rounded-full bg-white/[0.05]" />
+        <div className="mb-1.5 h-3.5 w-[88%] animate-pulse rounded-full bg-white/[0.04]" />
+        <div className="h-3.5 w-[70%] animate-pulse rounded-full bg-white/[0.04]" />
+      </div>
+    </div>
+  );
+}
 
 function SkeletonCard() {
   return (
     <div
-      className="overflow-hidden rounded-2xl px-6 py-6"
+      className="overflow-hidden rounded-2xl px-6 py-7"
       style={{ background: "rgba(7,3,20,0.97)", border: "1px solid rgba(255,255,255,0.05)" }}
     >
-      <div className="mb-4 h-3 w-20 animate-pulse rounded-full bg-white/[0.06]" />
-      <div className="mb-2 h-4 w-[85%] animate-pulse rounded-full bg-white/[0.08]" />
-      <div className="mb-5 h-4 w-[65%] animate-pulse rounded-full bg-white/[0.06]" />
-      <div className="mb-1.5 h-3 w-full animate-pulse rounded-full bg-white/[0.05]" />
-      <div className="mb-1.5 h-3 w-[90%] animate-pulse rounded-full bg-white/[0.04]" />
-      <div className="mb-6 h-3 w-[72%] animate-pulse rounded-full bg-white/[0.04]" />
-      <div className="h-px w-full bg-white/[0.04]" />
-      <div className="mt-4 flex justify-between">
-        <div className="h-3 w-14 animate-pulse rounded-full bg-white/[0.04]" />
-        <div className="h-3 w-10 animate-pulse rounded-full bg-white/[0.05]" />
+      <div className="mb-4 h-2.5 w-20 animate-pulse rounded-full bg-white/[0.06]" />
+      <div className="border-l-2 pl-5" style={{ borderColor: "rgba(139,92,246,0.18)" }}>
+        <div className="mb-2 h-5 w-[82%] animate-pulse rounded-full bg-white/[0.08]" />
+        <div className="mb-5 h-5 w-[58%] animate-pulse rounded-full bg-white/[0.06]" />
+        <div className="mb-1.5 h-3 w-full animate-pulse rounded-full bg-white/[0.05]" />
+        <div className="mb-1.5 h-3 w-[90%] animate-pulse rounded-full bg-white/[0.04]" />
+        <div className="mb-1.5 h-3 w-[78%] animate-pulse rounded-full bg-white/[0.04]" />
+        <div className="h-3 w-[60%] animate-pulse rounded-full bg-white/[0.04]" />
       </div>
     </div>
   );
@@ -268,16 +328,21 @@ export default function BlogPage() {
 
         {/* Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <FeaturedSkeleton />
+            {Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
         ) : posts.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post, i) => (
-              <PostCard key={`${post.title}-${i}`} post={post} index={i} />
-            ))}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {posts.map((post, i) =>
+              i === 0 ? (
+                <FeaturedCard key={`${post.title}-0`} post={post} />
+              ) : (
+                <PostCard key={`${post.title}-${i}`} post={post} index={i} />
+              )
+            )}
           </div>
         )}
 
