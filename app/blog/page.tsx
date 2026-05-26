@@ -43,6 +43,13 @@ function FeaturedCard({ post }: { post: Post }) {
             "radial-gradient(ellipse 60% 75% at 0% 0%, rgba(139,92,246,0.18) 0%, transparent 65%)",
         }}
       />
+      {/* Border glow */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          boxShadow: "inset 0 0 0 1px rgba(139,92,246,0.45), 0 0 22px rgba(139,92,246,0.1)",
+        }}
+      />
 
       <div className="relative px-8 py-9 sm:px-10 sm:py-10">
         {/* A: monospace date chip */}
@@ -100,6 +107,13 @@ function PostCard({ post, index }: { post: Post; index: number }) {
         style={{
           background:
             "radial-gradient(ellipse 85% 70% at 0% 0%, rgba(139,92,246,0.13) 0%, transparent 65%)",
+        }}
+      />
+      {/* Border glow */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          boxShadow: "inset 0 0 0 1px rgba(139,92,246,0.45), 0 0 22px rgba(139,92,246,0.1)",
         }}
       />
 
