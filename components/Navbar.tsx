@@ -253,19 +253,45 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="shrink-0">
               <motion.span
-                className="select-none text-[17px] leading-none tracking-tight text-white"
-                style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
+                className="flex select-none items-center gap-2"
                 whileHover={{ opacity: 0.82 }}
                 transition={{ duration: 0.2 }}
               >
-                Horizon
-                <span
-                  style={{
-                    color: "oklch(0.66 0.18 290)",
-                    textShadow: "0 0 18px oklch(0.66 0.18 290 / 0.55)",
-                  }}
+                {/* Tile mark */}
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 100 100"
+                  aria-hidden
                 >
-                  Relevance
+                  <rect width="100" height="100" rx="22" fill="rgba(7,3,20,0.6)" />
+                  <path
+                    d="M28 54 A22 22 0 0 1 72 54 Z"
+                    fill="oklch(0.66 0.18 290)"
+                  />
+                  <rect
+                    x="14"
+                    y="60"
+                    width="72"
+                    height="7"
+                    rx="3.5"
+                    fill="rgba(255,255,255,0.88)"
+                  />
+                </svg>
+                {/* Wordmark */}
+                <span
+                  className="text-[17px] leading-none tracking-tight text-white"
+                  style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
+                >
+                  Horizon
+                  <span
+                    style={{
+                      color: "oklch(0.66 0.18 290)",
+                      textShadow: "0 0 18px oklch(0.66 0.18 290 / 0.55)",
+                    }}
+                  >
+                    Relevance
+                  </span>
                 </span>
               </motion.span>
             </Link>
