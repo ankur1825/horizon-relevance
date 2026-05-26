@@ -36,7 +36,7 @@ function IconGitHub({ className }: { className?: string }) {
 }
 
 const SOCIALS = [
-  { label: "LinkedIn", href: "#", Icon: IconLinkedIn },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/horizonrelevance/", Icon: IconLinkedIn },
   { label: "X / Twitter", href: "#", Icon: IconX },
   { label: "GitHub", href: "#", Icon: IconGitHub },
 ] as const;
@@ -577,7 +577,7 @@ export default function Contact() {
                 </li>
                 <li>
                   <a
-                    href="https://www.linkedin.com/company/horizonrelevance"
+                    href="https://www.linkedin.com/company/horizonrelevance/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[12px] text-white/35 transition-colors duration-150 hover:text-white/68"
