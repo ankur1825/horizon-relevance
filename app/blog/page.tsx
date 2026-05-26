@@ -50,7 +50,7 @@ function PostCard({ post, index }: { post: BlogPost; index: number }) {
               color: "#60a5fa",
             }}
           >
-            <Linkedin className="h-3 w-3" />
+            <LinkedinIconclassName="h-3 w-3" />
             LinkedIn
           </div>
           {post.date && (
@@ -206,7 +206,7 @@ export default function BlogPage() {
         >
           <div className="mb-5 flex">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-white/45 backdrop-blur-sm">
-              <Linkedin className="h-3 w-3 text-sky-400" />
+              <LinkedinIconclassName="h-3 w-3 text-sky-400" />
               Powered by LinkedIn
             </div>
           </div>
@@ -234,7 +234,7 @@ export default function BlogPage() {
           </div>
         ) : error || posts.length === 0 ? (
           <div className="flex flex-col items-center gap-4 py-24 text-center">
-            <Linkedin className="h-8 w-8 text-white/20" />
+            <LinkedinIconclassName="h-8 w-8 text-white/20" />
             <p className="text-sm text-white/30">No posts found.</p>
           </div>
         ) : (
@@ -265,7 +265,7 @@ export default function BlogPage() {
               color: "#60a5fa",
             }}
           >
-            <Linkedin className="h-4 w-4" />
+            <LinkedinIconclassName="h-4 w-4" />
             Follow on LinkedIn
           </a>
         </motion.div>
