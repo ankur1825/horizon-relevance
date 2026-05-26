@@ -253,12 +253,18 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="shrink-0">
               <motion.span
-                className="text-[15px] font-bold tracking-tight text-white"
+                className="select-none text-[17px] leading-none tracking-tight text-white"
+                style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
                 whileHover={{ opacity: 0.82 }}
                 transition={{ duration: 0.2 }}
               >
                 Horizon
-                <span className="text-violet-400 drop-shadow-[0_0_10px_rgba(167,139,250,0.55)]">
+                <span
+                  style={{
+                    color: "oklch(0.66 0.18 290)",
+                    textShadow: "0 0 18px oklch(0.66 0.18 290 / 0.55)",
+                  }}
+                >
                   Relevance
                 </span>
               </motion.span>
