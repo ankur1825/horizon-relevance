@@ -18,6 +18,7 @@ type NavLabel = { label: string; color: string; hash: string | null; page: strin
 const NAV_LABELS: NavLabel[] = [
   { label: "Products", hash: "products", page: null,       color: "rgba(96,165,250,0.9)"  },
   { label: "Why Us",   hash: "why-us",   page: null,       color: "rgba(168,85,247,0.9)"  },
+  { label: "Company",  hash: "company",  page: null,       color: "rgba(244,63,94,0.9)"   },
   { label: "Team",     hash: null,       page: "/team",    color: "rgba(232,72,212,0.9)"  },
   { label: "Blog",     hash: null,       page: "/blog",    color: "rgba(251,113,133,0.9)" },
   { label: "Careers",  hash: null,       page: "/careers", color: "rgba(52,211,153,0.9)"  },
@@ -32,7 +33,7 @@ const ALL_SECTIONS = [
   { id: "services",   navHash: null       },
   { id: "why-us",     navHash: "why-us"   },
   { id: "industries", navHash: null       },
-  { id: "company",    navHash: null       },
+  { id: "company",    navHash: "company"  },
   { id: "contact",    navHash: "contact"  },
 ] as const;
 
