@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Linkedin } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, LinkedinIcon } from "lucide-react";
 import type { BlogPost } from "@/app/api/linkedin-posts/route";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
