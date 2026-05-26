@@ -259,8 +259,8 @@ export default function Navbar() {
               >
                 {/* Tile mark */}
                 <svg
-                  width="20"
-                  height="20"
+                  width="16"
+                  height="16"
                   viewBox="0 0 100 100"
                   aria-hidden
                 >
@@ -280,7 +280,7 @@ export default function Navbar() {
                 </svg>
                 {/* Wordmark */}
                 <span
-                  className="text-[17px] leading-none tracking-tight text-white"
+                  className="text-[14px] leading-none tracking-tight text-white"
                   style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
                 >
                   Horizon
