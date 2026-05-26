@@ -50,7 +50,7 @@ function PostCard({ post, index }: { post: BlogPost; index: number }) {
               color: "#60a5fa",
             }}
           >
-            <LinkedinIconclassName="h-3 w-3" />
+            <LinkedinIcon className="h-3 w-3" />
             LinkedIn
           </div>
           {post.date && (
