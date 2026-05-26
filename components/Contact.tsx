@@ -485,38 +485,38 @@ export default function Contact() {
 
         {/* ── Footer ── */}
         <footer
-          className="mt-24 border-t pt-12 pb-10"
+          className="mt-16 border-t pt-8 pb-6"
           style={{ borderColor: "rgba(255,255,255,0.06)" }}
         >
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-4">
 
             {/* Logo column */}
             <div className="col-span-2 sm:col-span-1">
-              <Link href="/" className="mb-3 flex items-center gap-2.5">
-                <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden>
+              <Link href="/" className="mb-2 flex items-center gap-2">
+                <svg width="22" height="22" viewBox="0 0 100 100" aria-hidden>
                   <rect width="100" height="100" rx="20" fill="rgba(7,3,20,0.8)" />
                   <path d="M28 54 A22 22 0 0 1 72 54 Z" fill="oklch(0.66 0.18 290)" />
                   <rect x="14" y="60" width="72" height="7" rx="3.5" fill="rgba(255,255,255,0.88)" />
                 </svg>
                 <span
-                  className="text-[16px] leading-none tracking-tight text-white/78"
+                  className="text-[14px] leading-none tracking-tight text-white/75"
                   style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
                 >
                   Horizon
                   <span style={{ color: "oklch(0.66 0.18 290)" }}>Relevance</span>
                 </span>
               </Link>
-              <p className="text-[11px] leading-relaxed text-white/22">
+              <p className="text-[10px] text-white/20">
                 AI · Cloud · DevSecOps
               </p>
             </div>
 
             {/* Navigate */}
             <div>
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-white/28">
+              <p className="mb-3 text-[9px] font-semibold uppercase tracking-widest text-white/25">
                 Navigate
               </p>
-              <ul className="space-y-2.5">
+              <ul className="space-y-2">
                 {[
                   { label: "Home",       href: "/#intro"      },
                   { label: "Platform",   href: "/#platform"   },
@@ -525,12 +525,11 @@ export default function Contact() {
                   { label: "Why Us",     href: "/#why-us"     },
                   { label: "Industries", href: "/#industries" },
                   { label: "Company",    href: "/#company"    },
-                  { label: "Contact",    href: "/#contact"    },
                 ].map(({ label, href }) => (
                   <li key={label}>
                     <a
                       href={href}
-                      className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                      className="text-[12px] text-white/35 transition-colors duration-150 hover:text-white/68"
                     >
                       {label}
                     </a>
@@ -541,10 +540,10 @@ export default function Contact() {
 
             {/* Company */}
             <div>
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-white/28">
+              <p className="mb-3 text-[9px] font-semibold uppercase tracking-widest text-white/25">
                 Company
               </p>
-              <ul className="space-y-2.5">
+              <ul className="space-y-2">
                 {[
                   { label: "Team",    href: "/team"    },
                   { label: "Blog",    href: "/blog"    },
@@ -553,7 +552,7 @@ export default function Contact() {
                   <li key={label}>
                     <Link
                       href={href}
-                      className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                      className="text-[12px] text-white/35 transition-colors duration-150 hover:text-white/68"
                     >
                       {label}
                     </Link>
@@ -564,16 +563,24 @@ export default function Contact() {
 
             {/* Connect */}
             <div>
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-white/28">
+              <p className="mb-3 text-[9px] font-semibold uppercase tracking-widest text-white/25">
                 Connect
               </p>
-              <ul className="space-y-2.5">
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="/#contact"
+                    className="text-[12px] text-white/35 transition-colors duration-150 hover:text-white/68"
+                  >
+                    Contact
+                  </a>
+                </li>
                 <li>
                   <a
                     href="https://www.linkedin.com/company/horizonrelevance"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                    className="text-[12px] text-white/35 transition-colors duration-150 hover:text-white/68"
                   >
                     LinkedIn
                   </a>
@@ -581,7 +588,7 @@ export default function Contact() {
                 <li>
                   <a
                     href="mailto:info@horizonrelevance.com"
-                    className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                    className="text-[12px] text-white/35 transition-colors duration-150 hover:text-white/68"
                   >
                     info@horizonrelevance.com
                   </a>
@@ -593,7 +600,7 @@ export default function Contact() {
 
           {/* Bottom rule + copyright */}
           <div
-            className="mt-10 border-t pt-6"
+            className="mt-7 border-t pt-5"
             style={{ borderColor: "rgba(255,255,255,0.04)" }}
           >
             <p className="text-[11px] text-white/16">
