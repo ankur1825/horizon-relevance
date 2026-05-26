@@ -384,7 +384,7 @@ export default function Contact() {
 
       <div className="relative z-[3] mx-auto max-w-6xl px-6">
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-20">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12 lg:gap-20">
 
           {/* Left — info */}
           <motion.div

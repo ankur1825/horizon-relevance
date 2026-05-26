@@ -155,7 +155,7 @@ export default function WhyUs() {
           {ROWS.map((row, i) => (
             <div
               key={row.tag}
-              className="grid grid-cols-1 gap-5 py-9 lg:grid-cols-2 lg:gap-16 lg:py-10"
+              className="grid grid-cols-1 gap-5 py-9 md:grid-cols-2 md:gap-12 lg:gap-16 lg:py-10"
             >
               {/* Left — Problem */}
               <motion.div
