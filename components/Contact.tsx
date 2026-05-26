@@ -484,11 +484,26 @@ export default function Contact() {
 
         {/* Footer strip */}
         <div
-          className="mt-24 border-t py-8 text-center"
+          className="mt-24 border-t pt-10 pb-8 text-center"
           style={{ borderColor: "rgba(255,255,255,0.06)" }}
         >
+          {/* Logo lockup */}
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <svg width="32" height="32" viewBox="0 0 100 100" aria-hidden>
+              <rect width="100" height="100" rx="22" fill="rgba(7,3,20,0.7)" />
+              <path d="M28 54 A22 22 0 0 1 72 54 Z" fill="oklch(0.66 0.18 290)" />
+              <rect x="14" y="60" width="72" height="7" rx="3.5" fill="rgba(255,255,255,0.88)" />
+            </svg>
+            <span
+              className="text-[20px] leading-none tracking-tight text-white/80"
+              style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
+            >
+              Horizon
+              <span style={{ color: "oklch(0.66 0.18 290)" }}>Relevance</span>
+            </span>
+          </div>
           <p className="text-[11px] font-medium uppercase tracking-widest text-white/18">
-            © 2024 Horizon Relevance LLC · Woodbridge, NJ · New Delhi · Built for engineering teams.
+            © 2025 Horizon Relevance LLC · Woodbridge, NJ · New Delhi · Built for engineering teams.
           </p>
         </div>
       </div>
