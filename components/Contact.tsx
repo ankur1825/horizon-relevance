@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Mail, Send, CheckCircle2, ChevronDown } from "lucide-react";
+import Link from "next/link";
 import type { FormEvent } from "react";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
@@ -482,30 +483,124 @@ export default function Contact() {
           <ContactForm />
         </div>
 
-        {/* Footer strip */}
-        <div
-          className="mt-24 border-t pt-10 pb-8 text-center"
+        {/* ── Footer ── */}
+        <footer
+          className="mt-24 border-t pt-12 pb-10"
           style={{ borderColor: "rgba(255,255,255,0.06)" }}
         >
-          {/* Logo lockup */}
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <svg width="32" height="32" viewBox="0 0 100 100" aria-hidden>
-              <rect width="100" height="100" rx="22" fill="rgba(7,3,20,0.7)" />
-              <path d="M28 54 A22 22 0 0 1 72 54 Z" fill="oklch(0.66 0.18 290)" />
-              <rect x="14" y="60" width="72" height="7" rx="3.5" fill="rgba(255,255,255,0.88)" />
-            </svg>
-            <span
-              className="text-[20px] leading-none tracking-tight text-white/80"
-              style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
-            >
-              Horizon
-              <span style={{ color: "oklch(0.66 0.18 290)" }}>Relevance</span>
-            </span>
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
+
+            {/* Logo column */}
+            <div className="col-span-2 sm:col-span-1">
+              <Link href="/" className="mb-3 flex items-center gap-2.5">
+                <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden>
+                  <rect width="100" height="100" rx="20" fill="rgba(7,3,20,0.8)" />
+                  <path d="M28 54 A22 22 0 0 1 72 54 Z" fill="oklch(0.66 0.18 290)" />
+                  <rect x="14" y="60" width="72" height="7" rx="3.5" fill="rgba(255,255,255,0.88)" />
+                </svg>
+                <span
+                  className="text-[16px] leading-none tracking-tight text-white/78"
+                  style={{ fontFamily: "var(--font-plus-jakarta)", fontWeight: 800 }}
+                >
+                  Horizon
+                  <span style={{ color: "oklch(0.66 0.18 290)" }}>Relevance</span>
+                </span>
+              </Link>
+              <p className="text-[11px] leading-relaxed text-white/22">
+                AI · Cloud · DevSecOps
+              </p>
+            </div>
+
+            {/* Navigate */}
+            <div>
+              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-white/28">
+                Navigate
+              </p>
+              <ul className="space-y-2.5">
+                {[
+                  { label: "Home",       href: "/#intro"      },
+                  { label: "Platform",   href: "/#platform"   },
+                  { label: "Products",   href: "/#products"   },
+                  { label: "Services",   href: "/#services"   },
+                  { label: "Why Us",     href: "/#why-us"     },
+                  { label: "Industries", href: "/#industries" },
+                  { label: "Company",    href: "/#company"    },
+                  { label: "Contact",    href: "/#contact"    },
+                ].map(({ label, href }) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-white/28">
+                Company
+              </p>
+              <ul className="space-y-2.5">
+                {[
+                  { label: "Team",    href: "/team"    },
+                  { label: "Blog",    href: "/blog"    },
+                  { label: "Careers", href: "/careers" },
+                ].map(({ label, href }) => (
+                  <li key={label}>
+                    <Link
+                      href={href}
+                      className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Connect */}
+            <div>
+              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-white/28">
+                Connect
+              </p>
+              <ul className="space-y-2.5">
+                <li>
+                  <a
+                    href="https://www.linkedin.com/company/horizonrelevance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="mailto:info@horizonrelevance.com"
+                    className="text-[13px] text-white/38 transition-colors duration-150 hover:text-white/72"
+                  >
+                    info@horizonrelevance.com
+                  </a>
+                </li>
+              </ul>
+            </div>
+
           </div>
-          <p className="text-[11px] font-medium uppercase tracking-widest text-white/18">
-            © 2025 Horizon Relevance LLC · Woodbridge, NJ · New Delhi · Built for engineering teams.
-          </p>
-        </div>
+
+          {/* Bottom rule + copyright */}
+          <div
+            className="mt-10 border-t pt-6"
+            style={{ borderColor: "rgba(255,255,255,0.04)" }}
+          >
+            <p className="text-[11px] text-white/16">
+              © Horizon Relevance LLC · Built for engineering teams.
+            </p>
+          </div>
+        </footer>
       </div>
     </section>
   );
