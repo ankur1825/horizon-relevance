@@ -30,8 +30,8 @@ const PRODUCTS_DROPDOWN = [
   { label: "AI-Powered Secure SDLC",           href: "/products/ai-powered-secure-sdlc",         num: "01", color: "rgba(0,195,220,0.9)"   },
   { label: "AI DevSecOps Platform",             href: "/products/ai-devsecops-platform",           num: "02", color: "rgba(0,185,95,0.9)"    },
   { label: "AI Monitoring & Incident Response", href: "/products/ai-monitoring-incident-response", num: "03", color: "rgba(245,158,11,0.9)"  },
-  { label: "Cloud Cost Optimization",           href: "/products/cloud-cost-optimization",         num: "04", color: "rgba(167,139,250,0.9)" },
-  { label: "Cloud Migration & Modernization",   href: "/products/cloud-migration-modernization",   num: "05", color: "rgba(244,63,94,0.9)"   },
+  { label: "Cloud Migration & Modernization",   href: "/products/cloud-migration-modernization",   num: "04", color: "rgba(244,63,94,0.9)"   },
+  { label: "Cloud Cost Optimization",           href: "/products/cloud-cost-optimization",         num: "05", color: "rgba(167,139,250,0.9)" },
 ] as const;
 
 // All sections on the home page + which nav hash they activate (null = no highlight)
