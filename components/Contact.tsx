@@ -456,8 +456,8 @@ export default function Contact() {
                     className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
                   >
                     <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-emerald-400/70">USA</p>
-                    <p className="text-[13px] text-white/55">Woodbridge, NJ</p>
-                    <p className="text-[11px] text-white/25">United States</p>
+                    <p className="text-[13px] text-white/55">16 Homes Park Avenue</p>
+                    <p className="text-[11px] text-white/25">Iselin, NJ 08830</p>
                   </div>
                   <div
                     className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
