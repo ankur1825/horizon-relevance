@@ -121,7 +121,7 @@ function NavLink({
 
 function ProductsNavItem({ isActive, color }: { isActive: boolean; color: string }) {
   const [open, setOpen] = useState(false);
-  const closeTimer = useRef<ReturnType<typeof setTimeout>>();
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const handleEnter = () => {
     clearTimeout(closeTimer.current);
