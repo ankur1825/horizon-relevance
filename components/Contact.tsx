@@ -53,7 +53,7 @@ const DEMO_PRODUCTS = [
 
 // ─── DemoDropdown ──────────────────────────────────────────────────────────────
 
-function DemoDropdown({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function DemoDropdown({ value, onChange, "aria-labelledby": labelledBy }: { value: string; onChange: (v: string) => void; "aria-labelledby"?: string }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -73,6 +73,9 @@ function DemoDropdown({ value, onChange }: { value: string; onChange: (v: string
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-labelledby={labelledBy}
         className="flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-[14px] outline-none transition-all duration-200"
         style={{
           borderColor: open ? "rgba(0,185,95,0.42)" : "rgba(255,255,255,0.08)",
@@ -219,10 +222,11 @@ function ContactForm() {
             >
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
+                  <label htmlFor="contact-name" className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
                     Name *
                   </label>
                   <input
+                    id="contact-name"
                     required
                     type="text"
                     placeholder="Your name"
@@ -232,10 +236,11 @@ function ContactForm() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
+                  <label htmlFor="contact-email" className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
                     Email *
                   </label>
                   <input
+                    id="contact-email"
                     required
                     type="email"
                     placeholder="you@company.com"
@@ -246,10 +251,11 @@ function ContactForm() {
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
+                <label htmlFor="contact-company" className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
                   Company
                 </label>
                 <input
+                  id="contact-company"
                   type="text"
                   placeholder="Optional"
                   value={fields.company}
@@ -258,21 +264,23 @@ function ContactForm() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
+                <label id="contact-demo-label" className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
                   Book a Demo
                   <span className="ml-1.5 normal-case text-white/18">(optional)</span>
                 </label>
                 <DemoDropdown
                   value={fields.demo}
                   onChange={(v) => setFields((f) => ({ ...f, demo: v }))}
+                  aria-labelledby="contact-demo-label"
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
+                <label htmlFor="contact-message" className="mb-1.5 block text-[11px] font-medium uppercase tracking-widest text-white/30">
                   Message
                   <span className="ml-1.5 normal-case text-white/18">(optional)</span>
                 </label>
                 <textarea
+                  id="contact-message"
                   rows={5}
                   placeholder="Tell us what you're building — or what's breaking."
                   value={fields.message}
