@@ -161,15 +161,17 @@ function JobCard({
 function FormField({
   label,
   required,
+  htmlFor,
   children,
 }: {
   label: string;
   required?: boolean;
+  htmlFor?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-[11px] font-semibold uppercase tracking-widest text-white/38">
+      <label htmlFor={htmlFor} className="text-[11px] font-semibold uppercase tracking-widest text-white/38">
         {label}
         {required && <span style={{ color: alpha(PRIMARY, 0.8) }}> *</span>}
       </label>
@@ -438,8 +440,9 @@ export default function CareersPage() {
                     exit={{ opacity: 0 }}
                   >
                     {/* Name */}
-                    <FormField label="Full Name" required>
+                    <FormField label="Full Name" required htmlFor="careers-name">
                       <input
+                        id="careers-name"
                         type="text"
                         required
                         placeholder="Your full name"
@@ -450,8 +453,9 @@ export default function CareersPage() {
                     </FormField>
 
                     {/* Email */}
-                    <FormField label="Email Address" required>
+                    <FormField label="Email Address" required htmlFor="careers-email">
                       <input
+                        id="careers-email"
                         type="email"
                         required
                         placeholder="you@company.com"
@@ -463,13 +467,14 @@ export default function CareersPage() {
 
                     {/* Position */}
                     <FormField label="Position Interested In" required>
-                      <div className="flex flex-wrap gap-2 pt-0.5">
+                      <div className="flex flex-wrap gap-2 pt-0.5" role="group" aria-label="Select position">
                         {POSITION_OPTIONS.map((opt) => {
                           const isSelected = form.position === opt;
                           return (
                             <button
                               key={opt}
                               type="button"
+                              aria-pressed={isSelected}
                               onClick={() => setForm((prev) => ({ ...prev, position: opt }))}
                               className="rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200"
                               style={{
@@ -487,8 +492,9 @@ export default function CareersPage() {
                     </FormField>
 
                     {/* Message */}
-                    <FormField label="Cover Note">
+                    <FormField label="Cover Note" htmlFor="careers-message">
                       <textarea
+                        id="careers-message"
                         rows={4}
                         placeholder="Tell us a bit about yourself and why you'd like to join... (optional)"
                         value={form.message}
