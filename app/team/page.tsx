@@ -188,7 +188,7 @@ function MemberCard({
         transition={{ duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
         onMouseEnter={() => onHover(member.id)}
         onMouseLeave={() => onHover(null)}
-        className="group relative cursor-pointer overflow-hidden rounded-2xl p-px"
+        className="group relative cursor-pointer rounded-2xl p-px"
       >
         {/* Gradient border */}
         <div
@@ -256,7 +256,7 @@ function MemberCard({
           </p>
 
           {/* Bio */}
-          <p className="mb-4 text-[12px] leading-relaxed text-white/36">
+          <p className={`mb-4 text-[12px] leading-relaxed text-white/36 ${isSelf ? "" : "line-clamp-2"}`}>
             {member.bio}
           </p>
 
