@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,136 +16,435 @@ function alpha(color: string, a: number) {
 
 type Member = {
   id: string;
-  name: string;
+  name?: string;
   initials: string;
   title: string;
   department: string;
   bio: string;
   photo?: string;
+  level: number;
+  xFrac: number;
   color: string;
+  connectedTo: string[];
+  entranceDelay: number;
 };
 
 const MEMBERS: Member[] = [
   {
-    id: "ankur-kashyap",
+    id: "ceo",
     name: "Ankur Kashyap",
     initials: "AK",
     title: "Founder & Chief Executive Officer",
     department: "Leadership",
-    bio: "Ankur Kashyap is the Founder & CEO of Horizon Relevance LLC, specializing in Platform Engineering, Cloud Transformation, DevSecOps, and Enterprise Automation. He helps organizations modernize technology operations through scalable platforms, intelligent automation, and standardized engineering practices.",
+    bio: "Specializing in Platform Engineering, Cloud Transformation, DevSecOps, and Enterprise Automation. Helping organizations modernize technology operations through scalable platforms and intelligent automation.",
     photo: "/team/ankur-kashyap.jpg",
+    level: 0,
+    xFrac: 0.5,
     color: "rgba(6,182,212,0.9)",
+    connectedTo: ["ai-lead", "tpm"],
+    entranceDelay: 0.05,
   },
   {
-    id: "rishi-sharma",
+    id: "ai-lead",
+    initials: "AIL",
+    title: "AI Lead",
+    department: "Artificial Intelligence",
+    bio: "Driving AI/ML strategy and overseeing intelligent system design.",
+    level: 1,
+    xFrac: 0.27,
+    color: "rgba(167,139,250,0.9)",
+    connectedTo: ["ceo", "ml-eng", "backend-eng"],
+    entranceDelay: 0.18,
+  },
+  {
+    id: "tpm",
     name: "Rishi Sharma",
     initials: "RS",
     title: "Technical Program Manager",
     department: "Program Management",
-    bio: "Rishi Sharma is a Technical Product Manager with expertise in Cloud Engineering, DevOps, and DevSecOps, specializing in scalable cloud-native solutions, CI/CD automation, and secure product delivery. He brings experience in AWS infrastructure, platform automation, and cross-functional product strategy across enterprise and healthcare environments.",
+    bio: "Expertise in Cloud Engineering, DevOps, and DevSecOps — specializing in scalable cloud-native solutions, CI/CD automation, and secure product delivery across enterprise and healthcare environments.",
     photo: "/team/rishi-sharma.jpg",
-    color: "rgba(167,139,250,0.9)",
+    level: 1,
+    xFrac: 0.73,
+    color: "rgba(232,72,212,0.9)",
+    connectedTo: ["ceo", "cloud-eng", "fullstack-eng"],
+    entranceDelay: 0.26,
+  },
+  {
+    id: "ml-eng",
+    initials: "ML",
+    title: "ML Engineer",
+    department: "Artificial Intelligence",
+    bio: "Designing and training models for predictive analytics and AIOps.",
+    level: 2,
+    xFrac: 0.12,
+    color: "rgba(251,113,133,0.9)",
+    connectedTo: ["ai-lead"],
+    entranceDelay: 0.36,
+  },
+  {
+    id: "backend-eng",
+    initials: "BE",
+    title: "Backend Engineer",
+    department: "Engineering",
+    bio: "Building robust APIs and microservices that power the platform.",
+    level: 2,
+    xFrac: 0.40,
+    color: "rgba(52,211,153,0.9)",
+    connectedTo: ["ai-lead"],
+    entranceDelay: 0.42,
+  },
+  {
+    id: "cloud-eng",
+    initials: "CE",
+    title: "Cloud Engineer",
+    department: "Platform Engineering",
+    bio: "Architecting multi-cloud infrastructure with cost and reliability focus.",
+    level: 2,
+    xFrac: 0.62,
+    color: "rgba(251,191,36,0.9)",
+    connectedTo: ["tpm"],
+    entranceDelay: 0.48,
+  },
+  {
+    id: "fullstack-eng",
+    initials: "FS",
+    title: "Full Stack Engineer",
+    department: "Engineering",
+    bio: "Delivering end-to-end features across frontend, backend, and cloud.",
+    level: 2,
+    xFrac: 0.88,
+    color: "rgba(244,63,94,0.9)",
+    connectedTo: ["tpm"],
+    entranceDelay: 0.54,
   },
 ];
 
-// ─── Member Card ──────────────────────────────────────────────────────────────
+const EDGES: [string, string][] = [
+  ["ceo", "ai-lead"],
+  ["ceo", "tpm"],
+  ["ai-lead", "ml-eng"],
+  ["ai-lead", "backend-eng"],
+  ["tpm", "cloud-eng"],
+  ["tpm", "fullstack-eng"],
+];
 
-function MemberCard({ member, index }: { member: Member; index: number }) {
+const CARD_W = 196;
+const CARD_H = 268;
+const LEVEL_Y = [0, 344, 688];
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function isConnectedTo(memberId: string, hoveredId: string | null): boolean {
+  if (!hoveredId) return true;
+  if (memberId === hoveredId) return true;
+  const member = MEMBERS.find((m) => m.id === memberId);
+  return member?.connectedTo.includes(hoveredId) ?? false;
+}
+
+function getPath(fromId: string, toId: string, w: number): string {
+  const from = MEMBERS.find((m) => m.id === fromId)!;
+  const to = MEMBERS.find((m) => m.id === toId)!;
+  const ax = from.xFrac * w;
+  const ay = LEVEL_Y[from.level] + CARD_H;
+  const bx = to.xFrac * w;
+  const by = LEVEL_Y[to.level];
+  const midY = (ay + by) / 2;
+  return `M ${ax} ${ay} C ${ax} ${midY}, ${bx} ${midY}, ${bx} ${by}`;
+}
+
+// ─── Member Card (Desktop) ────────────────────────────────────────────────────
+
+function MemberCard({
+  member,
+  containerWidth,
+  hoveredId,
+  onHover,
+}: {
+  member: Member;
+  containerWidth: number;
+  hoveredId: string | null;
+  onHover: (id: string | null) => void;
+}) {
+  const x = member.xFrac * containerWidth;
+  const isActive = isConnectedTo(member.id, hoveredId);
+  const isSelf = hoveredId === member.id;
+
   return (
     <motion.div
-      className="relative overflow-hidden rounded-3xl p-px"
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.72, delay: index * 0.14, ease: easeOutExpo }}
+      className="absolute"
+      style={{
+        left: x - CARD_W / 2,
+        top: LEVEL_Y[member.level],
+        width: CARD_W,
+        zIndex: isSelf ? 10 : 1,
+      }}
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: member.entranceDelay, ease: easeOutExpo }}
     >
-      {/* Gradient border */}
+      <motion.div
+        animate={{ opacity: isActive ? 1 : 0.15, y: isSelf ? -6 : 0 }}
+        transition={{ duration: 0.26, ease: [0.25, 0.46, 0.45, 0.94] }}
+        onMouseEnter={() => onHover(member.id)}
+        onMouseLeave={() => onHover(null)}
+        className="group relative cursor-pointer overflow-hidden rounded-2xl p-px"
+      >
+        {/* Gradient border */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-300"
+          style={{
+            background: `linear-gradient(135deg, ${alpha(member.color, isSelf ? 0.62 : 0.38)} 0%, rgba(255,255,255,0.05) 50%, transparent 100%)`,
+          }}
+        />
+
+        {/* Card body */}
+        <div
+          className="relative rounded-[calc(1rem-1px)] px-5 py-6 text-center"
+          style={{
+            background: `radial-gradient(ellipse 90% 60% at 50% 0%, ${alpha(member.color, 0.14)} 0%, transparent 55%), rgba(8,3,22,0.97)`,
+            backdropFilter: "blur(10px)",
+          }}
+        >
+          {/* Avatar */}
+          <div className="mb-4 flex justify-center">
+            <div
+              className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-2 text-[13px] font-bold tracking-wide"
+              style={{
+                borderColor: alpha(member.color, 0.4),
+                background: alpha(member.color, 0.1),
+                color: member.color,
+                boxShadow: `0 0 18px ${alpha(member.color, isSelf ? 0.4 : 0.18)}, inset 0 0 12px ${alpha(member.color, 0.06)}`,
+              }}
+            >
+              {member.photo ? (
+                <Image
+                  src={member.photo}
+                  alt={member.name ?? member.title}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
+              ) : (
+                member.initials
+              )}
+            </div>
+          </div>
+
+          {/* Name (real) or placeholder bars (generic) */}
+          <div className="mb-3 flex flex-col items-center gap-1.5">
+            {member.name ? (
+              <>
+                <p className="text-[13px] font-semibold leading-tight text-white/88">
+                  {member.name}
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="h-2.5 w-24 rounded-full" style={{ background: "rgba(255,255,255,0.14)" }} />
+                <div className="h-2 w-16 rounded-full" style={{ background: "rgba(255,255,255,0.07)" }} />
+              </>
+            )}
+          </div>
+
+          {/* Role */}
+          <p
+            className="mb-2.5 text-[13px] font-semibold leading-tight tracking-wide"
+            style={{ color: member.color }}
+          >
+            {member.title}
+          </p>
+
+          {/* Bio */}
+          <p className="mb-4 text-[12px] leading-relaxed text-white/36">
+            {member.bio}
+          </p>
+
+          {/* Dept tag */}
+          <div className="flex justify-center">
+            <div
+              className="inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest"
+              style={{
+                background: alpha(member.color, 0.07),
+                border: `1px solid ${alpha(member.color, 0.2)}`,
+                color: alpha(member.color, 0.65),
+              }}
+            >
+              {member.department}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom accent line */}
+        <div
+          className="pointer-events-none absolute bottom-0 left-4 right-4 h-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${member.color}, transparent)`,
+          }}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ─── Connection SVG ───────────────────────────────────────────────────────────
+
+function ConnectionLayer({
+  containerWidth,
+  hoveredId,
+}: {
+  containerWidth: number;
+  hoveredId: string | null;
+}) {
+  const totalH = LEVEL_Y[2] + CARD_H;
+
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0"
+      width={containerWidth}
+      height={totalH}
+      viewBox={`0 0 ${containerWidth} ${totalH}`}
+      style={{ overflow: "visible" }}
+    >
+      {EDGES.map(([fromId, toId], i) => {
+        const isActive = hoveredId
+          ? fromId === hoveredId || toId === hoveredId
+          : false;
+        const toMember = MEMBERS.find((m) => m.id === toId)!;
+        const strokeColor = isActive
+          ? alpha(toMember.color, 0.72)
+          : "rgba(255,255,255,0.07)";
+
+        return (
+          <motion.path
+            key={`${fromId}-${toId}`}
+            d={getPath(fromId, toId, containerWidth)}
+            fill="none"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{
+              pathLength: { duration: 1.5, delay: 0.45 + i * 0.14, ease: easeOutExpo },
+              opacity: { duration: 0.4, delay: 0.4 + i * 0.1 },
+            }}
+            style={{
+              stroke: strokeColor,
+              strokeWidth: isActive ? 1.5 : 1,
+              transition: "stroke 0.25s ease, stroke-width 0.25s ease",
+            }}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── Desktop Graph ────────────────────────────────────────────────────────────
+
+function TeamGraph() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const totalH = LEVEL_Y[2] + CARD_H;
+
+  return (
+    <div ref={containerRef} className="relative w-full" style={{ height: totalH }}>
+      {containerWidth > 0 && (
+        <>
+          <ConnectionLayer containerWidth={containerWidth} hoveredId={hoveredId} />
+          {MEMBERS.map((member) => (
+            <MemberCard
+              key={member.id}
+              member={member}
+              containerWidth={containerWidth}
+              hoveredId={hoveredId}
+              onHover={setHoveredId}
+            />
+          ))}
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── Mobile Card ──────────────────────────────────────────────────────────────
+
+function MobileMemberCard({ member, index }: { member: Member; index: number }) {
+  return (
+    <motion.div
+      className="relative overflow-hidden rounded-2xl p-px"
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.6, delay: index * 0.07, ease: easeOutExpo }}
+    >
       <div
-        className="pointer-events-none absolute inset-0 rounded-3xl"
+        className="pointer-events-none absolute inset-0 rounded-2xl"
         style={{
-          background: `linear-gradient(145deg, ${alpha(member.color, 0.48)} 0%, rgba(255,255,255,0.05) 48%, transparent 100%)`,
+          background: `linear-gradient(135deg, ${alpha(member.color, 0.38)} 0%, rgba(255,255,255,0.04) 50%, transparent 100%)`,
         }}
       />
-
-      {/* Card body */}
       <div
-        className="relative rounded-[calc(1.5rem-1px)] px-8 py-10"
+        className="relative rounded-[calc(1rem-1px)] p-5"
         style={{
-          background: `radial-gradient(ellipse 90% 50% at 50% 0%, ${alpha(member.color, 0.13)} 0%, transparent 58%), rgba(8,3,22,0.97)`,
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
+          background: `radial-gradient(ellipse 70% 55% at 10% 0%, ${alpha(member.color, 0.11)} 0%, transparent 55%), rgba(8,3,22,0.97)`,
         }}
       >
-        {/* Photo / initials avatar */}
-        <div className="mb-6 flex justify-center">
+        <div className="flex items-center gap-4">
           <div
-            className="relative h-28 w-28 overflow-hidden rounded-full border-2"
+            className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 text-[12px] font-bold"
             style={{
-              borderColor: alpha(member.color, 0.45),
-              boxShadow: `0 0 28px ${alpha(member.color, 0.28)}, 0 0 64px ${alpha(member.color, 0.1)}`,
+              borderColor: alpha(member.color, 0.4),
+              background: alpha(member.color, 0.1),
+              color: member.color,
+              boxShadow: `0 0 14px ${alpha(member.color, 0.2)}`,
             }}
           >
             {member.photo ? (
               <Image
                 src={member.photo}
-                alt={member.name}
+                alt={member.name ?? member.title}
                 fill
                 className="object-cover"
-                sizes="112px"
+                sizes="56px"
               />
             ) : (
-              <div
-                className="flex h-full w-full items-center justify-center text-2xl font-bold"
-                style={{
-                  background: alpha(member.color, 0.12),
-                  color: member.color,
-                }}
-              >
-                {member.initials}
-              </div>
+              member.initials
             )}
           </div>
-        </div>
-
-        {/* Name */}
-        <h3 className="mb-1 text-center text-xl font-bold text-white/92">
-          {member.name}
-        </h3>
-
-        {/* Title */}
-        <p
-          className="mb-4 text-center text-sm font-semibold"
-          style={{ color: member.color }}
-        >
-          {member.title}
-        </p>
-
-        {/* Department badge */}
-        <div className="mb-6 flex justify-center">
-          <div
-            className="inline-flex items-center rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-widest"
-            style={{
-              background: alpha(member.color, 0.08),
-              border: `1px solid ${alpha(member.color, 0.22)}`,
-              color: alpha(member.color, 0.72),
-            }}
-          >
-            {member.department}
+          <div className="min-w-0 flex-1">
+            <p
+              className="mb-0.5 truncate text-[10px] font-medium uppercase tracking-widest"
+              style={{ color: alpha(member.color, 0.6) }}
+            >
+              {member.department}
+            </p>
+            {member.name && (
+              <p className="mb-0.5 truncate text-[13px] font-semibold text-white/88">
+                {member.name}
+              </p>
+            )}
+            <p
+              className="text-[13px] font-semibold leading-tight"
+              style={{ color: member.color }}
+            >
+              {member.title}
+            </p>
           </div>
         </div>
-
-        {/* Bio */}
-        <p className="text-[13px] leading-relaxed text-white/40">
+        <p className="mt-3 text-[13px] leading-relaxed text-white/38">
           {member.bio}
         </p>
-
-        {/* Bottom accent */}
-        <div
-          className="pointer-events-none absolute bottom-0 left-8 right-8 h-px"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${alpha(member.color, 0.35)}, transparent)`,
-          }}
-        />
       </div>
     </motion.div>
   );
@@ -205,7 +505,7 @@ export default function TeamPage() {
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 6 }}
       />
 
-      <div className="relative z-[1] mx-auto max-w-5xl px-6 pb-28 pt-28">
+      <div className="relative z-[1] mx-auto max-w-6xl px-6 pb-28 pt-28">
 
         {/* Back nav */}
         <motion.div
@@ -255,10 +555,15 @@ export default function TeamPage() {
           </p>
         </motion.div>
 
-        {/* Team grid */}
-        <div className="mx-auto grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-2">
+        {/* Desktop: connected graph */}
+        <div className="hidden lg:block">
+          <TeamGraph />
+        </div>
+
+        {/* Mobile: stacked list */}
+        <div className="flex flex-col gap-4 lg:hidden">
           {MEMBERS.map((member, i) => (
-            <MemberCard key={member.id} member={member} index={i} />
+            <MobileMemberCard key={member.id} member={member} index={i} />
           ))}
         </div>
 
