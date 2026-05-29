@@ -11,9 +11,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Name, email and position are required." }, { status: 400 });
     }
 
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: "onboarding@resend.dev",
       to: "horizonrelevance@gmail.com",
+      replyTo: email,
       subject: `[Career Application] ${name} — ${position}`,
       html: `
         <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a">
@@ -33,9 +34,15 @@ export async function POST(req: Request) {
       `,
     });
 
+    if (error) {
+      console.error("[/api/careers] Resend error:", error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    console.log("[/api/careers] sent:", data?.id);
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[/api/careers]", err);
+    console.error("[/api/careers] caught:", err);
     return NextResponse.json({ error: "Failed to send. Please try again." }, { status: 500 });
   }
 }
