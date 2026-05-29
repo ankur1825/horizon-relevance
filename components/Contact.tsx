@@ -390,6 +390,9 @@ export default function Contact() {
       {/* Top edge — from Company amber */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#0e0414] to-transparent" />
 
+      {/* Bottom edge — fade to body base so footer blends in */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-56 bg-gradient-to-b from-transparent to-[#050b1a]" />
+
       <div className="relative z-[3] mx-auto max-w-6xl px-6">
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12 lg:gap-20">
