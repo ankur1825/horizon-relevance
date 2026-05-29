@@ -259,12 +259,12 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
                   {/* Watermark number */}
                   <span
                     className="pointer-events-none absolute right-5 top-3 select-none font-mono font-black leading-none text-white/[0.045]"
-                    style={{ fontSize: "clamp(52px,6vw,76px)" }}
+                    style={{ fontSize: "clamp(36px,6vw,76px)" }}
                   >
                     {num}
                   </span>
 
-                  <div className="relative p-7">
+                  <div className="relative p-5 sm:p-7">
                     {/* Small number label + icon row */}
                     <div className="mb-5 flex items-center gap-3">
                       <span

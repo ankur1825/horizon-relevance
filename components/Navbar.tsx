@@ -224,7 +224,7 @@ function HamburgerButton({ isOpen, onClick }: { isOpen: boolean; onClick: () => 
   return (
     <button
       onClick={onClick}
-      className="relative flex h-8 w-8 flex-col items-center justify-center gap-[5px] rounded-md focus:outline-none md:hidden"
+      className="relative flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-md focus:outline-none md:hidden"
       aria-label={isOpen ? "Close menu" : "Open menu"}
     >
       <motion.span

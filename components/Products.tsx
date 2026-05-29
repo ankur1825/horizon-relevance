@@ -401,7 +401,7 @@ export default function Products() {
               <button
                 key={p.number}
                 onClick={() => goTo(i)}
-                className="group relative flex flex-shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-left transition-colors duration-200"
+                className="group relative flex flex-shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-left transition-colors duration-200 sm:px-4 sm:py-2"
                 style={{
                   borderColor: isActive ? p.borderGlow : "rgba(255,255,255,0.07)",
                   background: isActive ? p.glowColor : "transparent",

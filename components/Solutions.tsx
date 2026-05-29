@@ -127,7 +127,7 @@ function ServiceCard({ service, delay }: { service: Service; delay: number }) {
 
       {/* Card body */}
       <div
-        className="relative h-full overflow-hidden rounded-[calc(1.5rem-1px)] p-7"
+        className="relative h-full overflow-hidden rounded-[calc(1.5rem-1px)] p-5 sm:p-7"
         style={{
           background: `radial-gradient(ellipse 80% 55% at 12% 0%, ${glow} 0%, transparent 52%), rgba(20,8,1,0.97)`,
           backdropFilter: "blur(10px)",
