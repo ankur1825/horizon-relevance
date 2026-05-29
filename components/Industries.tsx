@@ -82,25 +82,6 @@ const INDUSTRIES: Industry[] = [
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
-const CLIENTS_ROW1 = [
-  "GEMINI WORKTOPS",
-  "CoverRight",
-  "Call Center Doctors",
-  "Anderson Bradshaw",
-  "Yopa",
-  "Uplyft",
-];
-
-const CLIENTS_ROW2 = [
-  "Software Suggest",
-  "Rivo Holdings",
-  "Origo",
-  "Main Street",
-  "Mainspring",
-  "IDMM",
-  "HomePride",
-];
-
 // ─── OrbitNode ────────────────────────────────────────────────────────────────
 
 function OrbitNode({
@@ -465,45 +446,61 @@ export default function Industries() {
 
         <div
           className="relative overflow-hidden"
-          style={{ display: "flex", flexDirection: "column", gap: 12 }}
+          style={{ display: "flex", flexDirection: "column", gap: 16 }}
         >
           {/* Side fade masks */}
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-28"
-            style={{ background: "linear-gradient(to right, #030610 25%, transparent)" }}
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-36"
+            style={{ background: "linear-gradient(to right, #030610 35%, transparent)" }}
           />
           <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-28"
-            style={{ background: "linear-gradient(to left, #030610 25%, transparent)" }}
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-36"
+            style={{ background: "linear-gradient(to left, #030610 35%, transparent)" }}
           />
 
-          {/* Row 1 — scrolls left */}
+          {/* Row 1 (strip2: Gemini, CoverRight…) — scrolls left */}
           <div
-            className="flex w-max items-center py-1"
-            style={{ animation: "marquee-left 34s linear infinite" }}
+            className="flex w-max items-center"
+            style={{ animation: "marquee-left 30s linear infinite" }}
           >
-            {[...CLIENTS_ROW1, ...CLIENTS_ROW1].map((name, i) => (
-              <span key={i} className="flex items-center">
-                <span className="whitespace-nowrap px-8 text-[12px] font-semibold tracking-widest text-white/[0.28] select-none uppercase">
-                  {name}
-                </span>
-                <span className="h-1 w-1 flex-shrink-0 rounded-full bg-white/[0.12]" />
-              </span>
+            {[0, 1].map((i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src="/strip2.png"
+                alt=""
+                draggable={false}
+                style={{
+                  height: 34,
+                  width: "auto",
+                  filter: "invert(1) grayscale(1) opacity(0.38)",
+                  userSelect: "none",
+                  marginRight: 40,
+                }}
+              />
             ))}
           </div>
 
-          {/* Row 2 — scrolls right */}
+          {/* Row 2 (strip1: Software Suggest, Rivo…) — scrolls right */}
           <div
-            className="flex w-max items-center py-1"
-            style={{ animation: "marquee-right 42s linear infinite" }}
+            className="flex w-max items-center"
+            style={{ animation: "marquee-right 38s linear infinite" }}
           >
-            {[...CLIENTS_ROW2, ...CLIENTS_ROW2].map((name, i) => (
-              <span key={i} className="flex items-center">
-                <span className="whitespace-nowrap px-8 text-[12px] font-semibold tracking-widest text-white/[0.28] select-none uppercase">
-                  {name}
-                </span>
-                <span className="h-1 w-1 flex-shrink-0 rounded-full bg-white/[0.12]" />
-              </span>
+            {[0, 1].map((i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={i}
+                src="/strip1.png"
+                alt=""
+                draggable={false}
+                style={{
+                  height: 34,
+                  width: "auto",
+                  filter: "invert(1) grayscale(1) opacity(0.38)",
+                  userSelect: "none",
+                  marginRight: 40,
+                }}
+              />
             ))}
           </div>
         </div>
