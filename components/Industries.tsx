@@ -82,6 +82,25 @@ const INDUSTRIES: Industry[] = [
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
+const CLIENTS_ROW1 = [
+  "GEMINI WORKTOPS",
+  "CoverRight",
+  "Call Center Doctors",
+  "Anderson Bradshaw",
+  "Yopa",
+  "Uplyft",
+];
+
+const CLIENTS_ROW2 = [
+  "Software Suggest",
+  "Rivo Holdings",
+  "Origo",
+  "Main Street",
+  "Mainspring",
+  "IDMM",
+  "HomePride",
+];
+
 // ─── OrbitNode ────────────────────────────────────────────────────────────────
 
 function OrbitNode({
@@ -431,6 +450,70 @@ export default function Industries() {
         </div>
 
       </div>
+
+      {/* ─── Trusted By marquee ─────────────────────────────────────────── */}
+      <div className="relative z-[11] mt-6 pb-10 sm:pb-14">
+
+        {/* Top rule */}
+        <div className="mx-auto mb-6 max-w-6xl px-6">
+          <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+        </div>
+
+        <p className="mb-5 text-center text-[10px] font-medium uppercase tracking-[0.28em] text-white/18">
+          Trusted By
+        </p>
+
+        <div
+          className="relative overflow-hidden"
+          style={{ display: "flex", flexDirection: "column", gap: 12 }}
+        >
+          {/* Side fade masks */}
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-28"
+            style={{ background: "linear-gradient(to right, #030610 25%, transparent)" }}
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-28"
+            style={{ background: "linear-gradient(to left, #030610 25%, transparent)" }}
+          />
+
+          {/* Row 1 — scrolls left */}
+          <div
+            className="flex w-max items-center py-1"
+            style={{ animation: "marquee-left 34s linear infinite" }}
+          >
+            {[...CLIENTS_ROW1, ...CLIENTS_ROW1].map((name, i) => (
+              <span key={i} className="flex items-center">
+                <span className="whitespace-nowrap px-8 text-[12px] font-semibold tracking-widest text-white/[0.28] select-none uppercase">
+                  {name}
+                </span>
+                <span className="h-1 w-1 flex-shrink-0 rounded-full bg-white/[0.12]" />
+              </span>
+            ))}
+          </div>
+
+          {/* Row 2 — scrolls right */}
+          <div
+            className="flex w-max items-center py-1"
+            style={{ animation: "marquee-right 42s linear infinite" }}
+          >
+            {[...CLIENTS_ROW2, ...CLIENTS_ROW2].map((name, i) => (
+              <span key={i} className="flex items-center">
+                <span className="whitespace-nowrap px-8 text-[12px] font-semibold tracking-widest text-white/[0.28] select-none uppercase">
+                  {name}
+                </span>
+                <span className="h-1 w-1 flex-shrink-0 rounded-full bg-white/[0.12]" />
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom rule */}
+        <div className="mx-auto mt-6 max-w-6xl px-6">
+          <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+        </div>
+      </div>
+
     </section>
   );
 }
