@@ -60,27 +60,29 @@ export default function ProductPageTemplate({ data }: { data: ProductPageData })
 
       {/* ── Hero ── */}
       <section className="relative px-6 pb-0 pt-10 sm:px-10 sm:pt-14">
-        <motion.div
+        <div
           className="pointer-events-none absolute"
           style={{
             left: "-8%", top: "-10%",
             width: "72vw", height: "65vh",
             background: `radial-gradient(ellipse 52% 58% at 40% 40%, ${alpha(primaryColor, 0.3)} 0%, transparent 65%)`,
             filter: "blur(105px)",
+            transform: "translateZ(0)",
+            willChange: "transform",
+            opacity: 0.85,
           }}
-          animate={{ x: [0, 28, 0], opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div
+        <div
           className="pointer-events-none absolute"
           style={{
             right: "-4%", top: "5%",
             width: "58vw", height: "55vh",
             background: `radial-gradient(ellipse 52% 52% at 52% 45%, ${alpha(secondaryColor, 0.22)} 0%, transparent 65%)`,
             filter: "blur(90px)",
+            transform: "translateZ(0)",
+            willChange: "transform",
+            opacity: 0.72,
           }}
-          animate={{ x: [0, -20, 0], opacity: [0.55, 0.88, 0.55] }}
-          transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 3 }}
         />
 
         <div className="relative mx-auto max-w-6xl">

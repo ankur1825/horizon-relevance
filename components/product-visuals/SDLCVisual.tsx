@@ -20,7 +20,7 @@ function FlowParticle({ delay, color }: { delay: number; color: string }) {
   return (
     <motion.div
       className="absolute rounded-full"
-      style={{ width: 7, height: 7, background: color, boxShadow: `0 0 8px ${color}`, left: "50%", marginLeft: -3.5, top: 0 }}
+      style={{ width: 7, height: 7, background: color, boxShadow: `0 0 8px ${color}`, left: "50%", marginLeft: -3.5, top: 0, willChange: "transform, opacity" }}
       animate={{ y: [0, 340], opacity: [0, 0.9, 0.9, 0] }}
       transition={{ duration: 3.4, repeat: Infinity, delay, ease: "linear", times: [0, 0.04, 0.92, 1] }}
     />
