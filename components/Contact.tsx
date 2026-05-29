@@ -334,7 +334,7 @@ export default function Contact() {
       className="relative overflow-hidden pb-0 pt-20 sm:pt-36"
       style={{
         background:
-          "radial-gradient(ellipse 150% 85% at 12% 0%, #082818 0%, #031a09 50%, #01080400 100%)",
+          "radial-gradient(ellipse 150% 85% at 12% 0%, #082818 0%, #031a09 50%, #050b1a 100%)",
       }}
     >
       {/* Grain */}
@@ -389,9 +389,6 @@ export default function Contact() {
 
       {/* Top edge — from Company amber */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#0e0414] to-transparent" />
-
-      {/* Bottom edge — fade to body base so footer blends in */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-56 bg-gradient-to-b from-transparent to-[#050b1a]" />
 
       <div className="relative z-[3] mx-auto max-w-6xl px-6">
 
