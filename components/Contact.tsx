@@ -506,6 +506,9 @@ export default function Contact() {
               <p className="text-[10px] text-white/20">
                 AI · Cloud · DevSecOps
               </p>
+              <p className="text-[10px] text-white/14">
+                Built for engineering teams.
+              </p>
             </div>
 
             {/* Navigate */}
@@ -601,7 +604,7 @@ export default function Contact() {
             style={{ borderColor: "rgba(255,255,255,0.04)" }}
           >
             <p className="text-[11px] text-white/16">
-              © Horizon Relevance LLC · Built for engineering teams.
+              © Horizon Relevance LLC · Made by Lakshita.
             </p>
           </div>
         </footer>
