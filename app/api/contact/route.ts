@@ -3,6 +3,9 @@ import { Resend } from "resend";
 
 export async function POST(req: Request) {
   try {
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({ error: "RESEND_API_KEY not set on server." }, { status: 500 });
+    }
     const resend = new Resend(process.env.RESEND_API_KEY);
     const { name, email, company, demo, message } = await req.json();
 
@@ -42,7 +45,8 @@ export async function POST(req: Request) {
     console.log("[/api/contact] sent:", data?.id);
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[/api/contact] caught:", err);
-    return NextResponse.json({ error: "Failed to send. Please try again." }, { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[/api/contact] caught:", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
