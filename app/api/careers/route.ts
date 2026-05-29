@@ -1,0 +1,41 @@
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function POST(req: Request) {
+  try {
+    const { name, email, position, message } = await req.json();
+
+    if (!name || !email || !position) {
+      return NextResponse.json({ error: "Name, email and position are required." }, { status: 400 });
+    }
+
+    await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: "horizonrelevance@gmail.com",
+      subject: `[Career Application] ${name} — ${position}`,
+      html: `
+        <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a">
+          <div style="background:#050b1a;padding:24px 32px;border-radius:12px 12px 0 0">
+            <p style="margin:0;font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#f59e0b">Career Application</p>
+            <h2 style="margin:8px 0 0;font-size:22px;color:#ffffff">${name} applied for ${position}</h2>
+          </div>
+          <div style="background:#f8f9fa;padding:28px 32px;border-radius:0 0 12px 12px;border:1px solid #e5e7eb;border-top:none">
+            <table style="width:100%;border-collapse:collapse">
+              <tr><td style="padding:10px 0;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280;width:120px">Name</td><td style="padding:10px 0;border-bottom:1px solid #e5e7eb;font-size:14px;font-weight:600">${name}</td></tr>
+              <tr><td style="padding:10px 0;border-bottom:1px solid #e5e7eb;font-size:12px;color:#6b7280">Email</td><td style="padding:10px 0;border-bottom:1px solid #e5e7eb;font-size:14px"><a href="mailto:${email}" style="color:#f59e0b">${email}</a></td></tr>
+              <tr><td style="padding:10px 0;border-bottom:${message ? "1px solid #e5e7eb" : "none"};font-size:12px;color:#6b7280">Position</td><td style="padding:10px 0;border-bottom:${message ? "1px solid #e5e7eb" : "none"};font-size:14px;font-weight:600">${position}</td></tr>
+              ${message ? `<tr><td colspan="2" style="padding:16px 0 0"><p style="margin:0 0 8px;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:0.1em">Cover Note</p><p style="margin:0;font-size:14px;line-height:1.6;white-space:pre-wrap">${message}</p></td></tr>` : ""}
+            </table>
+          </div>
+        </div>
+      `,
+    });
+
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[/api/careers]", err);
+    return NextResponse.json({ error: "Failed to send. Please try again." }, { status: 500 });
+  }
+}

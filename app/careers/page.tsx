@@ -189,6 +189,8 @@ export default function CareersPage() {
   const formRef = useRef<HTMLDivElement>(null);
   const [form, setForm] = useState({ name: "", email: "", position: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const scrollToApply = (roleName: string) => {
     setForm((prev) => ({ ...prev, position: roleName }));
@@ -201,10 +203,25 @@ export default function CareersPage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.position) return;
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError("");
+    try {
+      const res = await fetch("/api/careers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send.");
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -503,10 +520,18 @@ export default function CareersPage() {
                       />
                     </FormField>
 
+                    {/* Error */}
+                    {submitError && (
+                      <p className="rounded-xl border border-red-500/20 bg-red-500/[0.07] px-4 py-2.5 text-[12px] text-red-400">
+                        {submitError}
+                      </p>
+                    )}
+
                     {/* Submit */}
                     <motion.button
                       type="submit"
-                      className="relative mt-1 flex w-full items-center justify-center gap-2 overflow-hidden rounded-full py-3.5 text-sm font-semibold text-white"
+                      disabled={submitting}
+                      className="relative mt-1 flex w-full items-center justify-center gap-2 overflow-hidden rounded-full py-3.5 text-sm font-semibold text-white disabled:opacity-60"
                       style={{
                         background: `linear-gradient(135deg, ${alpha(PRIMARY, 0.92)} 0%, ${alpha(SECONDARY, 0.88)} 100%)`,
                         boxShadow: `0 4px 20px ${alpha(PRIMARY, 0.3)}`,
@@ -521,8 +546,21 @@ export default function CareersPage() {
                         whileHover={{ x: "140%" }}
                         transition={{ duration: 0.52, ease }}
                       />
-                      <span className="relative z-10">Submit Application</span>
-                      <ArrowRight className="relative z-10 h-4 w-4" />
+                      {submitting ? (
+                        <>
+                          <motion.div
+                            className="relative z-10 h-4 w-4 rounded-full border-2 border-white/30 border-t-white"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 0.7, repeat: Infinity, ease: "linear" }}
+                          />
+                          <span className="relative z-10">Sending…</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="relative z-10">Submit Application</span>
+                          <ArrowRight className="relative z-10 h-4 w-4" />
+                        </>
+                      )}
                     </motion.button>
 
                     <p className="text-center text-[11px] text-white/22">
