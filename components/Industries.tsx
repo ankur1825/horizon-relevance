@@ -467,14 +467,14 @@ export default function Industries() {
                   src="/strip2.png"
                   alt=""
                   draggable={false}
-                  style={{ height: 48, width: "auto", filter: "invert(1)", userSelect: "none", marginRight: 24 }}
+                  style={{ height: 48, width: "auto", filter: "invert(1)", userSelect: "none", marginRight: 40 }}
                 />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/strip1.png"
                   alt=""
                   draggable={false}
-                  style={{ height: 48, width: "auto", filter: "invert(1)", userSelect: "none", marginRight: 24 }}
+                  style={{ height: 48, width: "auto", filter: "invert(1)", userSelect: "none", marginRight: 40 }}
                 />
               </span>
             ))}
