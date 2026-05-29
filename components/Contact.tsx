@@ -375,19 +375,8 @@ export default function Contact() {
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 4 }}
       />
 
-      {/* Lime accent — center-bottom */}
-      <motion.div
-        className="pointer-events-none absolute z-[0]"
-        style={{
-          left: "28%", bottom: "15%", width: "36vw", height: "44vh",
-          background: "radial-gradient(circle, rgba(120,220,50,0.13) 0%, transparent 62%)",
-          filter: "blur(90px)",
-        }}
-        animate={{ scale: [1, 1.22, 1], opacity: [0.4, 0.72, 0.4] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut", delay: 7 }}
-      />
 
-      {/* Top edge — from Company amber */}
+{/* Top edge — from Company amber */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-36 bg-gradient-to-b from-[#0e0414] to-transparent" />
 
       <div className="relative z-[3] mx-auto max-w-6xl px-6">
