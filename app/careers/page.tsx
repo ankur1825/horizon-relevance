@@ -145,10 +145,10 @@ function JobCard({
         <p className="mt-3 text-center text-[10px] text-white/22">
           Or send your resume to{" "}
           <a
-            href="mailto:careers@horizonrelevence.com"
+            href="mailto:careers@horizonrelevance.com"
             className="text-white/32 underline-offset-2 hover:underline"
           >
-            careers@horizonrelevence.com
+            careers@horizonrelevance.com
           </a>
         </p>
       </div>
@@ -528,10 +528,10 @@ export default function CareersPage() {
                     <p className="text-center text-[11px] text-white/22">
                       Prefer email? Reach us at{" "}
                       <a
-                        href="mailto:careers@horizonrelevence.com"
+                        href="mailto:careers@horizonrelevance.com"
                         className="text-white/35 underline-offset-2 hover:underline"
                       >
-                        careers@horizonrelevence.com
+                        careers@horizonrelevance.com
                       </a>
                     </p>
                   </motion.form>
