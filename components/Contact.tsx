@@ -143,6 +143,7 @@ function DemoDropdown({ value, onChange, "aria-labelledby": labelledBy }: { valu
 function ContactForm() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
   const [fields, setFields] = useState({ name: "", email: "", company: "", message: "", demo: "" });
 
   function set(k: keyof typeof fields) {
@@ -153,9 +154,21 @@ function ContactForm() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setSending(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSending(false);
-    setSent(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send.");
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSending(false);
+    }
   }
 
   const inputBase =
@@ -288,6 +301,11 @@ function ContactForm() {
                   className={`${inputBase} resize-none`}
                 />
               </div>
+              {error && (
+                <p className="rounded-xl border border-red-500/20 bg-red-500/[0.07] px-4 py-2.5 text-[12px] text-red-400">
+                  {error}
+                </p>
+              )}
               <motion.button
                 type="submit"
                 disabled={sending}
