@@ -476,7 +476,7 @@ export default function CareersPage() {
                               type="button"
                               aria-pressed={isSelected}
                               onClick={() => setForm((prev) => ({ ...prev, position: opt }))}
-                              className="rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200"
+                              className="rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 sm:px-4 sm:py-2 sm:text-sm"
                               style={{
                                 borderColor: isSelected ? alpha(PRIMARY, 0.55) : "rgba(255,255,255,0.08)",
                                 background: isSelected ? alpha(PRIMARY, 0.12) : "rgba(255,255,255,0.03)",

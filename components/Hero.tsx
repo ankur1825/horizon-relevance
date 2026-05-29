@@ -171,7 +171,7 @@ export default function Hero() {
         >
           <h1
             className="font-extrabold"
-            style={{ fontSize: "clamp(2.2rem,8vw,7.2rem)", lineHeight: 0.91, letterSpacing: "-0.03em" }}
+            style={{ fontSize: "clamp(1.8rem,8vw,7.2rem)", lineHeight: 0.91, letterSpacing: "-0.03em" }}
           >
             {/* Static lines */}
             {LINES.map((line, i) => (
@@ -240,7 +240,7 @@ export default function Hero() {
             Next-gen cloud solutions to optimize, automate, and scale — powered by AI, built for
             engineering teams.
           </p>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <motion.a
               href="#platform"
               className="inline-flex cursor-pointer items-center rounded-full border border-white/[0.12] px-6 py-2.5 text-sm font-medium text-white/62 backdrop-blur-sm"

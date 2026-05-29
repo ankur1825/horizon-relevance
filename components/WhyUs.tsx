@@ -176,7 +176,7 @@ export default function WhyUs() {
 
                 {/* Problem text */}
                 <p
-                  className="font-semibold leading-snug"
+                  className="font-semibold leading-normal"
                   style={{ fontSize: "clamp(0.88rem, 1.2vw, 1.05rem)" }}
                 >
                   <span className="text-white/32">{row.before}</span>

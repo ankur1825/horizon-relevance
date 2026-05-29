@@ -485,7 +485,7 @@ export default function Contact() {
           className="mt-16 border-t pt-8 pb-6"
           style={{ borderColor: "rgba(255,255,255,0.06)" }}
         >
-          <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 sm:gap-x-8">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-x-8 sm:gap-y-8">
 
             {/* Logo column */}
             <div className="col-span-2 sm:col-span-1">
