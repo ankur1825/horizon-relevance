@@ -20,7 +20,7 @@ function ConnectorDot({ delay, color }: { delay: number; color: string }) {
   return (
     <motion.div
       className="absolute left-1/2 -translate-x-1/2 rounded-full"
-      style={{ width: 6, height: 6, background: color, boxShadow: `0 0 7px ${color}`, top: 0 }}
+      style={{ width: 6, height: 6, background: color, boxShadow: `0 0 7px ${color}`, top: 0, willChange: "transform, opacity" }}
       animate={{ y: [0, 28], opacity: [0, 1, 0] }}
       transition={{ duration: 0.9, repeat: Infinity, delay, ease: "easeInOut" }}
     />
