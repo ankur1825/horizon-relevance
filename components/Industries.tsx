@@ -444,10 +444,8 @@ export default function Industries() {
           Trusted By
         </p>
 
-        <div
-          className="relative overflow-hidden"
-          style={{ display: "flex", flexDirection: "column", gap: 16 }}
-        >
+        {/* Single continuous row — strip2 then strip1, repeated for seamless loop */}
+        <div className="relative overflow-hidden">
           {/* Side fade masks */}
           <div
             className="pointer-events-none absolute inset-y-0 left-0 z-10 w-36"
@@ -458,51 +456,27 @@ export default function Industries() {
             style={{ background: "linear-gradient(to left, #030610 35%, transparent)" }}
           />
 
-          {/* Row 1 (strip2: Gemini, CoverRight…) — scrolls left */}
           <div
             className="flex w-max items-center"
-            style={{ animation: "marquee-left 30s linear infinite" }}
+            style={{ animation: "marquee-left 50s linear infinite" }}
           >
-            {[0, 1].map((i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src="/strip2.png"
-                alt=""
-                draggable={false}
-                style={{
-                  height: 34,
-                  width: "auto",
-                  filter: "invert(1)",
-                  opacity: 0.62,
-                  userSelect: "none",
-                  marginRight: 40,
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Row 2 (strip1: Software Suggest, Rivo…) — scrolls right */}
-          <div
-            className="flex w-max items-center"
-            style={{ animation: "marquee-right 38s linear infinite" }}
-          >
-            {[0, 1].map((i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src="/strip1.png"
-                alt=""
-                draggable={false}
-                style={{
-                  height: 34,
-                  width: "auto",
-                  filter: "invert(1)",
-                  opacity: 0.62,
-                  userSelect: "none",
-                  marginRight: 40,
-                }}
-              />
+            {[0, 1].map((copy) => (
+              <span key={copy} className="flex items-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/strip2.png"
+                  alt=""
+                  draggable={false}
+                  style={{ height: 48, width: "auto", filter: "invert(1)", opacity: 0.78, userSelect: "none", marginRight: 60 }}
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/strip1.png"
+                  alt=""
+                  draggable={false}
+                  style={{ height: 48, width: "auto", filter: "invert(1)", opacity: 0.78, userSelect: "none", marginRight: 60 }}
+                />
+              </span>
             ))}
           </div>
         </div>
