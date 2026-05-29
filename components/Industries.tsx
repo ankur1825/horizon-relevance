@@ -473,7 +473,8 @@ export default function Industries() {
                 style={{
                   height: 34,
                   width: "auto",
-                  filter: "invert(1) grayscale(1) opacity(0.38)",
+                  filter: "invert(1)",
+                  opacity: 0.62,
                   userSelect: "none",
                   marginRight: 40,
                 }}
@@ -496,7 +497,8 @@ export default function Industries() {
                 style={{
                   height: 34,
                   width: "auto",
-                  filter: "invert(1) grayscale(1) opacity(0.38)",
+                  filter: "invert(1)",
+                  opacity: 0.62,
                   userSelect: "none",
                   marginRight: 40,
                 }}
