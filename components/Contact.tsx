@@ -38,7 +38,7 @@ function IconGitHub({ className }: { className?: string }) {
 const SOCIALS = [
   { label: "LinkedIn", href: "https://www.linkedin.com/company/horizonrelevance/", Icon: IconLinkedIn },
   { label: "X / Twitter", href: "#", Icon: IconX },
-  { label: "GitHub", href: "#", Icon: IconGitHub },
+  { label: "GitHub", href: "https://github.com/ankur1825", Icon: IconGitHub },
 ] as const;
 
 // ─── ContactForm ───────────────────────────────────────────────────────────────
