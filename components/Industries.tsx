@@ -433,7 +433,7 @@ export default function Industries() {
       </div>
 
       {/* ─── Trusted By marquee ─────────────────────────────────────────── */}
-      <div className="relative z-[11] mt-6 pb-10 sm:pb-14">
+      <div className="relative z-[11] mt-16 pb-10 sm:mt-20 sm:pb-14">
 
         {/* Top rule */}
         <div className="mx-auto mb-6 max-w-6xl px-6">
