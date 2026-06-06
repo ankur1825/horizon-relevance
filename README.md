@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Horizon Relevance
 
-## Getting Started
+Marketing and product site for [Horizon Relevance LLC](https://horizonrelevance.com) — a company offering AI, Cloud, and DevSecOps services.
 
-First, run the development server:
+Built with Next.js 16 App Router, deployed on Vercel. **[Live site →](https://horizonrelevance.com)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## My Contributions
+
+- [ ] Production-grade multi-stage Dockerfile (Next.js standalone output)
+- [ ] CI pipeline via GitHub Actions: type-check → lint → build on every push
+- [ ] Security pipeline: Semgrep (SAST) + GitLeaks (secrets detection) + Trivy (container scan)
+- [ ] Fixed real vulnerabilities surfaced by the security scan
+
+*Currently in progress — tracking against internship milestones.*
+
+---
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| UI | React 19 + TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| Email | Resend v6 |
+| Hosting | Vercel |
+
+> **Tailwind v4 note:** No `tailwind.config.ts`. Theme customisation lives in `app/globals.css` under `@theme`.
+
+---
+
+## Site Structure
+
+Single-domain app. The homepage is a stacked sequence of section components:
+
+```
+Hero → Offerings → Products → Solutions → WhyUs → Industries → Company → Contact
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Additional routes:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `/careers` — job listings and application form  
+- `/team` — team profiles  
+- `/products/[slug]` — five individual product pages  
+- `/blog` — placeholder
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Forms and Email
 
-To learn more about Next.js, take a look at the following resources:
+Two forms (contact and careers) both POST to Next.js API routes, which call Resend to deliver to the company inbox. The `from` address is Resend's shared sender (`onboarding@resend.dev`), which only works for the verified account email. Custom domain sending requires domain verification in the Resend dashboard.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Local Setup
 
-## Deploy on Vercel
+```bash
+npm install
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Create .env.local:
+# RESEND_API_KEY=your_key_here
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm run dev
+```
+
+Runs at `http://localhost:3000`. No database, no auth, no external data fetching.
+
+**Required environment variables:**
+
+| Variable | Where | Purpose |
+|---|---|---|
+| `RESEND_API_KEY` | `.env.local` / Vercel | Authenticates the Resend email client |
+
+---
+
+## CI / Security Pipeline
+
+> This section updates as the pipeline is built. See `.github/workflows/` for current state.
+
+**Planned:**
+- `ci.yml` — install, `tsc --noEmit`, ESLint, `next build`
+- `security.yml` — Semgrep SAST, GitLeaks secrets scan, Trivy container scan
+
+**When live:** pipeline status badge will appear here.
