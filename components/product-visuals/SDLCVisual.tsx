@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Search, Hammer, ShieldCheck, GitMerge, Rocket } from "lucide-react";
+import { GitBranch, Package, ShieldCheck, FileCheck2, Rocket } from "lucide-react";
 
 const easeOutExpo = [0.16, 1, 0.3, 1] as const;
 
@@ -9,12 +9,14 @@ const PRIMARY = "rgba(0,195,220,1)";
 const SECONDARY = "rgba(99,102,241,1)";
 
 const STAGES = [
-  { icon: Search,     label: "Scan",     sub: "SAST · DAST · SCA",         color: "rgba(0,195,220,1)" },
-  { icon: Hammer,     label: "Build",    sub: "Signed artifact creation",   color: "rgba(48,175,232,1)" },
-  { icon: ShieldCheck,label: "Validate", sub: "Policy & compliance gates",  color: "rgba(80,140,245,1)" },
-  { icon: GitMerge,   label: "Approve",  sub: "AI-guided remediation",      color: "rgba(99,102,241,1)" },
-  { icon: Rocket,     label: "Release",  sub: "Audited, signed deploy",     color: "rgba(120,80,252,1)" },
+  { icon: GitBranch,  label: "Source & Build",   sub: "Git repo · branch · unit tests",     color: "rgba(0,195,220,1)" },
+  { icon: Package,    label: "Containerize",     sub: "Docker build · push to ECR",         color: "rgba(48,175,232,1)" },
+  { icon: ShieldCheck,label: "Security Gates",   sub: "SAST · container/IaC · policy",      color: "rgba(80,140,245,1)" },
+  { icon: FileCheck2, label: "Artifact Evidence",sub: "image.json · audit trail to S3",     color: "rgba(99,102,241,1)" },
+  { icon: Rocket,     label: "Promote & Deploy", sub: "DEV → QA → STAGE → PROD",            color: "rgba(120,80,252,1)" },
 ];
+
+const PROMOTION_STAGES = ["DEV", "QA", "STAGE", "PROD"];
 
 function FlowParticle({ delay, color }: { delay: number; color: string }) {
   return (
@@ -109,8 +111,27 @@ export default function SDLCVisual() {
         >
           <p className="mb-1 text-[9px] font-medium uppercase tracking-widest text-white/22">Last Release</p>
           <p className="text-2xl font-bold text-white/85">0 vulnerabilities</p>
-          <p className="mt-1 text-[10px] text-white/25">All gates passed · Signed artifact · Audit trail generated</p>
-          <div className="mt-3.5 flex gap-2">
+          <p className="mt-1 text-[10px] text-white/25">Same signed image digest promoted across all stages</p>
+
+          {/* Release promotion pipeline */}
+          <div className="mt-3.5 flex items-center gap-1.5">
+            {PROMOTION_STAGES.map((stage, i) => (
+              <div key={stage} className="flex items-center gap-1.5">
+                <span
+                  className="rounded-md px-2 py-1 text-[9px] font-semibold text-cyan-300"
+                  style={{
+                    background: i === PROMOTION_STAGES.length - 1 ? "rgba(52,211,153,0.12)" : "rgba(0,195,220,0.1)",
+                    color: i === PROMOTION_STAGES.length - 1 ? "rgba(52,211,153,0.95)" : "rgba(103,232,249,0.95)",
+                  }}
+                >
+                  {stage}
+                </span>
+                {i < PROMOTION_STAGES.length - 1 && <span className="text-[10px] text-white/20">→</span>}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-3 flex gap-2">
             {["HIPAA", "SOC 2", "PCI-DSS"].map((tag) => (
               <span key={tag} className="rounded-md px-2 py-0.5 text-[9px] font-semibold text-cyan-300" style={{ background: "rgba(0,195,220,0.1)" }}>
                 {tag}
