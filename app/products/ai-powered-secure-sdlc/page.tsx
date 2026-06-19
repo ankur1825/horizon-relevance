@@ -23,32 +23,32 @@ const data: ProductPageData = {
     {
       icon: ScanLine,
       title: "Continuous Security Scanning",
-      description: "SAST, DAST, and SCA scans run on every commit. Issues surface in the IDE, not post-deployment.",
+      description: " ",
     },
     {
       icon: Hammer,
       title: "Secure Build Pipelines",
-      description: "Artifact signing, dependency lockdown, and provenance attestation baked into every build.",
+      description: " ",
     },
     {
       icon: ShieldCheck,
-      title: "Compliance Validation Gates",
-      description: "Policy-as-code gates enforce HIPAA, SOC 2, and PCI standards automatically — zero manual checks.",
+      title: "Client Hosted Architecture",
+      description: " ",
     },
     {
       icon: BrainCircuit,
       title: "AI-Guided Remediation",
-      description: "AI explains vulnerabilities in context and suggests precise fixes, cutting remediation time by 80%.",
+      description: " ",
     },
     {
       icon: GitMerge,
       title: "Unified DevSecOps Workflow",
-      description: "Security reviews, approvals, and evidence generation happen inside your existing CI/CD toolchain.",
+      description: " ",
     },
     {
       icon: FileCheck2,
       title: "Audit-Ready Release Evidence",
-      description: "Every release ships with a cryptographically signed audit trail — auditor-ready in one click.",
+      description: " ",
     },
   ],
   outcomes: [
@@ -56,11 +56,6 @@ const data: ProductPageData = {
       metric: "3 days",
       industry: "Healthcare",
       result: "HIPAA-compliant pipelines stood up in 3 days — from discovery to production.",
-    },
-    {
-      metric: "Zero",
-      industry: "Enterprise",
-      result: "Zero audit findings post-release across 40+ services in a regulated financial environment.",
     },
   ],
   cta: "Explore Secure SDLC",
